@@ -118,26 +118,28 @@ class BatchExtractionReporter:
                 print(f"❌ Erreur: {result['error']}")
 
         # Test Spotify
-        # print("\n🎵 TESTS SPOTIFY:")
-        # print("-" * 30)
+        print("\n🎵 TESTS SPOTIFY:")
+        print("-" * 30)
 
-        # spotify_playlists = config.get("spotify_playlists", [])
-        # if limit_sources:
-        #     spotify_playlists = spotify_playlists[:limit_sources]
+        spotify_playlists = config.get("spotify_playlists", [])
+        if limit_sources:
+            spotify_playlists = spotify_playlists[:limit_sources]
 
-        # for i, playlist in enumerate(spotify_playlists, 1):
-        #     print(f"{i}. {playlist['name']}... ", end="", flush=True)
+        for i, playlist in enumerate(spotify_playlists, 1):
+            print(f"{i}. {playlist['name']}... ", end="", flush=True)
 
-        #     result = self.test_single_source("spotify", playlist["id"], playlist["name"])
-        #     self.results[f"spotify_{playlist['name']}"] = result
+            result = self.test_single_source(
+                "spotify", playlist["id"], playlist["name"]
+            )
+            self.results[f"spotify_{playlist['name']}"] = result
 
-        #     if result["status"] == "success":
-        #         count = result["artists_count"]
-        #         print(f"✅ {count} artistes")
-        #         if count > 0 and result.get("sample_artists"):
-        #             print(f"   Exemples: {', '.join(result['sample_artists'])}")
-        #     else:
-        #         print(f"❌ Erreur: {result['error']}")
+            if result["status"] == "success":
+                count = result["artists_count"]
+                print(f"✅ {count} artistes")
+                if count > 0 and result.get("sample_artists"):
+                    print(f"   Exemples: {', '.join(result['sample_artists'])}")
+            else:
+                print(f"❌ Erreur: {result['error']}")
 
     def generate_report(self):
         """Générer le rapport final"""
@@ -264,9 +266,10 @@ class BatchExtractionReporter:
             name_key = "youtube_" + channel.get("name", "").replace(" ", "_").lower()
             source_mapping[name_key] = channel.get("id", "")
 
-
         with open(output_path, "w", encoding="utf-8") as f:
-            f.write("RAPPORT D'EXTRACTION MANUEL - CONTRÔLE QUALITÉ PAR SOURCE ET VIDÉO\n")
+            f.write(
+                "RAPPORT D'EXTRACTION MANUEL - CONTRÔLE QUALITÉ PAR SOURCE ET VIDÉO\n"
+            )
             f.write("=" * 75 + "\n")
             f.write(f"Généré le: {datetime.now().isoformat()}\n\n")
 
@@ -274,11 +277,13 @@ class BatchExtractionReporter:
             sorted_sources = sorted(
                 [(k, v) for k, v in self.results.items() if v["status"] == "success"],
                 key=lambda x: x[1]["artists_count"],
-                reverse=True
+                reverse=True,
             )
 
             for source_key, result in sorted_sources:
-                source_name = source_key.replace("youtube_", "").replace("spotify_", "").upper()
+                source_name = (
+                    source_key.replace("youtube_", "").replace("spotify_", "").upper()
+                )
                 f.write(f"{source_name} ({result['artists_count']} artistes):\n")
                 f.write("-" * 50 + "\n")
 
@@ -315,22 +320,42 @@ class BatchExtractionReporter:
                                 else:
                                     f.write(f"  → artistes: [aucun détecté]\n\n")
                         else:
-                            f.write(f"[Erreur lors de la récupération des données détaillées]\n\n")
+                            f.write(
+                                f"[Erreur lors de la récupération des données détaillées]\n\n"
+                            )
 
                     except Exception as e:
                         f.write(f"[Erreur API: {str(e)[:50]}]\n\n")
-                else:
-                    # Fallback: afficher les artistes trouvés globalement
+
+                elif source_key.startswith("spotify_"):
+                    # Gestion spécifique pour Spotify
                     artists = result.get("artists", [])
-                    for i, artist in enumerate(artists[:10], 1):  # Limiter à 10 premiers
-                        f.write(f"video {i}: [titre non disponible]\n")
+                    f.write(f"🎵 TRACKS SPOTIFY (TOUS les {len(artists)} tracks):\n")
+                    for i, artist_data in enumerate(artists, 1):
+                        artist_name = (
+                            artist_data.get("name", "Artiste inconnu")
+                            if isinstance(artist_data, dict)
+                            else str(artist_data)
+                        )
+                        f.write(f"track {i}: [Titre Spotify non récupéré]\n")
+                        f.write(f"  → artiste: {artist_name}\n\n")
+
+                else:
+                    # Fallback: afficher les artistes trouvés globalement (autre sources)
+                    artists = result.get("artists", [])
+                    for i, artist in enumerate(
+                        artists[:10], 1
+                    ):  # Limiter à 10 premiers
+                        f.write(f"item {i}: [titre non disponible]\n")
                         f.write(f"  → artistes: {artist}\n\n")
 
                 f.write("\n")
 
             # Statistiques de fin
             f.write("=" * 75 + "\n")
-            f.write(f"TOTAL: {sum(v['artists_count'] for v in self.results.values() if v['status'] == 'success')} artistes extraits\n")
+            f.write(
+                f"TOTAL: {sum(v['artists_count'] for v in self.results.values() if v['status'] == 'success')} artistes extraits\n"
+            )
             f.write(f"UNIQUES: {len(self.total_artists)} artistes uniques\n")
             f.write(f"DOUBLONS: {len(self.duplicate_artists)} détectés\n")
 

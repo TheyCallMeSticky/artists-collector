@@ -123,10 +123,11 @@ class SpotifyService:
                 batch_limit = min(50, limit - len(tracks))  # Spotify API limite à 50 par requête
                 
                 results = self.sp.playlist_tracks(
-                    playlist_id, 
-                    offset=offset, 
+                    playlist_id,
+                    offset=offset,
                     limit=batch_limit,
-                    fields="items(added_at,track(name,artists(name,id),id,popularity))"
+                    fields="items(added_at,track(name,artists(name,id),id,popularity))",
+                    market="US"  # Ajouter le marché US pour éviter les erreurs 404
                 )
                 
                 if not results['items']:

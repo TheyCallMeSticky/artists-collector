@@ -154,7 +154,7 @@ def test_single_source(request: TestSourceRequest, db: Session = Depends(get_db)
             "source_type": request.source_type,
             "source_name": request.source_name,
             "artists_found": len(artists),
-            "artists": list(artists)[:20],  # Limiter à 20 pour l'affichage
+            "artists": list(artists),
         }
 
         # Ajouter les titres bruts pour YouTube
@@ -212,7 +212,9 @@ def debug_youtube_titles(request: TestSourceRequest, db: Session = Depends(get_d
 
 
 @router.post("/video-by-video-report")
-def get_video_by_video_report(request: TestSourceRequest, db: Session = Depends(get_db)):
+def get_video_by_video_report(
+    request: TestSourceRequest, db: Session = Depends(get_db)
+):
     """Endpoint temporaire - Rapport détaillé par vidéo avec artistes extraits"""
     if request.source_type != "youtube":
         raise HTTPException(
@@ -227,7 +229,9 @@ def get_video_by_video_report(request: TestSourceRequest, db: Session = Depends(
 
         # Récupérer les vidéos (utilise la variable d'environnement)
         max_results = int(os.getenv("YOUTUBE_VIDEOS_PER_CHANNEL", 50))
-        videos = youtube_service.get_channel_videos(request.source_id, max_results=max_results)
+        videos = youtube_service.get_channel_videos(
+            request.source_id, max_results=max_results
+        )
 
         if not videos:
             return {"error": "Aucune vidéo trouvée", "videos": []}
@@ -240,12 +244,14 @@ def get_video_by_video_report(request: TestSourceRequest, db: Session = Depends(
             # Extraire les artistes de ce titre spécifique
             extracted_artists = extractor._extract_artist_names_from_text(title)
 
-            video_reports.append({
-                "video_number": i,
-                "title": title,
-                "artists": list(extracted_artists) if extracted_artists else [],
-                "artists_count": len(extracted_artists) if extracted_artists else 0
-            })
+            video_reports.append(
+                {
+                    "video_number": i,
+                    "title": title,
+                    "artists": list(extracted_artists) if extracted_artists else [],
+                    "artists_count": len(extracted_artists) if extracted_artists else 0,
+                }
+            )
 
         total_artists = sum(len(v["artists"]) for v in video_reports)
 
@@ -253,7 +259,7 @@ def get_video_by_video_report(request: TestSourceRequest, db: Session = Depends(
             "source_name": request.source_name,
             "videos_count": len(video_reports),
             "total_artists": total_artists,
-            "videos": video_reports
+            "videos": video_reports,
         }
 
     except Exception as e:

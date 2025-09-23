@@ -1,6 +1,1832 @@
 RAPPORT D'EXTRACTION MANUEL - CONTRÔLE QUALITÉ PAR SOURCE ET VIDÉO
 ===========================================================================
-Généré le: 2025-09-23T11:09:35.514587
+Généré le: 2025-09-23T15:32:56.775272
+
+MOST NECESSARY (173 artistes):
+--------------------------------------------------
+🎵 TRACKS SPOTIFY (TOUS les 173 tracks):
+track 1: [Titre Spotify non récupéré]
+  → artiste: ZEDDY WILL
+
+track 2: [Titre Spotify non récupéré]
+  → artiste: Hurricane Wisdom
+
+track 3: [Titre Spotify non récupéré]
+  → artiste: Lyrical Lemonade
+
+track 4: [Titre Spotify non récupéré]
+  → artiste: Nino Paid
+
+track 5: [Titre Spotify non récupéré]
+  → artiste: BashfortheWorld
+
+track 6: [Titre Spotify non récupéré]
+  → artiste: BabyChiefDoit
+
+track 7: [Titre Spotify non récupéré]
+  → artiste: Destroy Lonely
+
+track 8: [Titre Spotify non récupéré]
+  → artiste: Rockout Danny
+
+track 9: [Titre Spotify non récupéré]
+  → artiste: Nino Paid
+
+track 10: [Titre Spotify non récupéré]
+  → artiste: Hunxho
+
+track 11: [Titre Spotify non récupéré]
+  → artiste: 21 Savage
+
+track 12: [Titre Spotify non récupéré]
+  → artiste: Chuckyy
+
+track 13: [Titre Spotify non récupéré]
+  → artiste: ian
+
+track 14: [Titre Spotify non récupéré]
+  → artiste: BigXthaPlug
+
+track 15: [Titre Spotify non récupéré]
+  → artiste: EBK Jaaybo
+
+track 16: [Titre Spotify non récupéré]
+  → artiste: Luh Tyler
+
+track 17: [Titre Spotify non récupéré]
+  → artiste: Larry June
+
+track 18: [Titre Spotify non récupéré]
+  → artiste: Lefty Gunplay
+
+track 19: [Titre Spotify non récupéré]
+  → artiste: DJ Whoo Kid
+
+track 20: [Titre Spotify non récupéré]
+  → artiste: Waka Flocka Flame
+
+track 21: [Titre Spotify non récupéré]
+  → artiste: Shoreline Mafia
+
+track 22: [Titre Spotify non récupéré]
+  → artiste: OHGEESY
+
+track 23: [Titre Spotify non récupéré]
+  → artiste: Fenix Flexin
+
+track 24: [Titre Spotify non récupéré]
+  → artiste: Wallie the Sensei
+
+track 25: [Titre Spotify non récupéré]
+  → artiste: Ty Dolla $ign
+
+track 26: [Titre Spotify non récupéré]
+  → artiste: Blxst
+
+track 27: [Titre Spotify non récupéré]
+  → artiste: Babyfxce E
+
+track 28: [Titre Spotify non récupéré]
+  → artiste: Skrilla
+
+track 29: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 30: [Titre Spotify non récupéré]
+  → artiste: LAZER DIM 700
+
+track 31: [Titre Spotify non récupéré]
+  → artiste: Dee Mula
+
+track 32: [Titre Spotify non récupéré]
+  → artiste: PayGotti
+
+track 33: [Titre Spotify non récupéré]
+  → artiste: BAK Jay
+
+track 34: [Titre Spotify non récupéré]
+  → artiste: 42 Dugg
+
+track 35: [Titre Spotify non récupéré]
+  → artiste: Doughboy Clay
+
+track 36: [Titre Spotify non récupéré]
+  → artiste: Raq baby
+
+track 37: [Titre Spotify non récupéré]
+  → artiste: BAK Jay
+
+track 38: [Titre Spotify non récupéré]
+  → artiste: FattMack
+
+track 39: [Titre Spotify non récupéré]
+  → artiste: Bfb Da Packman
+
+track 40: [Titre Spotify non récupéré]
+  → artiste: Rob49
+
+track 41: [Titre Spotify non récupéré]
+  → artiste: 310babii
+
+track 42: [Titre Spotify non récupéré]
+  → artiste: DDG
+
+track 43: [Titre Spotify non récupéré]
+  → artiste: PLUTO
+
+track 44: [Titre Spotify non récupéré]
+  → artiste: Sexyy Red
+
+track 45: [Titre Spotify non récupéré]
+  → artiste: NaNaski
+
+track 46: [Titre Spotify non récupéré]
+  → artiste: Lil Tony Official
+
+track 47: [Titre Spotify non récupéré]
+  → artiste: Who’s Casper
+
+track 48: [Titre Spotify non récupéré]
+  → artiste: BossMan Dlow
+
+track 49: [Titre Spotify non récupéré]
+  → artiste: Veeze
+
+track 50: [Titre Spotify non récupéré]
+  → artiste: TiaCorine
+
+track 51: [Titre Spotify non récupéré]
+  → artiste: JID
+
+track 52: [Titre Spotify non récupéré]
+  → artiste: BloodHound Q50
+
+track 53: [Titre Spotify non récupéré]
+  → artiste: Bloodhound Lil Jeff
+
+track 54: [Titre Spotify non récupéré]
+  → artiste: CEO Trayle
+
+track 55: [Titre Spotify non récupéré]
+  → artiste: EsDeeKid
+
+track 56: [Titre Spotify non récupéré]
+  → artiste: fakemink
+
+track 57: [Titre Spotify non récupéré]
+  → artiste: Rico Ace
+
+track 58: [Titre Spotify non récupéré]
+  → artiste: Nemzzz
+
+track 59: [Titre Spotify non récupéré]
+  → artiste: Rich Amiri
+
+track 60: [Titre Spotify non récupéré]
+  → artiste: MexikoDro
+
+track 61: [Titre Spotify non récupéré]
+  → artiste: 41
+
+track 62: [Titre Spotify non récupéré]
+  → artiste: Kyle Richh
+
+track 63: [Titre Spotify non récupéré]
+  → artiste: Jenn Carter
+
+track 64: [Titre Spotify non récupéré]
+  → artiste: TaTa
+
+track 65: [Titre Spotify non récupéré]
+  → artiste: Sheff G
+
+track 66: [Titre Spotify non récupéré]
+  → artiste: Sleepy Hallow
+
+track 67: [Titre Spotify non récupéré]
+  → artiste: Bay Swag
+
+track 68: [Titre Spotify non récupéré]
+  → artiste: sosocamo
+
+track 69: [Titre Spotify non récupéré]
+  → artiste: 4batz
+
+track 70: [Titre Spotify non récupéré]
+  → artiste: Leon Thomas
+
+track 71: [Titre Spotify non récupéré]
+  → artiste: MARCO PLUS
+
+track 72: [Titre Spotify non récupéré]
+  → artiste: Smino
+
+track 73: [Titre Spotify non récupéré]
+  → artiste: Loe Shimmy
+
+track 74: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 75: [Titre Spotify non récupéré]
+  → artiste: Luhh Dyl
+
+track 76: [Titre Spotify non récupéré]
+  → artiste: Babyfxce E
+
+track 77: [Titre Spotify non récupéré]
+  → artiste: 1up Tee
+
+track 78: [Titre Spotify non récupéré]
+  → artiste: Real Boston Richey
+
+track 79: [Titre Spotify non récupéré]
+  → artiste: Connie Diiamond
+
+track 80: [Titre Spotify non récupéré]
+  → artiste: Stunna Sandy
+
+track 81: [Titre Spotify non récupéré]
+  → artiste: Belly Gang Kushington
+
+track 82: [Titre Spotify non récupéré]
+  → artiste: YKNIECE
+
+track 83: [Titre Spotify non récupéré]
+  → artiste: That Mexican OT
+
+track 84: [Titre Spotify non récupéré]
+  → artiste: Denzel Curry
+
+track 85: [Titre Spotify non récupéré]
+  → artiste: GloRilla
+
+track 86: [Titre Spotify non récupéré]
+  → artiste: BunnaB
+
+track 87: [Titre Spotify non récupéré]
+  → artiste: YKNIECE
+
+track 88: [Titre Spotify non récupéré]
+  → artiste: Big Boogie
+
+track 89: [Titre Spotify non récupéré]
+  → artiste: Chicken P
+
+track 90: [Titre Spotify non récupéré]
+  → artiste: SoFaygo
+
+track 91: [Titre Spotify non récupéré]
+  → artiste: Monaleo
+
+track 92: [Titre Spotify non récupéré]
+  → artiste: BabyDrill
+
+track 93: [Titre Spotify non récupéré]
+  → artiste: 21 Savage
+
+track 94: [Titre Spotify non récupéré]
+  → artiste: Trap Dickey
+
+track 95: [Titre Spotify non récupéré]
+  → artiste: BigXthaPlug
+
+track 96: [Titre Spotify non récupéré]
+  → artiste: reGGie
+
+track 97: [Titre Spotify non récupéré]
+  → artiste: Hurricane Wisdom
+
+track 98: [Titre Spotify non récupéré]
+  → artiste: Flippa T
+
+track 99: [Titre Spotify non récupéré]
+  → artiste: 2 Chainz
+
+track 100: [Titre Spotify non récupéré]
+  → artiste: Ro$ama
+
+track 101: [Titre Spotify non récupéré]
+  → artiste: BigXthaPlug
+
+track 102: [Titre Spotify non récupéré]
+  → artiste: Younginsosleaze
+
+track 103: [Titre Spotify non récupéré]
+  → artiste: AZ Chike
+
+track 104: [Titre Spotify non récupéré]
+  → artiste: B Jack$
+
+track 105: [Titre Spotify non récupéré]
+  → artiste: ZEDDY WILL
+
+track 106: [Titre Spotify non récupéré]
+  → artiste: Cash Cobain
+
+track 107: [Titre Spotify non récupéré]
+  → artiste: BunnaB
+
+track 108: [Titre Spotify non récupéré]
+  → artiste: Cortisa Star
+
+track 109: [Titre Spotify non récupéré]
+  → artiste: venusgrl!
+
+track 110: [Titre Spotify non récupéré]
+  → artiste: soma
+
+track 111: [Titre Spotify non récupéré]
+  → artiste: Babyface Ray
+
+track 112: [Titre Spotify non récupéré]
+  → artiste: LUCKI
+
+track 113: [Titre Spotify non récupéré]
+  → artiste: Lil 6
+
+track 114: [Titre Spotify non récupéré]
+  → artiste: DC The Don
+
+track 115: [Titre Spotify non récupéré]
+  → artiste: OT7 Quanny
+
+track 116: [Titre Spotify non récupéré]
+  → artiste: BossMan Dlow
+
+track 117: [Titre Spotify non récupéré]
+  → artiste: Kee Nola
+
+track 118: [Titre Spotify non récupéré]
+  → artiste: PLUTO
+
+track 119: [Titre Spotify non récupéré]
+  → artiste: YKNIECE
+
+track 120: [Titre Spotify non récupéré]
+  → artiste: NASAAN
+
+track 121: [Titre Spotify non récupéré]
+  → artiste: Sada Baby
+
+track 122: [Titre Spotify non récupéré]
+  → artiste: Lithe
+
+track 123: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 124: [Titre Spotify non récupéré]
+  → artiste: Remble
+
+track 125: [Titre Spotify non récupéré]
+  → artiste: Blxst
+
+track 126: [Titre Spotify non récupéré]
+  → artiste: Ray Vaughn
+
+track 127: [Titre Spotify non récupéré]
+  → artiste: LaRussell
+
+track 128: [Titre Spotify non récupéré]
+  → artiste: RNB.FOEMOB
+
+track 129: [Titre Spotify non récupéré]
+  → artiste: Homixide Gang
+
+track 130: [Titre Spotify non récupéré]
+  → artiste: Ken Carson
+
+track 131: [Titre Spotify non récupéré]
+  → artiste: Bay Swag
+
+track 132: [Titre Spotify non récupéré]
+  → artiste: Young Thug
+
+track 133: [Titre Spotify non récupéré]
+  → artiste: BunnaB
+
+track 134: [Titre Spotify non récupéré]
+  → artiste: Jim Legxacy
+
+track 135: [Titre Spotify non récupéré]
+  → artiste: Dave
+
+track 136: [Titre Spotify non récupéré]
+  → artiste: Melly Mike
+
+track 137: [Titre Spotify non récupéré]
+  → artiste: Lelo
+
+track 138: [Titre Spotify non récupéré]
+  → artiste: Yeat
+
+track 139: [Titre Spotify non récupéré]
+  → artiste: BNYX®
+
+track 140: [Titre Spotify non récupéré]
+  → artiste: Anycia
+
+track 141: [Titre Spotify non récupéré]
+  → artiste: Tink
+
+track 142: [Titre Spotify non récupéré]
+  → artiste: GELO
+
+track 143: [Titre Spotify non récupéré]
+  → artiste: Lil M.U.
+
+track 144: [Titre Spotify non récupéré]
+  → artiste: Che
+
+track 145: [Titre Spotify non récupéré]
+  → artiste: xaviersobased
+
+track 146: [Titre Spotify non récupéré]
+  → artiste: Rob49
+
+track 147: [Titre Spotify non récupéré]
+  → artiste: King Hendrick$
+
+track 148: [Titre Spotify non récupéré]
+  → artiste: That Mexican OT
+
+track 149: [Titre Spotify non récupéré]
+  → artiste: Mg Lil Bubba
+
+track 150: [Titre Spotify non récupéré]
+  → artiste: ZEDDY WILL
+
+track 151: [Titre Spotify non récupéré]
+  → artiste: Ohthatsmizz
+
+track 152: [Titre Spotify non récupéré]
+  → artiste: Sturdyyoungin
+
+track 153: [Titre Spotify non récupéré]
+  → artiste: Bay Swag
+
+track 154: [Titre Spotify non récupéré]
+  → artiste: Cash Cobain
+
+track 155: [Titre Spotify non récupéré]
+  → artiste: Jenn Carter
+
+track 156: [Titre Spotify non récupéré]
+  → artiste: Samara Cyn
+
+track 157: [Titre Spotify non récupéré]
+  → artiste: Central Cee
+
+track 158: [Titre Spotify non récupéré]
+  → artiste: 21 Savage
+
+track 159: [Titre Spotify non récupéré]
+  → artiste: YTB Fatt
+
+track 160: [Titre Spotify non récupéré]
+  → artiste: Moneybagg Yo
+
+track 161: [Titre Spotify non récupéré]
+  → artiste: MAVI
+
+track 162: [Titre Spotify non récupéré]
+  → artiste: Smino
+
+track 163: [Titre Spotify non récupéré]
+  → artiste: EST Gee
+
+track 164: [Titre Spotify non récupéré]
+  → artiste: Yo Gotti
+
+track 165: [Titre Spotify non récupéré]
+  → artiste: Bankroll Ni
+
+track 166: [Titre Spotify non récupéré]
+  → artiste: PlaqueBoyMax
+
+track 167: [Titre Spotify non récupéré]
+  → artiste: YFG FATSO
+
+track 168: [Titre Spotify non récupéré]
+  → artiste: DDG
+
+track 169: [Titre Spotify non récupéré]
+  → artiste: Ty Dolla $ign
+
+track 170: [Titre Spotify non récupéré]
+  → artiste: Rich The Kid
+
+track 171: [Titre Spotify non récupéré]
+  → artiste: Ken Carson
+
+track 172: [Titre Spotify non récupéré]
+  → artiste: Fridayy
+
+track 173: [Titre Spotify non récupéré]
+  → artiste: Meek Mill
+
+
+FRESH FINDS HIP HOP (149 artistes):
+--------------------------------------------------
+🎵 TRACKS SPOTIFY (TOUS les 149 tracks):
+track 1: [Titre Spotify non récupéré]
+  → artiste: Mark Lux
+
+track 2: [Titre Spotify non récupéré]
+  → artiste: Frisco
+
+track 3: [Titre Spotify non récupéré]
+  → artiste: BabyChiefDoit
+
+track 4: [Titre Spotify non récupéré]
+  → artiste: Fadess
+
+track 5: [Titre Spotify non récupéré]
+  → artiste: PCF Jaey
+
+track 6: [Titre Spotify non récupéré]
+  → artiste: Lil Tony Official
+
+track 7: [Titre Spotify non récupéré]
+  → artiste: Blakk Francis
+
+track 8: [Titre Spotify non récupéré]
+  → artiste: YFG FATSO
+
+track 9: [Titre Spotify non récupéré]
+  → artiste: MIRRAR
+
+track 10: [Titre Spotify non récupéré]
+  → artiste: MARCO PLUS
+
+track 11: [Titre Spotify non récupéré]
+  → artiste: Langston Bristol
+
+track 12: [Titre Spotify non récupéré]
+  → artiste: Raq baby
+
+track 13: [Titre Spotify non récupéré]
+  → artiste: Ben Reilly
+
+track 14: [Titre Spotify non récupéré]
+  → artiste: Powers Pleasant
+
+track 15: [Titre Spotify non récupéré]
+  → artiste: Honest
+
+track 16: [Titre Spotify non récupéré]
+  → artiste: Lil Yachty
+
+track 17: [Titre Spotify non récupéré]
+  → artiste: SKT Boo
+
+track 18: [Titre Spotify non récupéré]
+  → artiste: Kkruggerr
+
+track 19: [Titre Spotify non récupéré]
+  → artiste: Enphamus
+
+track 20: [Titre Spotify non récupéré]
+  → artiste: ASAVV
+
+track 21: [Titre Spotify non récupéré]
+  → artiste: Belly Gang Kushington
+
+track 22: [Titre Spotify non récupéré]
+  → artiste: YKNIECE
+
+track 23: [Titre Spotify non récupéré]
+  → artiste: Black Queen
+
+track 24: [Titre Spotify non récupéré]
+  → artiste: OC Chris
+
+track 25: [Titre Spotify non récupéré]
+  → artiste: A2P Fred
+
+track 26: [Titre Spotify non récupéré]
+  → artiste: Yakiyn
+
+track 27: [Titre Spotify non récupéré]
+  → artiste: On The Radar
+
+track 28: [Titre Spotify non récupéré]
+  → artiste: 3Way Heff
+
+track 29: [Titre Spotify non récupéré]
+  → artiste: Fr3do
+
+track 30: [Titre Spotify non récupéré]
+  → artiste: Liim
+
+track 31: [Titre Spotify non récupéré]
+  → artiste: Destin Laurel
+
+track 32: [Titre Spotify non récupéré]
+  → artiste: Jaybexo
+
+track 33: [Titre Spotify non récupéré]
+  → artiste: CUZZOS
+
+track 34: [Titre Spotify non récupéré]
+  → artiste: Milly Mo
+
+track 35: [Titre Spotify non récupéré]
+  → artiste: BB
+
+track 36: [Titre Spotify non récupéré]
+  → artiste: Teaawhy
+
+track 37: [Titre Spotify non récupéré]
+  → artiste: Jasscole
+
+track 38: [Titre Spotify non récupéré]
+  → artiste: Yves!
+
+track 39: [Titre Spotify non récupéré]
+  → artiste: CR
+
+track 40: [Titre Spotify non récupéré]
+  → artiste: Kaicrewsade
+
+track 41: [Titre Spotify non récupéré]
+  → artiste: Kiefer
+
+track 42: [Titre Spotify non récupéré]
+  → artiste: Vayda
+
+track 43: [Titre Spotify non récupéré]
+  → artiste: Cortisa Star
+
+track 44: [Titre Spotify non récupéré]
+  → artiste: venusgrl!
+
+track 45: [Titre Spotify non récupéré]
+  → artiste: soma
+
+track 46: [Titre Spotify non récupéré]
+  → artiste: Chow Lee
+
+track 47: [Titre Spotify non récupéré]
+  → artiste: ffawty
+
+track 48: [Titre Spotify non récupéré]
+  → artiste: Elsy Wameyo
+
+track 49: [Titre Spotify non récupéré]
+  → artiste: DontKallMeLuxxy
+
+track 50: [Titre Spotify non récupéré]
+  → artiste: Lil Yachty
+
+track 51: [Titre Spotify non récupéré]
+  → artiste: TOB Duke
+
+track 52: [Titre Spotify non récupéré]
+  → artiste: MESSIAH!
+
+track 53: [Titre Spotify non récupéré]
+  → artiste: C Stunna
+
+track 54: [Titre Spotify non récupéré]
+  → artiste: Playboy Fresh
+
+track 55: [Titre Spotify non récupéré]
+  → artiste: Rob49
+
+track 56: [Titre Spotify non récupéré]
+  → artiste: Swapa
+
+track 57: [Titre Spotify non récupéré]
+  → artiste: Zukenee
+
+track 58: [Titre Spotify non récupéré]
+  → artiste: Sk8star
+
+track 59: [Titre Spotify non récupéré]
+  → artiste: Atl Smook
+
+track 60: [Titre Spotify non récupéré]
+  → artiste: Lil Flash
+
+track 61: [Titre Spotify non récupéré]
+  → artiste: Lil 6
+
+track 62: [Titre Spotify non récupéré]
+  → artiste: RRoxket
+
+track 63: [Titre Spotify non récupéré]
+  → artiste: Flau'jae
+
+track 64: [Titre Spotify non récupéré]
+  → artiste: Waka Flocka Flame
+
+track 65: [Titre Spotify non récupéré]
+  → artiste: HeadHuncho Amir
+
+track 66: [Titre Spotify non récupéré]
+  → artiste: Montana 700
+
+track 67: [Titre Spotify non récupéré]
+  → artiste: Zillionaire Doe
+
+track 68: [Titre Spotify non récupéré]
+  → artiste: Lil M.U.
+
+track 69: [Titre Spotify non récupéré]
+  → artiste: Iconic Savvy
+
+track 70: [Titre Spotify non récupéré]
+  → artiste: Tali Famous
+
+track 71: [Titre Spotify non récupéré]
+  → artiste: Leekindacut
+
+track 72: [Titre Spotify non récupéré]
+  → artiste: Montana 700
+
+track 73: [Titre Spotify non récupéré]
+  → artiste: Fatt Macc
+
+track 74: [Titre Spotify non récupéré]
+  → artiste: BossMan Dlow
+
+track 75: [Titre Spotify non récupéré]
+  → artiste: YKNIECE
+
+track 76: [Titre Spotify non récupéré]
+  → artiste: BiC Fizzle
+
+track 77: [Titre Spotify non récupéré]
+  → artiste: El Snappo
+
+track 78: [Titre Spotify non récupéré]
+  → artiste: Ovrkast.
+
+track 79: [Titre Spotify non récupéré]
+  → artiste: Vince Staples
+
+track 80: [Titre Spotify non récupéré]
+  → artiste: Mello Buckzz
+
+track 81: [Titre Spotify non récupéré]
+  → artiste: Lil Cleno
+
+track 82: [Titre Spotify non récupéré]
+  → artiste: Flippa T
+
+track 83: [Titre Spotify non récupéré]
+  → artiste: 2 Chainz
+
+track 84: [Titre Spotify non récupéré]
+  → artiste: LIL 2K
+
+track 85: [Titre Spotify non récupéré]
+  → artiste: Devin Malik
+
+track 86: [Titre Spotify non récupéré]
+  → artiste: Kaygo Gotti
+
+track 87: [Titre Spotify non récupéré]
+  → artiste: Savv4x
+
+track 88: [Titre Spotify non récupéré]
+  → artiste: Nino Paid
+
+track 89: [Titre Spotify non récupéré]
+  → artiste: Sharc
+
+track 90: [Titre Spotify non récupéré]
+  → artiste: RealYungPhil
+
+track 91: [Titre Spotify non récupéré]
+  → artiste: Kai Banks
+
+track 92: [Titre Spotify non récupéré]
+  → artiste: Jon Kabongo
+
+track 93: [Titre Spotify non récupéré]
+  → artiste: Younginsosleaze
+
+track 94: [Titre Spotify non récupéré]
+  → artiste: Tim Gent
+
+track 95: [Titre Spotify non récupéré]
+  → artiste: Akeem Ali
+
+track 96: [Titre Spotify non récupéré]
+  → artiste: 408 Darwin
+
+track 97: [Titre Spotify non récupéré]
+  → artiste: ADÉ
+
+track 98: [Titre Spotify non récupéré]
+  → artiste: kay anthony
+
+track 99: [Titre Spotify non récupéré]
+  → artiste: WESTSIDE BOOGIE
+
+track 100: [Titre Spotify non récupéré]
+  → artiste: RUNITUPDAY!
+
+track 101: [Titre Spotify non récupéré]
+  → artiste: Oblé Reed
+
+track 102: [Titre Spotify non récupéré]
+  → artiste: mynameisntjmack
+
+track 103: [Titre Spotify non récupéré]
+  → artiste: Angelo Mota
+
+track 104: [Titre Spotify non récupéré]
+  → artiste: International Jefe
+
+track 105: [Titre Spotify non récupéré]
+  → artiste: armani west
+
+track 106: [Titre Spotify non récupéré]
+  → artiste: 6arelyhuman
+
+track 107: [Titre Spotify non récupéré]
+  → artiste: Cortisa Star
+
+track 108: [Titre Spotify non récupéré]
+  → artiste: Grateful
+
+track 109: [Titre Spotify non récupéré]
+  → artiste: Shloob
+
+track 110: [Titre Spotify non récupéré]
+  → artiste: Bankroll Ni
+
+track 111: [Titre Spotify non récupéré]
+  → artiste: FattMack
+
+track 112: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 113: [Titre Spotify non récupéré]
+  → artiste: Btb Dezz
+
+track 114: [Titre Spotify non récupéré]
+  → artiste: M Row
+
+track 115: [Titre Spotify non récupéré]
+  → artiste: Stunna Sandy
+
+track 116: [Titre Spotify non récupéré]
+  → artiste: KOAD
+
+track 117: [Titre Spotify non récupéré]
+  → artiste: saveHXPE
+
+track 118: [Titre Spotify non récupéré]
+  → artiste: BabyDaiz
+
+track 119: [Titre Spotify non récupéré]
+  → artiste: FCG Heem
+
+track 120: [Titre Spotify non récupéré]
+  → artiste: Polo G
+
+track 121: [Titre Spotify non récupéré]
+  → artiste: NoCap
+
+track 122: [Titre Spotify non récupéré]
+  → artiste: La Reezy
+
+track 123: [Titre Spotify non récupéré]
+  → artiste: PJ Morton
+
+track 124: [Titre Spotify non récupéré]
+  → artiste: Nine Vicious
+
+track 125: [Titre Spotify non récupéré]
+  → artiste: Gudda Brvckin
+
+track 126: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 127: [Titre Spotify non récupéré]
+  → artiste: Tay2xs
+
+track 128: [Titre Spotify non récupéré]
+  → artiste: 1up Tee
+
+track 129: [Titre Spotify non récupéré]
+  → artiste: Luhh Dyl
+
+track 130: [Titre Spotify non récupéré]
+  → artiste: seiji oda
+
+track 131: [Titre Spotify non récupéré]
+  → artiste: Trunk Boiz
+
+track 132: [Titre Spotify non récupéré]
+  → artiste: Sol ChYld
+
+track 133: [Titre Spotify non récupéré]
+  → artiste: Kaicrewsade
+
+track 134: [Titre Spotify non récupéré]
+  → artiste: LAWSON
+
+track 135: [Titre Spotify non récupéré]
+  → artiste: Molly Santana
+
+track 136: [Titre Spotify non récupéré]
+  → artiste: Hardrock
+
+track 137: [Titre Spotify non récupéré]
+  → artiste: Otto4eva
+
+track 138: [Titre Spotify non récupéré]
+  → artiste: Warhol.SS
+
+track 139: [Titre Spotify non récupéré]
+  → artiste: D2x
+
+track 140: [Titre Spotify non récupéré]
+  → artiste: Lil Dre6o
+
+track 141: [Titre Spotify non récupéré]
+  → artiste: DEMIYAA
+
+track 142: [Titre Spotify non récupéré]
+  → artiste: Lil Rae
+
+track 143: [Titre Spotify non récupéré]
+  → artiste: WHATMORE
+
+track 144: [Titre Spotify non récupéré]
+  → artiste: Brazen Barbie
+
+track 145: [Titre Spotify non récupéré]
+  → artiste: 1300SAINT
+
+track 146: [Titre Spotify non récupéré]
+  → artiste: iAMLYRIC
+
+track 147: [Titre Spotify non récupéré]
+  → artiste: Baby Osamaa
+
+track 148: [Titre Spotify non récupéré]
+  → artiste: Vontee the Singer
+
+track 149: [Titre Spotify non récupéré]
+  → artiste: Lisha G
+
+
+HIP HOP CENTRAL (100 artistes):
+--------------------------------------------------
+🎵 TRACKS SPOTIFY (TOUS les 100 tracks):
+track 1: [Titre Spotify non récupéré]
+  → artiste: Cardi B
+
+track 2: [Titre Spotify non récupéré]
+  → artiste: Kehlani
+
+track 3: [Titre Spotify non récupéré]
+  → artiste: Drake
+
+track 4: [Titre Spotify non récupéré]
+  → artiste: Julia Wolf
+
+track 5: [Titre Spotify non récupéré]
+  → artiste: Yeat
+
+track 6: [Titre Spotify non récupéré]
+  → artiste: Yeat
+
+track 7: [Titre Spotify non récupéré]
+  → artiste: Latto
+
+track 8: [Titre Spotify non récupéré]
+  → artiste: Ice Spice
+
+track 9: [Titre Spotify non récupéré]
+  → artiste: Nemzzz
+
+track 10: [Titre Spotify non récupéré]
+  → artiste: Hunxho
+
+track 11: [Titre Spotify non récupéré]
+  → artiste: 21 Savage
+
+track 12: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 13: [Titre Spotify non récupéré]
+  → artiste: Drake
+
+track 14: [Titre Spotify non récupéré]
+  → artiste: Central Cee
+
+track 15: [Titre Spotify non récupéré]
+  → artiste: Offset
+
+track 16: [Titre Spotify non récupéré]
+  → artiste: Gunna
+
+track 17: [Titre Spotify non récupéré]
+  → artiste: Destroy Lonely
+
+track 18: [Titre Spotify non récupéré]
+  → artiste: BIA
+
+track 19: [Titre Spotify non récupéré]
+  → artiste: Key Glock
+
+track 20: [Titre Spotify non récupéré]
+  → artiste: Buddah Bless
+
+track 21: [Titre Spotify non récupéré]
+  → artiste: Kodak Black
+
+track 22: [Titre Spotify non récupéré]
+  → artiste: Gunna
+
+track 23: [Titre Spotify non récupéré]
+  → artiste: Lithe
+
+track 24: [Titre Spotify non récupéré]
+  → artiste: Travis Scott
+
+track 25: [Titre Spotify non récupéré]
+  → artiste: Coi Leray
+
+track 26: [Titre Spotify non récupéré]
+  → artiste: Bktherula
+
+track 27: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 28: [Titre Spotify non récupéré]
+  → artiste: Metro Boomin
+
+track 29: [Titre Spotify non récupéré]
+  → artiste: Travis Porter
+
+track 30: [Titre Spotify non récupéré]
+  → artiste: Young Dro
+
+track 31: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 32: [Titre Spotify non récupéré]
+  → artiste: DJ Spinz
+
+track 33: [Titre Spotify non récupéré]
+  → artiste: Bryson Tiller
+
+track 34: [Titre Spotify non récupéré]
+  → artiste: Luh Tyler
+
+track 35: [Titre Spotify non récupéré]
+  → artiste: Sheff G
+
+track 36: [Titre Spotify non récupéré]
+  → artiste: Young Nudy
+
+track 37: [Titre Spotify non récupéré]
+  → artiste: Latto
+
+track 38: [Titre Spotify non récupéré]
+  → artiste: Coupe
+
+track 39: [Titre Spotify non récupéré]
+  → artiste: YG
+
+track 40: [Titre Spotify non récupéré]
+  → artiste: Leon Thomas
+
+track 41: [Titre Spotify non récupéré]
+  → artiste: TiaCorine
+
+track 42: [Titre Spotify non récupéré]
+  → artiste: JID
+
+track 43: [Titre Spotify non récupéré]
+  → artiste: Buddah Bless
+
+track 44: [Titre Spotify non récupéré]
+  → artiste: Big Sean
+
+track 45: [Titre Spotify non récupéré]
+  → artiste: 2 Chainz
+
+track 46: [Titre Spotify non récupéré]
+  → artiste: BossMan Dlow
+
+track 47: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 48: [Titre Spotify non récupéré]
+  → artiste: Mustard
+
+track 49: [Titre Spotify non récupéré]
+  → artiste: DJ Snake
+
+track 50: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 51: [Titre Spotify non récupéré]
+  → artiste: Nemzzz
+
+track 52: [Titre Spotify non récupéré]
+  → artiste: Latto
+
+track 53: [Titre Spotify non récupéré]
+  → artiste: Lil Wayne
+
+track 54: [Titre Spotify non récupéré]
+  → artiste: BigXthaPlug
+
+track 55: [Titre Spotify non récupéré]
+  → artiste: Jay Jones
+
+track 56: [Titre Spotify non récupéré]
+  → artiste: Trippie Redd
+
+track 57: [Titre Spotify non récupéré]
+  → artiste: Tyler, The Creator
+
+track 58: [Titre Spotify non récupéré]
+  → artiste: JID
+
+track 59: [Titre Spotify non récupéré]
+  → artiste: Baby Kia
+
+track 60: [Titre Spotify non récupéré]
+  → artiste: Offset
+
+track 61: [Titre Spotify non récupéré]
+  → artiste: Joey Bada$$
+
+track 62: [Titre Spotify non récupéré]
+  → artiste: Ab-Soul
+
+track 63: [Titre Spotify non récupéré]
+  → artiste: Rapsody
+
+track 64: [Titre Spotify non récupéré]
+  → artiste: Travis Scott
+
+track 65: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 66: [Titre Spotify non récupéré]
+  → artiste: Smiley
+
+track 67: [Titre Spotify non récupéré]
+  → artiste: Drake
+
+track 68: [Titre Spotify non récupéré]
+  → artiste: Central Cee
+
+track 69: [Titre Spotify non récupéré]
+  → artiste: Sexyy Red
+
+track 70: [Titre Spotify non récupéré]
+  → artiste: Rick Ross
+
+track 71: [Titre Spotify non récupéré]
+  → artiste: Pharrell Williams
+
+track 72: [Titre Spotify non récupéré]
+  → artiste: $uicideboy$
+
+track 73: [Titre Spotify non récupéré]
+  → artiste: YG
+
+track 74: [Titre Spotify non récupéré]
+  → artiste: Shoreline Mafia
+
+track 75: [Titre Spotify non récupéré]
+  → artiste: OHGEESY
+
+track 76: [Titre Spotify non récupéré]
+  → artiste: Fenix Flexin
+
+track 77: [Titre Spotify non récupéré]
+  → artiste: Travis Scott
+
+track 78: [Titre Spotify non récupéré]
+  → artiste: Lil Tecca
+
+track 79: [Titre Spotify non récupéré]
+  → artiste: The Weeknd
+
+track 80: [Titre Spotify non récupéré]
+  → artiste: Doechii
+
+track 81: [Titre Spotify non récupéré]
+  → artiste: Playboi Carti
+
+track 82: [Titre Spotify non récupéré]
+  → artiste: Tyga
+
+track 83: [Titre Spotify non récupéré]
+  → artiste: Lil Wayne
+
+track 84: [Titre Spotify non récupéré]
+  → artiste: Hanumankind
+
+track 85: [Titre Spotify non récupéré]
+  → artiste: Kalmi
+
+track 86: [Titre Spotify non récupéré]
+  → artiste: A$AP Rocky
+
+track 87: [Titre Spotify non récupéré]
+  → artiste: LeoStayTrill
+
+track 88: [Titre Spotify non récupéré]
+  → artiste: Clean Bandit
+
+track 89: [Titre Spotify non récupéré]
+  → artiste: Nardo Wick
+
+track 90: [Titre Spotify non récupéré]
+  → artiste: 21 Savage
+
+track 91: [Titre Spotify non récupéré]
+  → artiste: Central Cee
+
+track 92: [Titre Spotify non récupéré]
+  → artiste: Lil Durk
+
+track 93: [Titre Spotify non récupéré]
+  → artiste: ONEFOUR
+
+track 94: [Titre Spotify non récupéré]
+  → artiste: Nemzzz
+
+track 95: [Titre Spotify non récupéré]
+  → artiste: Segway
+
+track 96: [Titre Spotify non récupéré]
+  → artiste: Young Thug
+
+track 97: [Titre Spotify non récupéré]
+  → artiste: Future
+
+track 98: [Titre Spotify non récupéré]
+  → artiste: GloRilla
+
+track 99: [Titre Spotify non récupéré]
+  → artiste: Quavo
+
+track 100: [Titre Spotify non récupéré]
+  → artiste: Takeoff
+
+
+SOUTHERN HIP HOP (91 artistes):
+--------------------------------------------------
+🎵 TRACKS SPOTIFY (TOUS les 91 tracks):
+track 1: [Titre Spotify non récupéré]
+  → artiste: Project Pat
+
+track 2: [Titre Spotify non récupéré]
+  → artiste: Denzel Curry
+
+track 3: [Titre Spotify non récupéré]
+  → artiste: TiaCorine
+
+track 4: [Titre Spotify non récupéré]
+  → artiste: A$AP Ferg
+
+track 5: [Titre Spotify non récupéré]
+  → artiste: Big Moochie Grape
+
+track 6: [Titre Spotify non récupéré]
+  → artiste: Key Glock
+
+track 7: [Titre Spotify non récupéré]
+  → artiste: Kenny Muney
+
+track 8: [Titre Spotify non récupéré]
+  → artiste: Three 6 Mafia
+
+track 9: [Titre Spotify non récupéré]
+  → artiste: Paper Route EMPIRE
+
+track 10: [Titre Spotify non récupéré]
+  → artiste: Young Dolph
+
+track 11: [Titre Spotify non récupéré]
+  → artiste: Jay Fizzle
+
+track 12: [Titre Spotify non récupéré]
+  → artiste: SNUPE BANDZ
+
+track 13: [Titre Spotify non récupéré]
+  → artiste: UGK
+
+track 14: [Titre Spotify non récupéré]
+  → artiste: Paul Wall
+
+track 15: [Titre Spotify non récupéré]
+  → artiste: Big Pokey
+
+track 16: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 17: [Titre Spotify non récupéré]
+  → artiste: Suga Suga
+
+track 18: [Titre Spotify non récupéré]
+  → artiste: Birdman
+
+track 19: [Titre Spotify non récupéré]
+  → artiste: Lil Wayne
+
+track 20: [Titre Spotify non récupéré]
+  → artiste: Isaiah Rashad
+
+track 21: [Titre Spotify non récupéré]
+  → artiste: Juicy J
+
+track 22: [Titre Spotify non récupéré]
+  → artiste: Project Pat
+
+track 23: [Titre Spotify non récupéré]
+  → artiste: Young Buck
+
+track 24: [Titre Spotify non récupéré]
+  → artiste: Kokane
+
+track 25: [Titre Spotify non récupéré]
+  → artiste: Bun B
+
+track 26: [Titre Spotify non récupéré]
+  → artiste: Pimp C
+
+track 27: [Titre Spotify non récupéré]
+  → artiste: 2 Chainz
+
+track 28: [Titre Spotify non récupéré]
+  → artiste: Waka Flocka Flame
+
+track 29: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 30: [Titre Spotify non récupéré]
+  → artiste: Three 6 Mafia
+
+track 31: [Titre Spotify non récupéré]
+  → artiste: Young Dolph
+
+track 32: [Titre Spotify non récupéré]
+  → artiste: UGK
+
+track 33: [Titre Spotify non récupéré]
+  → artiste: Paul Wall
+
+track 34: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 35: [Titre Spotify non récupéré]
+  → artiste: Birdman
+
+track 36: [Titre Spotify non récupéré]
+  → artiste: Lil Wayne
+
+track 37: [Titre Spotify non récupéré]
+  → artiste: That Mexican OT
+
+track 38: [Titre Spotify non récupéré]
+  → artiste: Paul Wall
+
+track 39: [Titre Spotify non récupéré]
+  → artiste: DRODi
+
+track 40: [Titre Spotify non récupéré]
+  → artiste: Young Buck
+
+track 41: [Titre Spotify non récupéré]
+  → artiste: Denzel Curry
+
+track 42: [Titre Spotify non récupéré]
+  → artiste: 2 Chainz
+
+track 43: [Titre Spotify non récupéré]
+  → artiste: Mike Dimes
+
+track 44: [Titre Spotify non récupéré]
+  → artiste: BigXthaPlug
+
+track 45: [Titre Spotify non récupéré]
+  → artiste: Bun B
+
+track 46: [Titre Spotify non récupéré]
+  → artiste: Leon Bridges
+
+track 47: [Titre Spotify non récupéré]
+  → artiste: Gary Clark Jr.
+
+track 48: [Titre Spotify non récupéré]
+  → artiste: Project Pat
+
+track 49: [Titre Spotify non récupéré]
+  → artiste: Three 6 Mafia
+
+track 50: [Titre Spotify non récupéré]
+  → artiste: Young Dolph
+
+track 51: [Titre Spotify non récupéré]
+  → artiste: Key Glock
+
+track 52: [Titre Spotify non récupéré]
+  → artiste: UGK
+
+track 53: [Titre Spotify non récupéré]
+  → artiste: Outkast
+
+track 54: [Titre Spotify non récupéré]
+  → artiste: Paul Wall
+
+track 55: [Titre Spotify non récupéré]
+  → artiste: GLC
+
+track 56: [Titre Spotify non récupéré]
+  → artiste: Kanye West
+
+track 57: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 58: [Titre Spotify non récupéré]
+  → artiste: Slim Guerilla
+
+track 59: [Titre Spotify non récupéré]
+  → artiste: Three 6 Mafia
+
+track 60: [Titre Spotify non récupéré]
+  → artiste: Young Buck
+
+track 61: [Titre Spotify non récupéré]
+  → artiste: Ky-Mani Marley
+
+track 62: [Titre Spotify non récupéré]
+  → artiste: Kingpin Skinny Pimp
+
+track 63: [Titre Spotify non récupéré]
+  → artiste: DJ Paul
+
+track 64: [Titre Spotify non récupéré]
+  → artiste: Juicy J
+
+track 65: [Titre Spotify non récupéré]
+  → artiste: BigXthaPlug
+
+track 66: [Titre Spotify non récupéré]
+  → artiste: M.C. Mack
+
+track 67: [Titre Spotify non récupéré]
+  → artiste: Project Pat
+
+track 68: [Titre Spotify non récupéré]
+  → artiste: DJ Screw
+
+track 69: [Titre Spotify non récupéré]
+  → artiste: Botany Boyz
+
+track 70: [Titre Spotify non récupéré]
+  → artiste: Gangsta Pat
+
+track 71: [Titre Spotify non récupéré]
+  → artiste: Paul Wall
+
+track 72: [Titre Spotify non récupéré]
+  → artiste: Three 6 Mafia
+
+track 73: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 74: [Titre Spotify non récupéré]
+  → artiste: Eva Trill
+
+track 75: [Titre Spotify non récupéré]
+  → artiste: Slim Guerilla
+
+track 76: [Titre Spotify non récupéré]
+  → artiste: Three 6 Mafia
+
+track 77: [Titre Spotify non récupéré]
+  → artiste: "Mista Dj Paul
+
+track 78: [Titre Spotify non récupéré]
+  → artiste: Juicy "Low Down" J
+
+track 79: [Titre Spotify non récupéré]
+  → artiste: Gangsta Boo
+
+track 80: [Titre Spotify non récupéré]
+  → artiste: Koopsta Knicca
+
+track 81: [Titre Spotify non récupéré]
+  → artiste: Kingpin Skinny Pimp
+
+track 82: [Titre Spotify non récupéré]
+  → artiste: Gangsta Boo
+
+track 83: [Titre Spotify non récupéré]
+  → artiste: Koopsta Knicca
+
+track 84: [Titre Spotify non récupéré]
+  → artiste: BigXthaPlug
+
+track 85: [Titre Spotify non récupéré]
+  → artiste: Ro$ama
+
+track 86: [Titre Spotify non récupéré]
+  → artiste: Shawty Pimp
+
+track 87: [Titre Spotify non récupéré]
+  → artiste: MC Spade
+
+track 88: [Titre Spotify non récupéré]
+  → artiste: Project Pat
+
+track 89: [Titre Spotify non récupéré]
+  → artiste: Juicy J
+
+track 90: [Titre Spotify non récupéré]
+  → artiste: Wiz Khalifa
+
+track 91: [Titre Spotify non récupéré]
+  → artiste: Young Buck
+
+
+RAPCAVIAR (89 artistes):
+--------------------------------------------------
+🎵 TRACKS SPOTIFY (TOUS les 89 tracks):
+track 1: [Titre Spotify non récupéré]
+  → artiste: Gunna
+
+track 2: [Titre Spotify non récupéré]
+  → artiste: Burna Boy
+
+track 3: [Titre Spotify non récupéré]
+  → artiste: Offset
+
+track 4: [Titre Spotify non récupéré]
+  → artiste: Key Glock
+
+track 5: [Titre Spotify non récupéré]
+  → artiste: Yeat
+
+track 6: [Titre Spotify non récupéré]
+  → artiste: Young Nudy
+
+track 7: [Titre Spotify non récupéré]
+  → artiste: Latto
+
+track 8: [Titre Spotify non récupéré]
+  → artiste: Coupe
+
+track 9: [Titre Spotify non récupéré]
+  → artiste: Cardi B
+
+track 10: [Titre Spotify non récupéré]
+  → artiste: A$AP Rocky
+
+track 11: [Titre Spotify non récupéré]
+  → artiste: Gunna
+
+track 12: [Titre Spotify non récupéré]
+  → artiste: Drake
+
+track 13: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 14: [Titre Spotify non récupéré]
+  → artiste: Offset
+
+track 15: [Titre Spotify non récupéré]
+  → artiste: Gunna
+
+track 16: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 17: [Titre Spotify non récupéré]
+  → artiste: Latto
+
+track 18: [Titre Spotify non récupéré]
+  → artiste: Ice Spice
+
+track 19: [Titre Spotify non récupéré]
+  → artiste: Lil Yachty
+
+track 20: [Titre Spotify non récupéré]
+  → artiste: Sauce Walka
+
+track 21: [Titre Spotify non récupéré]
+  → artiste: Travis Scott
+
+track 22: [Titre Spotify non récupéré]
+  → artiste: Gunna
+
+track 23: [Titre Spotify non récupéré]
+  → artiste: Offset
+
+track 24: [Titre Spotify non récupéré]
+  → artiste: Cardi B
+
+track 25: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 26: [Titre Spotify non récupéré]
+  → artiste: Mustard
+
+track 27: [Titre Spotify non récupéré]
+  → artiste: Offset
+
+track 28: [Titre Spotify non récupéré]
+  → artiste: Kevin Gates
+
+track 29: [Titre Spotify non récupéré]
+  → artiste: Sleepy Hallow
+
+track 30: [Titre Spotify non récupéré]
+  → artiste: BashfortheWorld
+
+track 31: [Titre Spotify non récupéré]
+  → artiste: Russ
+
+track 32: [Titre Spotify non récupéré]
+  → artiste: Big Sean
+
+track 33: [Titre Spotify non récupéré]
+  → artiste: Destroy Lonely
+
+track 34: [Titre Spotify non récupéré]
+  → artiste: Drake
+
+track 35: [Titre Spotify non récupéré]
+  → artiste: Central Cee
+
+track 36: [Titre Spotify non récupéré]
+  → artiste: Bryson Tiller
+
+track 37: [Titre Spotify non récupéré]
+  → artiste: Luh Tyler
+
+track 38: [Titre Spotify non récupéré]
+  → artiste: Latto
+
+track 39: [Titre Spotify non récupéré]
+  → artiste: YoungBoy Never Broke Again
+
+track 40: [Titre Spotify non récupéré]
+  → artiste: Cardi B
+
+track 41: [Titre Spotify non récupéré]
+  → artiste: Travis Scott
+
+track 42: [Titre Spotify non récupéré]
+  → artiste: YoungBoy Never Broke Again
+
+track 43: [Titre Spotify non récupéré]
+  → artiste: DJ Snake
+
+track 44: [Titre Spotify non récupéré]
+  → artiste: Don Toliver
+
+track 45: [Titre Spotify non récupéré]
+  → artiste: Dee Mula
+
+track 46: [Titre Spotify non récupéré]
+  → artiste: Travis Scott
+
+track 47: [Titre Spotify non récupéré]
+  → artiste: Playboi Carti
+
+track 48: [Titre Spotify non récupéré]
+  → artiste: Future
+
+track 49: [Titre Spotify non récupéré]
+  → artiste: Shoreline Mafia
+
+track 50: [Titre Spotify non récupéré]
+  → artiste: OHGEESY
+
+track 51: [Titre Spotify non récupéré]
+  → artiste: Fenix Flexin
+
+track 52: [Titre Spotify non récupéré]
+  → artiste: Metro Boomin
+
+track 53: [Titre Spotify non récupéré]
+  → artiste: Travis Porter
+
+track 54: [Titre Spotify non récupéré]
+  → artiste: Young Dro
+
+track 55: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 56: [Titre Spotify non récupéré]
+  → artiste: DJ Spinz
+
+track 57: [Titre Spotify non récupéré]
+  → artiste: Yeat
+
+track 58: [Titre Spotify non récupéré]
+  → artiste: Young Nudy
+
+track 59: [Titre Spotify non récupéré]
+  → artiste: 21 Savage
+
+track 60: [Titre Spotify non récupéré]
+  → artiste: Project Pat
+
+track 61: [Titre Spotify non récupéré]
+  → artiste: Coupe
+
+track 62: [Titre Spotify non récupéré]
+  → artiste: Polo G
+
+track 63: [Titre Spotify non récupéré]
+  → artiste: Drake
+
+track 64: [Titre Spotify non récupéré]
+  → artiste: Julia Wolf
+
+track 65: [Titre Spotify non récupéré]
+  → artiste: Yeat
+
+track 66: [Titre Spotify non récupéré]
+  → artiste: Coi Leray
+
+track 67: [Titre Spotify non récupéré]
+  → artiste: Bktherula
+
+track 68: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 69: [Titre Spotify non récupéré]
+  → artiste: BabyChiefDoit
+
+track 70: [Titre Spotify non récupéré]
+  → artiste: Eminem
+
+track 71: [Titre Spotify non récupéré]
+  → artiste: Key Glock
+
+track 72: [Titre Spotify non récupéré]
+  → artiste: Tyler, The Creator
+
+track 73: [Titre Spotify non récupéré]
+  → artiste: Pharrell Williams
+
+track 74: [Titre Spotify non récupéré]
+  → artiste: Clipse
+
+track 75: [Titre Spotify non récupéré]
+  → artiste: Kendrick Lamar
+
+track 76: [Titre Spotify non récupéré]
+  → artiste: Pharrell Williams
+
+track 77: [Titre Spotify non récupéré]
+  → artiste: Pusha T
+
+track 78: [Titre Spotify non récupéré]
+  → artiste: Malice
+
+track 79: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 80: [Titre Spotify non récupéré]
+  → artiste: Southside
+
+track 81: [Titre Spotify non récupéré]
+  → artiste: Lil Yachty
+
+track 82: [Titre Spotify non récupéré]
+  → artiste: Chance the Rapper
+
+track 83: [Titre Spotify non récupéré]
+  → artiste: BabyChiefDoit
+
+track 84: [Titre Spotify non récupéré]
+  → artiste: BunnaB
+
+track 85: [Titre Spotify non récupéré]
+  → artiste: Metro Boomin
+
+track 86: [Titre Spotify non récupéré]
+  → artiste: Quavo
+
+track 87: [Titre Spotify non récupéré]
+  → artiste: Breskii
+
+track 88: [Titre Spotify non récupéré]
+  → artiste: YK Niece
+
+track 89: [Titre Spotify non récupéré]
+  → artiste: DJ Spinz
+
 
 PAKA THE PLUG (88 artistes):
 --------------------------------------------------
@@ -14,13 +1840,13 @@ video 3: Terrence Wood - Hold On To The Dream (Official Music Video 2025)
   → artistes: Terrence Wood
 
 video 4: Shottie &amp; TeV95 - Smoked Duck feat. Vic Spencer (Official Music Video 2025)
-  → artistes: Vic Spencer, TeV95, Shottie
+  → artistes: Vic Spencer, Shottie, TeV95
 
 video 5: BeenOfficial Lord &amp; Nes - Gun Squeezer (Official Video)
-  → artistes: Nes, BeenOfficial Lord
+  → artistes: BeenOfficial Lord, Nes
 
 video 6: A.P. Da Overlord &amp; Omar Glomar - Gloverlord Cinematic (Full Album 2025)
-  → artistes: A.P. Da Overlord, Omar Glomar
+  → artistes: Omar Glomar, A.P. Da Overlord
 
 video 7: Blaq Kush - I think you should know (Prod. Raymond Jermain)
   → artistes: Blaq Kush
@@ -35,7 +1861,7 @@ video 10: Fresh Imports &amp; DJ Afar - Dark Smoke (Official Music Video 2025)
   → artistes: Fresh Imports, DJ Afar
 
 video 11: Supreme Leviathan feat. Chinyer &amp; Martina Lynch - Blues Jazz &amp; Green Grass (Official Video 2025)
-  → artistes: Supreme Leviathan, Chinyer, Green Grass, Martina Lynch
+  → artistes: Chinyer, Supreme Leviathan, Martina Lynch, Green Grass
 
 video 12: QB Rap P - The way life goes (Official Music Video 2025)
   → artistes: QB Rap P
@@ -44,19 +1870,19 @@ video 13: Storm Watkins - My Kind of Music (Full Album 2025)
   → artistes: Storm Watkins
 
 video 14: Agallah The Don &amp; Blaq Medici - BLAQ RAIN feat Planet Asia
-  → artistes: Planet Asia, Blaq Medici, Agallah The Don
+  → artistes: Blaq Medici, Planet Asia, Agallah The Don
 
 video 15: A.P. Da Overlord &amp; Omar Glomar - Gloverlord feat. Tha God Fahim (Official Music Video 2025)
-  → artistes: A.P. Da Overlord, Tha God Fahim, Omar Glomar
+  → artistes: Tha God Fahim, Omar Glomar, A.P. Da Overlord
 
 video 16: Okdeazy &amp; BhramaBull - Keep Stomping (Official Music Video 2025)
-  → artistes: Okdeazy, BhramaBull
+  → artistes: BhramaBull, Okdeazy
 
 video 17: Mad1ne &amp; Dj Proof - Carry On Tradition (Official Music Video 2025)
-  → artistes: Dj Proof, Mad1ne
+  → artistes: Mad1ne, Dj Proof
 
 video 18: Kahlee &amp; Sam R I - Big Deal (Prod. Castle Money Beats)
-  → artistes: Sam R I, Kahlee
+  → artistes: Kahlee, Sam R I
 
 video 19: Metasin Music - Scripts Vol  2 (Full EP 2025)
   → artistes: Metasin Music
@@ -74,10 +1900,10 @@ video 23: MRKBH &amp; Rico James - No Oasis (Official Music Video 2025)
   → artistes: Rico James, MRKBH
 
 video 24: Cousin Feo &amp; Lord Juco - Death At The Derby Season 3 (Full Album 2025)
-  → artistes: Lord Juco, Cousin Feo
+  → artistes: Cousin Feo, Lord Juco
 
 video 25: XP The Marxman &amp; IceRocks - Level Up (Official Music Video 2025)
-  → artistes: XP The Marxman, IceRocks
+  → artistes: IceRocks, XP The Marxman
 
 video 26: J-Haze &amp; BhramaBull - Beltzhoover Blues
   → artistes: [aucun détecté]
@@ -89,28 +1915,28 @@ video 28: Malcolmsef &amp; Skip The Kid -  Believe (Official Music Video 2025)
   → artistes: Malcolmsef, Skip The Kid
 
 video 29: Tony Stanza, Sonny Blanco &amp; Soul Professa - Proper Timing  (Official Music Video 2025)
-  → artistes: Soul Professa, Sonny Blanco, Tony Stanza
+  → artistes: Sonny Blanco, Tony Stanza, Soul Professa
 
 video 30: Blunted Sloth - Good Water Makes Good Tea (Full Album 2025)
   → artistes: Blunted Sloth
 
 video 31: Lord Fury - The Travel fox chamber feat. Izzy Ranking (Official Music Video 2025)
-  → artistes: Izzy Ranking, Lord Fury
+  → artistes: Lord Fury, Izzy Ranking
 
 video 32: DJ Mirage - Background Check (Full Album 2025)
   → artistes: DJ Mirage
 
 video 33: A.P. Da Overlord &amp; Omar Glomar - Two Lordz feat. Frankie Waffles (Official Music Video 2025)
-  → artistes: A.P. Da Overlord, Frankie Waffles, Omar Glomar
+  → artistes: Frankie Waffles, Omar Glomar, A.P. Da Overlord
 
 video 34: QB Rap P -  Queenz Bklyn Coalition Gully (Official Music Video 2025)
   → artistes: QB Rap P
 
 video 35: Harry Ixer &amp; Meezy - g2g (Official Video)
-  → artistes: Meezy, Harry Ixer
+  → artistes: Harry Ixer, Meezy
 
 video 36: Showtime Ramon &amp; Xynfe - Deva (Full EP 2025)
-  → artistes: Showtime Ramon, Xynfe
+  → artistes: Xynfe, Showtime Ramon
 
 video 37: dB Cutlass - Promise Land (Official Music Video 2025)
   → artistes: dB Cutlass
@@ -125,13 +1951,13 @@ video 40: Elijah Rich - White Lies (Official Music Video 2025)
   → artistes: Elijah Rich
 
 video 41: K.Burns &amp; JackMadeDat - Daily Motion (Full EP 2025)
-  → artistes: JackMadeDat, K.Burns
+  → artistes: K.Burns, JackMadeDat
 
 video 42: Garcia Vega - Dirty Doctrine (Official Music Video 2025)
   → artistes: Garcia Vega
 
 video 43: Pounds - Cant Say No feat. 448 Brad (Official Music Video 2025)
-  → artistes: Pounds, 448 Brad
+  → artistes: 448 Brad, Pounds
 
 video 44: Benny Watts - No Hook (Official Music Video 2025)
   → artistes: Benny Watts
@@ -152,7 +1978,510 @@ video 49: Ralphy Red - Red Chips #1 (Full Album 2025)
   → artistes: Ralphy Red
 
 video 50: Young Reese Dude &amp; Don Johnson - liGHT (Full Album 2025)
-  → artistes: Don Johnson, Young Reese Dude
+  → artistes: Young Reese Dude, Don Johnson
+
+
+UNDERGROUND HIP HOP (83 artistes):
+--------------------------------------------------
+🎵 TRACKS SPOTIFY (TOUS les 83 tracks):
+track 1: [Titre Spotify non récupéré]
+  → artiste: Pouya
+
+track 2: [Titre Spotify non récupéré]
+  → artiste: Xavier Wulf
+
+track 3: [Titre Spotify non récupéré]
+  → artiste: Yung Simmie
+
+track 4: [Titre Spotify non récupéré]
+  → artiste: Gwapmizzle
+
+track 5: [Titre Spotify non récupéré]
+  → artiste: Gwaplvrd D
+
+track 6: [Titre Spotify non récupéré]
+  → artiste: Zaybooty
+
+track 7: [Titre Spotify non récupéré]
+  → artiste: Pat Ron
+
+track 8: [Titre Spotify non récupéré]
+  → artiste: All But 6
+
+track 9: [Titre Spotify non récupéré]
+  → artiste: Gutterboysouz
+
+track 10: [Titre Spotify non récupéré]
+  → artiste: Pouya
+
+track 11: [Titre Spotify non récupéré]
+  → artiste: Big Texas
+
+track 12: [Titre Spotify non récupéré]
+  → artiste: Black Smurf
+
+track 13: [Titre Spotify non récupéré]
+  → artiste: Phee6z
+
+track 14: [Titre Spotify non récupéré]
+  → artiste: Gwap Lvrd D
+
+track 15: [Titre Spotify non récupéré]
+  → artiste: Phee6z
+
+track 16: [Titre Spotify non récupéré]
+  → artiste: Black Smurf
+
+track 17: [Titre Spotify non récupéré]
+  → artiste: Ikilledkain
+
+track 18: [Titre Spotify non récupéré]
+  → artiste: Pat Ron
+
+track 19: [Titre Spotify non récupéré]
+  → artiste: Pouya
+
+track 20: [Titre Spotify non récupéré]
+  → artiste: Night Lovell
+
+track 21: [Titre Spotify non récupéré]
+  → artiste: Cutthroat Mafia
+
+track 22: [Titre Spotify non récupéré]
+  → artiste: Tokinpotent
+
+track 23: [Titre Spotify non récupéré]
+  → artiste: Gwapmizzle
+
+track 24: [Titre Spotify non récupéré]
+  → artiste: Braindeavic}
+
+track 25: [Titre Spotify non récupéré]
+  → artiste: Gwapmizzle
+
+track 26: [Titre Spotify non récupéré]
+  → artiste: Ren the Third
+
+track 27: [Titre Spotify non récupéré]
+  → artiste: KushKosta
+
+track 28: [Titre Spotify non récupéré]
+  → artiste: idontknowjeffery
+
+track 29: [Titre Spotify non récupéré]
+  → artiste: Eddy Baker
+
+track 30: [Titre Spotify non récupéré]
+  → artiste: Xavier Wulf
+
+track 31: [Titre Spotify non récupéré]
+  → artiste: Pat Ron
+
+track 32: [Titre Spotify non récupéré]
+  → artiste: Phee6z
+
+track 33: [Titre Spotify non récupéré]
+  → artiste: GWAPMIZZLE
+
+track 34: [Titre Spotify non récupéré]
+  → artiste: Lil Texxan
+
+track 35: [Titre Spotify non récupéré]
+  → artiste: Black Smurf
+
+track 36: [Titre Spotify non récupéré]
+  → artiste: Black Smurf
+
+track 37: [Titre Spotify non récupéré]
+  → artiste: Prez Sinatra
+
+track 38: [Titre Spotify non récupéré]
+  → artiste: Gwapmizzle
+
+track 39: [Titre Spotify non récupéré]
+  → artiste: Pouya
+
+track 40: [Titre Spotify non récupéré]
+  → artiste: Cutthroat Mafia
+
+track 41: [Titre Spotify non récupéré]
+  → artiste: Da$H
+
+track 42: [Titre Spotify non récupéré]
+  → artiste: Gwapmizzle
+
+track 43: [Titre Spotify non récupéré]
+  → artiste: Kid Andre
+
+track 44: [Titre Spotify non récupéré]
+  → artiste: trees
+
+track 45: [Titre Spotify non récupéré]
+  → artiste: MIKE DA RULA
+
+track 46: [Titre Spotify non récupéré]
+  → artiste: Gh0st$kiii
+
+track 47: [Titre Spotify non récupéré]
+  → artiste: Black Smurf
+
+track 48: [Titre Spotify non récupéré]
+  → artiste: Ozzy Monroe
+
+track 49: [Titre Spotify non récupéré]
+  → artiste: Black Smurf
+
+track 50: [Titre Spotify non récupéré]
+  → artiste: RM$ DEADWEIGHT
+
+track 51: [Titre Spotify non récupéré]
+  → artiste: Yung Simmie
+
+track 52: [Titre Spotify non récupéré]
+  → artiste: Robb Bank$
+
+track 53: [Titre Spotify non récupéré]
+  → artiste: Tony Shhnow
+
+track 54: [Titre Spotify non récupéré]
+  → artiste: Black Smurf
+
+track 55: [Titre Spotify non récupéré]
+  → artiste: Jguapo
+
+track 56: [Titre Spotify non récupéré]
+  → artiste: Theyluvvtris
+
+track 57: [Titre Spotify non récupéré]
+  → artiste: Zayesnice
+
+track 58: [Titre Spotify non récupéré]
+  → artiste: Pouya
+
+track 59: [Titre Spotify non récupéré]
+  → artiste: $uicideboy$
+
+track 60: [Titre Spotify non récupéré]
+  → artiste: Cutthroat Mafia
+
+track 61: [Titre Spotify non récupéré]
+  → artiste: Ikilledkain
+
+track 62: [Titre Spotify non récupéré]
+  → artiste: Gwapmizzle
+
+track 63: [Titre Spotify non récupéré]
+  → artiste: Planet Asia
+
+track 64: [Titre Spotify non récupéré]
+  → artiste: NugLife
+
+track 65: [Titre Spotify non récupéré]
+  → artiste: Trezmane
+
+track 66: [Titre Spotify non récupéré]
+  → artiste: Cjtopoff
+
+track 67: [Titre Spotify non récupéré]
+  → artiste: Ramirez
+
+track 68: [Titre Spotify non récupéré]
+  → artiste: Pouya
+
+track 69: [Titre Spotify non récupéré]
+  → artiste: Germ
+
+track 70: [Titre Spotify non récupéré]
+  → artiste: Shakewell
+
+track 71: [Titre Spotify non récupéré]
+  → artiste: JGRXXN
+
+track 72: [Titre Spotify non récupéré]
+  → artiste: Daniel Son
+
+track 73: [Titre Spotify non récupéré]
+  → artiste: Kostia
+
+track 74: [Titre Spotify non récupéré]
+  → artiste: Black Smurf
+
+track 75: [Titre Spotify non récupéré]
+  → artiste: Lord Digga
+
+track 76: [Titre Spotify non récupéré]
+  → artiste: Pouya
+
+track 77: [Titre Spotify non récupéré]
+  → artiste: Fat Nick
+
+track 78: [Titre Spotify non récupéré]
+  → artiste: Cutthroat Mafia
+
+track 79: [Titre Spotify non récupéré]
+  → artiste: Undagawds
+
+track 80: [Titre Spotify non récupéré]
+  → artiste: Gwapmizzle
+
+track 81: [Titre Spotify non récupéré]
+  → artiste: Brain Sick Mob
+
+track 82: [Titre Spotify non récupéré]
+  → artiste: Tokinpotent
+
+track 83: [Titre Spotify non récupéré]
+  → artiste: Gwapmizzle
+
+
+CHICAGO DRILL (82 artistes):
+--------------------------------------------------
+🎵 TRACKS SPOTIFY (TOUS les 82 tracks):
+track 1: [Titre Spotify non récupéré]
+  → artiste: Frisco
+
+track 2: [Titre Spotify non récupéré]
+  → artiste: BabyChiefDoit
+
+track 3: [Titre Spotify non récupéré]
+  → artiste: Big Moochie Grape
+
+track 4: [Titre Spotify non récupéré]
+  → artiste: Danny Towers
+
+track 5: [Titre Spotify non récupéré]
+  → artiste: Waka Flocka Flame
+
+track 6: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 7: [Titre Spotify non récupéré]
+  → artiste: Mac Miller
+
+track 8: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 9: [Titre Spotify non récupéré]
+  → artiste: Southside
+
+track 10: [Titre Spotify non récupéré]
+  → artiste: HoodRich Pablo Juan
+
+track 11: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 12: [Titre Spotify non récupéré]
+  → artiste: Duke Deuce
+
+track 13: [Titre Spotify non récupéré]
+  → artiste: Three 6 Mafia
+
+track 14: [Titre Spotify non récupéré]
+  → artiste: Paper Route EMPIRE
+
+track 15: [Titre Spotify non récupéré]
+  → artiste: Big Moochie Grape
+
+track 16: [Titre Spotify non récupéré]
+  → artiste: Polo G
+
+track 17: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 18: [Titre Spotify non récupéré]
+  → artiste: Young Dolph
+
+track 19: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 20: [Titre Spotify non récupéré]
+  → artiste: Raq baby
+
+track 21: [Titre Spotify non récupéré]
+  → artiste: Young Nudy
+
+track 22: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 23: [Titre Spotify non récupéré]
+  → artiste: Waka Flocka Flame
+
+track 24: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 25: [Titre Spotify non récupéré]
+  → artiste: Mustard
+
+track 26: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 27: [Titre Spotify non récupéré]
+  → artiste: YFG FATSO
+
+track 28: [Titre Spotify non récupéré]
+  → artiste: Doe Boy
+
+track 29: [Titre Spotify non récupéré]
+  → artiste: Lil Durk
+
+track 30: [Titre Spotify non récupéré]
+  → artiste: 21 Savage
+
+track 31: [Titre Spotify non récupéré]
+  → artiste: Paper Route EMPIRE
+
+track 32: [Titre Spotify non récupéré]
+  → artiste: Big Moochie Grape
+
+track 33: [Titre Spotify non récupéré]
+  → artiste: Warhol.SS
+
+track 34: [Titre Spotify non récupéré]
+  → artiste: Famous Dex
+
+track 35: [Titre Spotify non récupéré]
+  → artiste: Z Money
+
+track 36: [Titre Spotify non récupéré]
+  → artiste: Valee
+
+track 37: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 38: [Titre Spotify non récupéré]
+  → artiste: Young Nudy
+
+track 39: [Titre Spotify non récupéré]
+  → artiste: Waka Flocka Flame
+
+track 40: [Titre Spotify non récupéré]
+  → artiste: Gudda Gudda
+
+track 41: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 42: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 43: [Titre Spotify non récupéré]
+  → artiste: Lil Uzi Vert
+
+track 44: [Titre Spotify non récupéré]
+  → artiste: Juice WRLD
+
+track 45: [Titre Spotify non récupéré]
+  → artiste: Chance the Rapper
+
+track 46: [Titre Spotify non récupéré]
+  → artiste: Young Dolph
+
+track 47: [Titre Spotify non récupéré]
+  → artiste: Riff Raff
+
+track 48: [Titre Spotify non récupéré]
+  → artiste: Boss Top
+
+track 49: [Titre Spotify non récupéré]
+  → artiste: Paper Route EMPIRE
+
+track 50: [Titre Spotify non récupéré]
+  → artiste: Big Moochie Grape
+
+track 51: [Titre Spotify non récupéré]
+  → artiste: Jimmy Wopo
+
+track 52: [Titre Spotify non récupéré]
+  → artiste: Mac Miller
+
+track 53: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 54: [Titre Spotify non récupéré]
+  → artiste: Valee
+
+track 55: [Titre Spotify non récupéré]
+  → artiste: Harry Fraud
+
+track 56: [Titre Spotify non récupéré]
+  → artiste: Young Chop
+
+track 57: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 58: [Titre Spotify non récupéré]
+  → artiste: Waka Flocka Flame
+
+track 59: [Titre Spotify non récupéré]
+  → artiste: Gucci Mane
+
+track 60: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 61: [Titre Spotify non récupéré]
+  → artiste: Quavo
+
+track 62: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 63: [Titre Spotify non récupéré]
+  → artiste: Southside
+
+track 64: [Titre Spotify non récupéré]
+  → artiste: Young Thug
+
+track 65: [Titre Spotify non récupéré]
+  → artiste: Famous Dex
+
+track 66: [Titre Spotify non récupéré]
+  → artiste: Nardo Wick
+
+track 67: [Titre Spotify non récupéré]
+  → artiste: 1900Rugrat
+
+track 68: [Titre Spotify non récupéré]
+  → artiste: Kodak Black
+
+track 69: [Titre Spotify non récupéré]
+  → artiste: Paper Route EMPIRE
+
+track 70: [Titre Spotify non récupéré]
+  → artiste: Big Moochie Grape
+
+track 71: [Titre Spotify non récupéré]
+  → artiste: Mozzy
+
+track 72: [Titre Spotify non récupéré]
+  → artiste: King Von
+
+track 73: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 74: [Titre Spotify non récupéré]
+  → artiste: Z Money
+
+track 75: [Titre Spotify non récupéré]
+  → artiste: Valee
+
+track 76: [Titre Spotify non récupéré]
+  → artiste: CTC Crazy Duwop
+
+track 77: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 78: [Titre Spotify non récupéré]
+  → artiste: Speaker Knockerz
+
+track 79: [Titre Spotify non récupéré]
+  → artiste: Juicy J
+
+track 80: [Titre Spotify non récupéré]
+  → artiste: Chief Keef
+
+track 81: [Titre Spotify non récupéré]
+  → artiste: G Herbo
+
+track 82: [Titre Spotify non récupéré]
+  → artiste: Southside
 
 
 LYRICAL LEMONADE (78 artistes):
@@ -179,10 +2508,10 @@ video 7: TiaCorine - Ironic (Official Music Video)
   → artistes: TiaCorine
 
 video 8: Lil Yachty &amp; Veeze - CAN’T BE CRETE BOY (Official Music Video)
-  → artistes: Lil Yachty, Veeze
+  → artistes: Veeze, Lil Yachty
 
 video 9: Central Cee &amp; 21 Savage - GBP (Official Music Video)
-  → artistes: Central Cee, 21 Savage
+  → artistes: 21 Savage, Central Cee
 
 video 10: Lyrical Lemonade | 2023-2024 Music Video Reel
   → artistes: Lyrical Lemonade |
@@ -191,10 +2520,10 @@ video 11: Sahbabii - Show Off (Official Music Video)
   → artistes: Sahbabii
 
 video 12: Denzel Curry, LAZER DIM 700 &amp; Bktherula - Still In The Paint (Official Music Video)
-  → artistes: Bktherula, LAZER DIM 700, Denzel Curry
+  → artistes: Bktherula, Denzel Curry, LAZER DIM 700
 
 video 13: Aminé &amp; Smino - Passenger Princess (Official Music Video)
-  → artistes: Aminé, Smino
+  → artistes: Smino, Aminé
 
 video 14: BigXthaPlug - Change Me (Official Music Video)
   → artistes: BigXthaPlug
@@ -209,16 +2538,16 @@ video 17: che - I Rot, I Rot. (Official Music Video)
   → artistes: che
 
 video 18: Lil Yachty &amp; Veeze - Sorry Not Sorry (Official Music Video)
-  → artistes: Lil Yachty, Veeze
+  → artistes: Veeze, Lil Yachty
 
 video 19: The 2024 Lyrical Lemonade Summer Smash (Official Recap)
   → artistes: [aucun détecté]
 
 video 20: Lil Yachty &amp; Ian - Hate Me (Official Music Video)
-  → artistes: Lil Yachty, Ian
+  → artistes: Ian, Lil Yachty
 
 video 21: Eminem - Tobey feat. Big Sean &amp; BabyTron (Official Music Video)
-  → artistes: Eminem, BabyTron, Big Sean
+  → artistes: BabyTron, Big Sean, Eminem
 
 video 22: Teezo Touchdown - None of Your Business (Official Music Video) Despicable Me 4
   → artistes: Teezo Touchdown
@@ -233,7 +2562,7 @@ video 25: Ian - Figure It Out (Official Music Video)
   → artistes: Ian
 
 video 26: Concrete Boys: Lil Yachty, KARRAHBOOO, Camo!, Draft Day &amp; Dc2trill - DIE FOR MINE (Official Video)
-  → artistes: KARRAHBOOO, Draft Day, Day, Dc2trill, Concrete Boys: Lil Yachty, Camo!
+  → artistes: KARRAHBOOO, Dc2trill, Draft Day, Concrete Boys: Lil Yachty, Camo!, Day
 
 video 27: YG Marley - Praise Jah In The Moonlight (Official Music Video)
   → artistes: YG Marley
@@ -248,25 +2577,25 @@ video 30: Eminem - Doomsday 2 (Official Music Video)
   → artistes: Eminem
 
 video 31: JID, Sheck Wes &amp; Ski Mask The Slump God - Fly Away (Official Music Video)
-  → artistes: Sheck Wes, JID
+  → artistes: JID, Sheck Wes
 
 video 32: Lil Tecca, The Kid LAROI &amp; Lil Skies - This My Life (Official Music Video)
-  → artistes: Lil Skies, Lil Tecca, Kid LAROI
+  → artistes: Kid LAROI, Lil Skies, Lil Tecca
 
 video 33: BabyTron &amp; G Herbo - Equilibrium (Official Music Video)
-  → artistes: G Herbo, BabyTron
+  → artistes: BabyTron, G Herbo
 
 video 34: Chief Keef &amp; Lil Yachty - Say Ya Grace (Official Music Video)
   → artistes: Chief Keef, Lil Yachty
 
 video 35: Gus Dapperton, Lil Yachty &amp; Joey Bada$$ - Fallout (Official Music Video)
-  → artistes: Gus Dapperton, Lil Yachty, Joey Bada$$
+  → artistes: Joey Bada$$, Gus Dapperton, Lil Yachty
 
 video 36: Noza Jordan - Apologize (Official Music Video)
   → artistes: Noza Jordan
 
 video 37: Famous Dex, Rich The Kid &amp; Jay Critch - Big Dawg (Official Music Video)
-  → artistes: Famous Dex, Jay Critch, Rich The Kid
+  → artistes: Rich The Kid, Famous Dex, Jay Critch
 
 video 38: Jack Harlow &amp; Dave - Stop Giving Me Advice (Official Music Video)
   → artistes: Dave, Jack Harlow
@@ -278,19 +2607,19 @@ video 40: Ken Carson - Fighting My Demons (Official Music Video)
   → artistes: Ken Carson
 
 video 41: Corbin, Lil Tracy &amp; Black Kray - Hello There (Official Music Video)
-  → artistes: Corbin, Black Kray, Lil Tracy
+  → artistes: Lil Tracy, Corbin, Black Kray
 
 video 42: Drake - Another Late Night ft. Lil Yachty (Official Music Video)
   → artistes: Lil Yachty, Drake
 
 video 43: Lil Durk &amp; Kid Cudi - Guitar In My Room (Official Music Video)
-  → artistes: Lil Durk, Kid Cudi
+  → artistes: Kid Cudi, Lil Durk
 
 video 44: Lil Yachty - TESLA (Official Music Video)
   → artistes: Lil Yachty
 
 video 45: Trippie Redd &amp; Roddy Ricch - Closed Doors (Official Music Video)
-  → artistes: Roddy Ricch, Trippie Redd
+  → artistes: Trippie Redd, Roddy Ricch
 
 video 46: Yeat - bigger thën everything (Official Music Video)
   → artistes: Yeat
@@ -329,13 +2658,13 @@ video 6: KAIL PROBLEMS + DJ HOPPA | The Cypher Effect Mic Check Session #356
   → artistes: DJ HOPPA, KAIL PROBLEMS
 
 video 7: K.A.A.N. + DJ HOPPA | The Cypher Effect Mic Check Session #351
-  → artistes: DJ HOPPA, K.A.A.N. + DJ HOPPA
+  → artistes: K.A.A.N. + DJ HOPPA, DJ HOPPA
 
 video 8: 🔥🔥🔥 KABLE THE DON 🔥🔥🔥
   → artistes: [aucun détecté]
 
 video 9: JOMI x DEMRICK x 80 EMPIRE - Run | Music Video
-  → artistes: JOMI, 80 EMPIRE, DEMRICK
+  → artistes: DEMRICK, 80 EMPIRE, JOMI
 
 video 10: SONNIE BABBLE | The Cypher Effect Mic Check Session #345
   → artistes: SONNIE BABBLE
@@ -548,7 +2877,7 @@ video 28: YJAY X Keepz x Eren Break Down The Making Of &quot;Uptown&quot; By Los
   → artistes: Keepz, YJAY
 
 video 29: BTB DEZZ x Messy Money Sav x On The Radar x Kai Cenat Full Mafiathon 3 Live
-  → artistes: BTB DEZZ, Messy Money Sav
+  → artistes: Messy Money Sav, BTB DEZZ
 
 video 30: Kai Cenat Mafiathon Freestyle
   → artistes: Kai Cenat
@@ -599,7 +2928,7 @@ video 45: BFB Da Packman On The Radar X Kai Cenat x Mafiathon 3 Freestyle (MAFIA
   → artistes: Kai Cenat, Mafiathon 3
 
 video 46: Bfb Da Packman x Bxbyface E x On The Radar x Kai Cenat Full Mafiathon 3 Live
-  → artistes: Bfb Da Packman, Bxbyface E
+  → artistes: Bxbyface E, Bfb Da Packman
 
 video 47: Bxbyface E On The Radar X Kai Cenat x Mafiathon 3 Freestyle (MAFIATHON FREESTYLE #25)
   → artistes: Kai Cenat, Mafiathon 3
@@ -653,13 +2982,13 @@ video 12: Uber driver always turnt up
   → artistes: [aucun détecté]
 
 video 13: Rockout Danny, RJ Pasin - I Do Too (feat. STARBANDZ)
-  → artistes: Rockout Danny, RJ Pasin, STARBANDZ
+  → artistes: STARBANDZ, RJ Pasin, Rockout Danny
 
 video 14: Ndotz - Just Do It (My Shayla)
   → artistes: Ndotz
 
 video 15: YoungBoy Never Broke Again &amp; Playboi Carti - Fire Your Manager
-  → artistes: Playboi Carti, YoungBoy Never Broke Again
+  → artistes: YoungBoy Never Broke Again, Playboi Carti
 
 video 16: Kuttem Reese - Ain&#39;t Going
   → artistes: Kuttem Reese
@@ -668,13 +2997,13 @@ video 17: Rocky too wholesome
   → artistes: Rocky too wholesome
 
 video 18: Sainté - Days in the 3 (ft. Kairo Keyz &amp; Ledbyher)
-  → artistes: Kairo Keyz, Sainté, Ledbyher
+  → artistes: Ledbyher, Sainté, Kairo Keyz
 
 video 19: Dom Corleo - Club Siberia
   → artistes: Dom Corleo
 
 video 20: Fred again.. - Victory Lap (feat. Skepta &amp; PlaqueBoyMax)
-  → artistes: PlaqueBoyMax, Skepta, Fred again..
+  → artistes: Fred again.., Skepta, PlaqueBoyMax
 
 video 21: BLP Kosher - Pumpkin Patch (feat. Kodak Black)
   → artistes: Kodak Black, BLP Kosher
@@ -686,7 +3015,7 @@ video 23: Lotteryy - Bov Trait
   → artistes: Lotteryy
 
 video 24: YG - HOLLYWOOD (feat. Shoreline Mafia)
-  → artistes: Shoreline Mafia, YG
+  → artistes: YG, Shoreline Mafia
 
 video 25: Bro was highkey hitting those notes 😭🔥
   → artistes: [aucun détecté]
@@ -704,10 +3033,10 @@ video 29: Sainté - Dora
   → artistes: Sainté
 
 video 30: Lizzo, PLUTO - YITTY ON YO T*TTIES
-  → artistes: PLUTO, Lizzo
+  → artistes: Lizzo, PLUTO
 
 video 31: Rockout Danny - Back Of My Mind (feat. Nino Paid)
-  → artistes: Rockout Danny, Nino Paid
+  → artistes: Nino Paid, Rockout Danny
 
 video 32: SZA BRINGS OUT JUSTIN BIEBER FOR SNOOZE
   → artistes: [aucun détecté]
@@ -752,7 +3081,7 @@ video 45: sosocamo - role model
   → artistes: sosocamo
 
 video 46: NEMZZZ - DILEMMA (FEAT. CENTRAL CEE)
-  → artistes: CENTRAL CEE, NEMZZZ
+  → artistes: NEMZZZ, CENTRAL CEE
 
 video 47: The crowd was too quiet for this
   → artistes: [aucun détecté]
@@ -797,13 +3126,13 @@ video 9: Yella Beezy - My Head (Official Music Video)
   → artistes: Yella Beezy
 
 video 10: Freek Boi, BeatKing, Sukihana - Freek Gang (Official Music Video)
-  → artistes: BeatKing, Sukihana, Freek Boi
+  → artistes: Sukihana, BeatKing, Freek Boi
 
 video 11: Porsche Truck Ruk feat. Jadakiss - In Da City (Official Music Video)
-  → artistes: Jadakiss, Porsche Truck Ruk
+  → artistes: Porsche Truck Ruk, Jadakiss
 
 video 12: RTB MB (Miles Bridges), Skilla Baby, RTB Capo - NBA (Official Music Video)
-  → artistes: RTB MB Miles Bridges, Skilla Baby, RTB Capo
+  → artistes: Skilla Baby, RTB Capo, RTB MB Miles Bridges
 
 video 13: S-Quire - Doin That (Official Music Video)
   → artistes: [aucun détecté]
@@ -815,7 +3144,7 @@ video 15: Tammaria - Bad Azz (Official Music Video)
   → artistes: Tammaria
 
 video 16: Dice SoHo &amp; Sauce Walka - Cost For The Drip (Official Music Video)
-  → artistes: Sauce Walka, Dice SoHo
+  → artistes: Dice SoHo, Sauce Walka
 
 video 17: Izzy93 - Can’t FWM (Official Music Video)
   → artistes: Izzy93
@@ -833,7 +3162,7 @@ video 21: Disabled Journalist Denies Being Assaulted by Drake and Being The OVO 
   → artistes: [aucun détecté]
 
 video 22: Future &amp; Gunna Subliminally Go Back &amp; Fourth on Twitter!
-  → artistes: Gunna Subliminally Go Back, Future
+  → artistes: Future, Gunna Subliminally Go Back
 
 video 23: Sukihana Disses JT &amp; Lil Uzi Vert on New “Cocaine” Diss Track!
   → artistes: Sukihana Disses JT
@@ -923,7 +3252,7 @@ video 50: Limited Slots Available For Official Worldstar Curators - Rate Music, 
 I AM HIP HOP (33 artistes):
 --------------------------------------------------
 video 1: PARTYNEXTDOOR, DRAKE - SOMEBODY LOVES ME (Music Video)
-  → artistes: PARTYNEXTDOOR, DRAKE
+  → artistes: DRAKE, PARTYNEXTDOOR
 
 video 2: this mix is 🔥
   → artistes: this mix is 🔥
@@ -947,7 +3276,7 @@ video 8: Drake - Shopping Spree
   → artistes: Drake
 
 video 9: DRAKE, 21 SAVAGE - WAITING TO EXHALE
-  → artistes: DRAKE, 21 SAVAGE
+  → artistes: 21 SAVAGE, DRAKE
 
 video 10: NOKIA (MUSIC VIDEO OUT NOW) 🦉🔥 #drake #nokia
   → artistes: [aucun détecté]
@@ -977,7 +3306,7 @@ video 18: Cant wait for them to go viral! #foryoupage #kendricklamar #SuperBowl 
   → artistes: [aucun détecté]
 
 video 19: Snoop Dogg &amp; Dr Dre 🎤 🎵 Outta da blue Live 🎶 #Missionary album 💿 #snoopdogg #drdre #outtadablue
-  → artistes: Dr Dre, Snoop Dogg
+  → artistes: Snoop Dogg, Dr Dre
 
 video 20: 🔥 Roddy Ricch at Wireless Festival 2022 had one of the craziest crowds ever 🤯🔥
   → artistes: [aucun détecté]
@@ -1034,7 +3363,7 @@ video 37: The story of Tom Hardy&#39;s rap career 🎤! #tomhardy #rap #fyp
   → artistes: [aucun détecté]
 
 video 38: TRY - Lay It Down ft. DreamDoll &amp; JAY 1 (Music Video)
-  → artistes: DreamDoll, TRY, JAY 1
+  → artistes: TRY, DreamDoll, JAY 1
 
 video 39: Kanye West - Like That (Remix)
   → artistes: Kanye West
@@ -1046,7 +3375,7 @@ video 41: J. Cole - 7 Minute Drill (Kendrick Lamar Diss)
   → artistes: J. Cole
 
 video 42: Future &amp; Kendrick Lamar - Like That (Drake &amp; J Cole Diss)
-  → artistes: Kendrick Lamar, Future
+  → artistes: Future, Kendrick Lamar
 
 video 43: Champagne937 - See You Again (Music Video)
   → artistes: Champagne937
@@ -1227,6 +3556,6 @@ video 50: 🛗 DJ Spinn is footwork royalty, the man who built the sound, gives 
 
 
 ===========================================================================
-TOTAL: 403 artistes extraits
-UNIQUES: 132 artistes uniques
-DOUBLONS: 12 détectés
+TOTAL: 1170 artistes extraits
+UNIQUES: 717 artistes uniques
+DOUBLONS: 189 détectés
