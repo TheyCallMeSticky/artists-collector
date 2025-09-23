@@ -22,6 +22,10 @@ class ArtistService:
 
     def get_artist_by_youtube_id(self, youtube_id: str) -> Optional[Artist]:
         return self.db.query(Artist).filter(Artist.youtube_channel_id == youtube_id).first()
+    
+    def get_artist_by_name(self, name: str) -> Optional[Artist]:
+        """Rechercher un artiste par nom (insensible à la casse)"""
+        return self.db.query(Artist).filter(Artist.name.ilike(f"%{name}%")).first()
 
     def get_artists(self, skip: int = 0, limit: int = 100) -> List[Artist]:
         return self.db.query(Artist).offset(skip).limit(limit).all()

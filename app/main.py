@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.api.artists import router as artists_router
 from app.api.collection import router as collection_router
 from app.api.scoring import router as scoring_router
+from app.api.extraction import router as extraction_router
 from app.db.database import engine, Base
 
 # Créer les tables
@@ -17,6 +18,7 @@ app = FastAPI(
 app.include_router(artists_router)
 app.include_router(collection_router)
 app.include_router(scoring_router)
+app.include_router(extraction_router)
 
 @app.get("/")
 def read_root():

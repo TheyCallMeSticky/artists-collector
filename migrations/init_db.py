@@ -129,74 +129,8 @@ def create_indexes():
         raise
 
 def insert_sample_data():
-    """Insérer des données d'exemple pour les tests"""
-    try:
-        engine = create_engine(DATABASE_URL)
-        
-        with engine.connect() as conn:
-            # Vérifier si des données existent déjà
-            result = conn.execute(text("SELECT COUNT(*) FROM artists"))
-            count = result.fetchone()[0]
-            
-            if count > 0:
-                logger.info(f"Des données existent déjà ({count} artistes), insertion ignorée")
-                return
-            
-            # Insérer quelques artistes d'exemple
-            sample_artists = [
-                {
-                    'name': 'Lil Baby',
-                    'spotify_followers': 15000000,
-                    'spotify_popularity': 85,
-                    'youtube_subscribers': 8000000,
-                    'youtube_views': 2000000000,
-                    'youtube_videos_count': 150,
-                    'score': 75.5,
-                    'genre': 'hip-hop'
-                },
-                {
-                    'name': 'Polo G',
-                    'spotify_followers': 8000000,
-                    'spotify_popularity': 78,
-                    'youtube_subscribers': 5000000,
-                    'youtube_views': 1500000000,
-                    'youtube_videos_count': 120,
-                    'score': 68.2,
-                    'genre': 'hip-hop'
-                },
-                {
-                    'name': 'Rod Wave',
-                    'spotify_followers': 6000000,
-                    'spotify_popularity': 72,
-                    'youtube_subscribers': 3000000,
-                    'youtube_views': 800000000,
-                    'youtube_videos_count': 80,
-                    'score': 62.8,
-                    'genre': 'hip-hop'
-                }
-            ]
-            
-            for artist_data in sample_artists:
-                conn.execute(text("""
-                    INSERT INTO artists (
-                        name, spotify_followers, spotify_popularity, 
-                        youtube_subscribers, youtube_views, youtube_videos_count,
-                        score, genre, is_active, created_at
-                    ) VALUES (
-                        :name, :spotify_followers, :spotify_popularity,
-                        :youtube_subscribers, :youtube_views, :youtube_videos_count,
-                        :score, :genre, true, NOW()
-                    )
-                """), artist_data)
-            
-            conn.commit()
-            logger.info(f"Données d'exemple insérées: {len(sample_artists)} artistes")
-        
-        engine.dispose()
-        
-    except Exception as e:
-        logger.error(f"Erreur lors de l'insertion des données d'exemple: {e}")
-        raise
+    """Pas de données d'exemple - base vide pour de vraies données"""
+    logger.info("Pas de données d'exemple insérées - base prête pour de vraies données")
 
 def main():
     """Fonction principale d'initialisation"""

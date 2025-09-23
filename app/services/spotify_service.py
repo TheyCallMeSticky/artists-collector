@@ -1,7 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 import logging
 
 logger = logging.getLogger(__name__)
@@ -111,6 +111,50 @@ class SpotifyService:
             }
         except Exception as e:
             logger.error(f"Erreur lors de la récupération des artistes similaires de {spotify_id}: {e}")
+            return None
+    
+    def get_playlist_tracks(self, playlist_id: str, limit: int = 100) -> Optional[List[Dict[str, Any]]]:
+        """Récupérer les tracks d'une playlist"""
+        try:
+            tracks = []
+            offset = 0
+            
+            while len(tracks) < limit:
+                batch_limit = min(50, limit - len(tracks))  # Spotify API limite à 50 par requête
+                
+                results = self.sp.playlist_tracks(
+                    playlist_id, 
+                    offset=offset, 
+                    limit=batch_limit,
+                    fields="items(added_at,track(name,artists(name,id),id,popularity))"
+                )
+                
+                if not results['items']:
+                    break
+                
+                for item in results['items']:
+                    if item['track'] and item['track']['artists']:
+                        tracks.append({
+                            'added_at': item['added_at'],
+                            'track': {
+                                'name': item['track']['name'],
+                                'artists': item['track']['artists'],
+                                'id': item['track']['id'],
+                                'popularity': item['track'].get('popularity', 0)
+                            }
+                        })
+                
+                offset += batch_limit
+                
+                # Si on a récupéré moins que demandé, c'est qu'on a atteint la fin
+                if len(results['items']) < batch_limit:
+                    break
+            
+            logger.info(f"Récupéré {len(tracks)} tracks de la playlist {playlist_id}")
+            return tracks
+            
+        except Exception as e:
+            logger.error(f"Erreur lors de la récupération des tracks de la playlist {playlist_id}: {e}")
             return None
 
     def collect_artist_data(self, artist_name: str) -> Optional[Dict[str, Any]]:

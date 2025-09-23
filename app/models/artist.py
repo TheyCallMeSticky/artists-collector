@@ -22,6 +22,9 @@ class Artist(Base):
     
     # Score calculé
     score = Column(Float, default=0.0)
+    needs_scoring = Column(Boolean, default=True)  # True si le score doit être (re)calculé
+    last_seen_date = Column(DateTime(timezone=True))  # Dernière fois vu dans les extractions
+    most_recent_appearance = Column(DateTime(timezone=True))  # Plus récente apparition détectée
     
     # Métadonnées
     genre = Column(String, default="hip-hop")
