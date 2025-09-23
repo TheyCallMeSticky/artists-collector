@@ -254,6 +254,28 @@ class YouTubeService:
             raise e
 
     def get_video_stats(
+        self, video_id: str
+    ) -> Optional[Dict[str, Any]]:
+        """Récupérer les statistiques d'une vidéo unique"""
+        if not video_id:
+            return None
+
+        params = {
+            "part": "statistics",
+            "id": video_id,
+        }
+
+        result = self.make_request("videos", params)
+        if result and "items" in result and len(result["items"]) > 0:
+            stats = result["items"][0].get("statistics", {})
+            return {
+                "viewCount": int(stats.get("viewCount", 0)),
+                "likeCount": int(stats.get("likeCount", 0)),
+                "commentCount": int(stats.get("commentCount", 0)),
+            }
+        return None
+
+    def get_multiple_video_stats(
         self, video_ids: List[str]
     ) -> Optional[Dict[str, Dict[str, Any]]]:
         """Récupérer les statistiques de plusieurs vidéos"""
@@ -278,6 +300,46 @@ class YouTubeService:
             return video_stats
         return None
 
+    def search_videos(
+        self, query: str, max_results: int = 50
+    ) -> Optional[List[Dict[str, Any]]]:
+        """Rechercher des vidéos par requête de recherche"""
+        params = {
+            "part": "snippet",
+            "q": query,
+            "type": "video",
+            "maxResults": max_results,
+            "order": "relevance",
+        }
+
+        result = self.make_request("search", params)
+        if result and "items" in result:
+            videos = []
+            for item in result["items"]:
+                videos.append({
+                    "id": item["id"]["videoId"],
+                    "snippet": item["snippet"]
+                })
+            return videos
+        return None
+
+    def get_channel_stats(self, channel_id: str) -> Optional[Dict[str, Any]]:
+        """Récupérer les statistiques d'une chaîne"""
+        params = {
+            "part": "statistics",
+            "id": channel_id
+        }
+
+        result = self.make_request("channels", params)
+        if result and "items" in result and len(result["items"]) > 0:
+            stats = result["items"][0].get("statistics", {})
+            return {
+                "subscriberCount": int(stats.get("subscriberCount", 0)),
+                "videoCount": int(stats.get("videoCount", 0)),
+                "viewCount": int(stats.get("viewCount", 0)),
+            }
+        return None
+
     def collect_artist_data(self, artist_name: str) -> Optional[Dict[str, Any]]:
         """Collecter toutes les données YouTube d'un artiste"""
         try:
@@ -300,7 +362,7 @@ class YouTubeService:
             video_stats = None
             if recent_videos:
                 video_ids = [video["video_id"] for video in recent_videos]
-                video_stats = self.get_video_stats(video_ids)
+                video_stats = self.get_multiple_video_stats(video_ids)
 
             return {
                 "channel_info": channel_info,

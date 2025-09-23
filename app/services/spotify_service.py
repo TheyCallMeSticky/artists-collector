@@ -158,6 +158,27 @@ class SpotifyService:
             logger.error(f"Erreur lors de la récupération des tracks de la playlist {playlist_id}: {e}")
             return None
 
+    def get_audio_features(self, track_ids: List[str]) -> Optional[List[Dict[str, Any]]]:
+        """Récupérer les features audio d'une liste de tracks (max 100 tracks)"""
+        try:
+            if not track_ids:
+                return None
+
+            # Limiter à 100 tracks max par requête Spotify
+            track_ids = track_ids[:100]
+
+            audio_features = self.sp.audio_features(track_ids)
+
+            # Filtrer les résultats None (tracks non trouvées)
+            valid_features = [f for f in audio_features if f is not None]
+
+            logger.info(f"Features audio récupérées pour {len(valid_features)}/{len(track_ids)} tracks")
+            return valid_features
+
+        except Exception as e:
+            logger.error(f"Erreur lors de la récupération des features audio: {e}")
+            return None
+
     def collect_artist_data(self, artist_name: str) -> Optional[Dict[str, Any]]:
         """Collecter toutes les données d'un artiste"""
         try:

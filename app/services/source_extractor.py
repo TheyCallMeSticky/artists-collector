@@ -576,16 +576,22 @@ class SourceExtractor:
             return None
 
     def run_full_extraction(self, limit_priority: int = 400) -> Dict[str, Any]:
-        """Lancer une extraction complète (premier run avec limite prioritaire)"""
-        logger.info("Début de l'extraction complète depuis toutes les sources")
+        """Lancer une extraction complète (premier run avec limite prioritaire)
+        Phase 1 du processus de production:
+        - 50 dernières vidéos de chaque chaîne YouTube
+        - Extraction totale des playlists Spotify
+        - Collecte métadonnées enrichies (genre, style, mood, location)
+        """
+        logger.info("🚀 PHASE 1 : Extraction complète depuis toutes les sources")
 
         all_artists = []
         results = {
-            "extraction_type": "full",
+            "extraction_type": "full_phase1",
             "timestamp": datetime.now().isoformat(),
             "sources_processed": 0,
             "artists_found": 0,
             "artists_saved": 0,
+            "artists_with_enriched_metadata": 0,
             "priority_artists": 0,
             "errors": [],
         }
@@ -635,9 +641,10 @@ class SourceExtractor:
 
         results["artists_found"] = len(unique_artists)
 
-        # Sauvegarder TOUS les artistes en base
+        # Sauvegarder TOUS les artistes en base avec métadonnées enrichies
         saved_count = 0
         priority_count = 0
+        enriched_count = 0
         now = datetime.now()
 
         for i, artist_data in enumerate(unique_artists):
@@ -663,8 +670,8 @@ class SourceExtractor:
                     self.db.commit()
 
                 else:
-                    # Nouvel artiste : collecter les données complètes
-                    collection_result = self.data_collector.collect_and_save_artist(
+                    # Nouvel artiste : collecter les données complètes avec métadonnées enrichies
+                    collection_result = self._collect_artist_with_enriched_metadata(
                         artist_name
                     )
                     if collection_result.get("success"):
@@ -683,6 +690,10 @@ class SourceExtractor:
                                 if i < limit_priority:
                                     priority_count += 1
 
+                                # Compter les métadonnées enrichies
+                                if collection_result.get("enriched_metadata"):
+                                    enriched_count += 1
+
                                 self.db.commit()
 
                 saved_count += 1
@@ -694,11 +705,74 @@ class SourceExtractor:
 
         results["artists_saved"] = saved_count
         results["priority_artists"] = priority_count
+        results["artists_with_enriched_metadata"] = enriched_count
 
         logger.info(
-            f"Extraction complète terminée: {saved_count}/{len(unique_artists)} artistes traités, {priority_count} prioritaires"
+            f"🎉 PHASE 1 terminée: {saved_count}/{len(unique_artists)} artistes traités, {priority_count} prioritaires, {enriched_count} avec métadonnées enrichies"
         )
         return results
+
+    def _collect_artist_with_enriched_metadata(self, artist_name: str) -> Dict[str, Any]:
+        """Collecter un artiste avec métadonnées Spotify enrichies (genre, style, mood, location)"""
+        try:
+            # Collecte normale via DataCollector
+            collection_result = self.data_collector.collect_and_save_artist(artist_name)
+
+            if collection_result.get("success") and collection_result.get("spotify_data"):
+                spotify_data = collection_result["spotify_data"]
+                artist_info = spotify_data.get("artist_info", {})
+
+                # Métadonnées enrichies
+                enriched_metadata = {}
+
+                # Genres Spotify
+                if "genres" in artist_info and artist_info["genres"]:
+                    enriched_metadata["genres"] = artist_info["genres"]
+
+                # Popularité et followers (déjà collectés)
+                enriched_metadata["popularity"] = artist_info.get("popularity", 0)
+                enriched_metadata["followers"] = artist_info.get("followers", 0)
+
+                # Récupérer les top tracks pour analyse plus poussée
+                if "top_tracks" in spotify_data:
+                    tracks = spotify_data["top_tracks"]
+                    if tracks:
+                        # Analyser les features audio des top tracks
+                        track_ids = [track.get("id") for track in tracks[:5] if track.get("id")]
+                        if track_ids:
+                            audio_features = self.spotify_service.get_audio_features(track_ids)
+                            if audio_features:
+                                # Calculer moyennes des features audio
+                                features_avg = self._calculate_audio_features_average(audio_features)
+                                enriched_metadata["audio_features"] = features_avg
+
+                # Sauvegarder les métadonnées enrichies si disponibles
+                if enriched_metadata:
+                    collection_result["enriched_metadata"] = enriched_metadata
+                    logger.info(f"Métadonnées enrichies collectées pour {artist_name}: {list(enriched_metadata.keys())}")
+
+            return collection_result
+
+        except Exception as e:
+            logger.error(f"Erreur collecte enrichie pour {artist_name}: {e}")
+            # Fallback vers collecte normale
+            return self.data_collector.collect_and_save_artist(artist_name)
+
+    def _calculate_audio_features_average(self, audio_features: list) -> Dict[str, float]:
+        """Calculer les moyennes des features audio pour caractériser le style"""
+        if not audio_features:
+            return {}
+
+        features = {}
+        feature_keys = ['danceability', 'energy', 'speechiness', 'acousticness',
+                       'instrumentalness', 'liveness', 'valence', 'tempo']
+
+        for key in feature_keys:
+            values = [track.get(key, 0) for track in audio_features if track.get(key) is not None]
+            if values:
+                features[key] = round(sum(values) / len(values), 3)
+
+        return features
 
     def run_incremental_extraction(self) -> Dict[str, Any]:
         """Lancer une extraction incrémentale (nouveautés des dernières 24h)"""
@@ -825,5 +899,178 @@ class SourceExtractor:
 
         logger.info(
             f"Extraction incrémentale terminée: {new_artists} nouveaux, {updated_artists} mis à jour"
+        )
+        return results
+
+    def run_weekly_extraction(self) -> Dict[str, Any]:
+        """
+        🔄 PHASE 2 : Extraction hebdomadaire avec re-scoring intelligent
+        - Extraction incrémentale des nouveaux contenus (7 derniers jours)
+        - Re-scoring des artistes avec nouveau contenu
+        - Mise à jour des métriques Spotify/YouTube
+        """
+        since_date = datetime.now() - timedelta(days=7)
+
+        logger.info(f"🔄 PHASE 2 : Extraction hebdomadaire (depuis {since_date})")
+
+        all_artists = []
+        results = {
+            "extraction_type": "weekly_phase2",
+            "timestamp": datetime.now().isoformat(),
+            "since_date": since_date.isoformat(),
+            "sources_processed": 0,
+            "artists_found": 0,
+            "new_artists": 0,
+            "updated_artists": 0,
+            "artists_marked_for_rescoring": 0,
+            "errors": [],
+        }
+
+        # Extraction depuis Spotify (nouveautés des 7 derniers jours)
+        for playlist in self.sources_config.get("spotify_playlists", []):
+            try:
+                playlist_artists = self.extract_artists_from_spotify_playlist(
+                    playlist["id"], playlist["name"], since_date=since_date
+                )
+                all_artists.extend(playlist_artists)
+                results["sources_processed"] += 1
+
+            except Exception as e:
+                error_msg = f"Erreur playlist Spotify {playlist['name']}: {str(e)}"
+                logger.error(error_msg)
+                results["errors"].append(error_msg)
+
+        # Extraction depuis YouTube (nouveautés des 7 derniers jours)
+        for channel in self.sources_config.get("youtube_channels", []):
+            try:
+                channel_artists = self.extract_artists_from_youtube_channel(
+                    channel["id"], channel["name"], since_date=since_date
+                )
+                all_artists.extend(channel_artists)
+                results["sources_processed"] += 1
+
+            except Exception as e:
+                error_msg = f"Erreur chaîne YouTube {channel['name']}: {str(e)}"
+                logger.error(error_msg)
+                results["errors"].append(error_msg)
+
+        # Déduplication et tri par date d'apparition la plus récente
+        artists_dict = {}
+        for artist_data in all_artists:
+            name = artist_data["name"]
+            if (
+                name not in artists_dict
+                or artist_data["appearance_date"]
+                > artists_dict[name]["appearance_date"]
+            ):
+                artists_dict[name] = artist_data
+
+        unique_artists = list(artists_dict.values())
+        unique_artists.sort(key=lambda x: x["appearance_date"], reverse=True)
+        results["artists_found"] = len(unique_artists)
+
+        # Traitement intelligent des artistes avec re-scoring
+        new_artists = 0
+        updated_artists = 0
+        rescoring_count = 0
+        now = datetime.now()
+
+        for artist_data in unique_artists:
+            try:
+                artist_name = artist_data["name"]
+                appearance_date = artist_data["appearance_date"]
+
+                # Vérifier si l'artiste existe déjà
+                existing_artist = self.data_collector.artist_service.get_artist_by_name(
+                    artist_name
+                )
+
+                if existing_artist:
+                    # Artiste existant : vérifier s'il y a du nouveau contenu
+                    has_new_content = False
+
+                    if (
+                        not existing_artist.most_recent_appearance
+                        or appearance_date > existing_artist.most_recent_appearance
+                    ):
+                        # Nouveau contenu détecté
+                        existing_artist.most_recent_appearance = appearance_date
+                        existing_artist.needs_scoring = True  # Marquer pour re-scoring
+                        has_new_content = True
+                        rescoring_count += 1
+
+                    # Mettre à jour les métriques Spotify/YouTube si nécessaire
+                    # (seulement si nouveau contenu pour éviter surcharge API)
+                    if has_new_content:
+                        try:
+                            # Mise à jour métadonnées Spotify
+                            if existing_artist.spotify_id:
+                                spotify_data = self.spotify_service.collect_artist_data(artist_name)
+                                if spotify_data and spotify_data.get("artist_info"):
+                                    artist_info = spotify_data["artist_info"]
+                                    # Mise à jour des métriques
+                                    from app.schemas.artist import ArtistUpdate
+                                    update_data = ArtistUpdate(
+                                        spotify_followers=artist_info.get("followers", existing_artist.spotify_followers),
+                                        spotify_popularity=artist_info.get("popularity", existing_artist.spotify_popularity),
+                                        spotify_monthly_listeners=existing_artist.spotify_monthly_listeners  # Conservé
+                                    )
+                                    self.data_collector.artist_service.update_artist(existing_artist.id, update_data)
+
+                            # Mise à jour métadonnées YouTube
+                            if existing_artist.youtube_channel_id:
+                                youtube_data = self.youtube_service.collect_artist_data(artist_name)
+                                if youtube_data and youtube_data.get("channel_info"):
+                                    channel_info = youtube_data["channel_info"]
+                                    # Mise à jour des métriques
+                                    from app.schemas.artist import ArtistUpdate
+                                    update_data = ArtistUpdate(
+                                        youtube_subscribers=channel_info.get("subscriber_count", existing_artist.youtube_subscribers),
+                                        youtube_views=channel_info.get("view_count", existing_artist.youtube_views),
+                                        youtube_videos_count=channel_info.get("video_count", existing_artist.youtube_videos_count)
+                                    )
+                                    self.data_collector.artist_service.update_artist(existing_artist.id, update_data)
+
+                        except Exception as e:
+                            logger.warning(f"Erreur mise à jour métriques pour {artist_name}: {e}")
+
+                        updated_artists += 1
+                        logger.info(f"Artiste mis à jour avec nouveau contenu: {artist_name}")
+
+                    existing_artist.last_seen_date = now
+                    self.db.commit()
+
+                else:
+                    # Nouvel artiste : collecte complète avec métadonnées enrichies
+                    collection_result = self._collect_artist_with_enriched_metadata(
+                        artist_name
+                    )
+                    if collection_result.get("success"):
+                        # MAJ avec les dates d'extraction
+                        artist_id = collection_result.get("artist_id")
+                        if artist_id:
+                            artist = self.data_collector.artist_service.get_artist(
+                                artist_id
+                            )
+                            if artist:
+                                artist.most_recent_appearance = appearance_date
+                                artist.last_seen_date = now
+                                artist.needs_scoring = True
+                                self.db.commit()
+                                new_artists += 1
+                                rescoring_count += 1
+                                logger.info(f"Nouvel artiste découvert: {artist_name}")
+
+            except Exception as e:
+                logger.warning(
+                    f"Erreur lors du traitement hebdomadaire de {artist_data['name']}: {e}"
+                )
+
+        results["new_artists"] = new_artists
+        results["updated_artists"] = updated_artists
+        results["artists_marked_for_rescoring"] = rescoring_count
+
+        logger.info(
+            f"🎉 PHASE 2 terminée: {new_artists} nouveaux, {updated_artists} mis à jour, {rescoring_count} marqués pour re-scoring"
         )
         return results

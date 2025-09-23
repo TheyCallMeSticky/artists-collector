@@ -33,6 +33,31 @@ class ArtistService:
     def get_top_artists_by_score(self, limit: int = 50) -> List[Artist]:
         return self.db.query(Artist).filter(Artist.is_active == True).order_by(Artist.score.desc()).limit(limit).all()
 
+    def get_artists_by_criteria(
+        self,
+        min_followers: Optional[int] = None,
+        max_followers: Optional[int] = None,
+        max_monthly_listeners: Optional[int] = None,
+        limit: int = 100
+    ) -> List[Artist]:
+        """
+        Récupérer les artistes selon des critères de filtrage TubeBuddy
+        """
+        query = self.db.query(Artist).filter(Artist.is_active == True)
+
+        # Filtres Spotify
+        if min_followers is not None:
+            query = query.filter(Artist.spotify_followers >= min_followers)
+
+        if max_followers is not None:
+            query = query.filter(Artist.spotify_followers <= max_followers)
+
+        if max_monthly_listeners is not None:
+            query = query.filter(Artist.spotify_monthly_listeners <= max_monthly_listeners)
+
+        # Trier par popularité décroissante et limiter
+        return query.order_by(Artist.spotify_popularity.desc()).limit(limit).all()
+
     def update_artist(self, artist_id: int, artist_update: ArtistUpdate) -> Optional[Artist]:
         db_artist = self.get_artist(artist_id)
         if db_artist:
@@ -67,3 +92,33 @@ class ArtistService:
 
     def get_artist_scores(self, artist_id: int) -> List[Score]:
         return self.db.query(Score).filter(Score.artist_id == artist_id).order_by(Score.created_at.desc()).all()
+
+    # Méthodes pour le dashboard
+
+    def get_artists_needing_scoring(self) -> List[Artist]:
+        """Récupérer les artistes qui ont besoin d'un calcul TubeBuddy (needs_scoring=True)"""
+        return self.db.query(Artist).filter(Artist.needs_scoring == True, Artist.is_active == True).all()
+
+    def count_all_artists(self) -> int:
+        """Compter le nombre total d'artistes actifs"""
+        return self.db.query(Artist).filter(Artist.is_active == True).count()
+
+    def count_artists_with_scores(self) -> int:
+        """Compter le nombre d'artistes qui ont au moins un score TubeBuddy"""
+        return self.db.query(Artist).join(Score).filter(Artist.is_active == True).distinct().count()
+
+    def count_artists_needing_scoring(self) -> int:
+        """Compter le nombre d'artistes en attente de calcul TubeBuddy"""
+        return self.db.query(Artist).filter(Artist.needs_scoring == True, Artist.is_active == True).count()
+
+    def count_artists_with_score_above(self, min_score: int) -> int:
+        """Compter le nombre d'artistes avec un score TubeBuddy supérieur à la valeur donnée"""
+        return (self.db.query(Artist)
+                .join(Score)
+                .filter(Artist.is_active == True, Score.overall_score >= min_score)
+                .distinct()
+                .count())
+
+    def get_latest_score(self) -> Optional[Score]:
+        """Récupérer le score le plus récent calculé"""
+        return self.db.query(Score).order_by(Score.created_at.desc()).first()

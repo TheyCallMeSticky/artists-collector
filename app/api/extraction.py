@@ -23,6 +23,9 @@ class ExtractionResponse(BaseModel):
     new_artists: Optional[int] = None
     updated_artists: Optional[int] = None
     priority_artists: Optional[int] = None
+    artists_with_enriched_metadata: Optional[int] = None
+    artists_marked_for_rescoring: Optional[int] = None
+    since_date: Optional[str] = None
     errors: list
 
 
@@ -41,6 +44,27 @@ def run_full_extraction(db: Session = Depends(get_db)):
         )
 
 
+@router.post("/phase1-complete", response_model=ExtractionResponse)
+def run_phase1_complete_extraction(db: Session = Depends(get_db)):
+    """
+    🚀 PHASE 1 COMPLÈTE du processus de production:
+    - Extraction des 50 dernières vidéos de chaque chaîne YouTube
+    - Extraction totale des playlists Spotify
+    - Collecte métadonnées Spotify enrichies (genre, style, mood, features audio)
+    - Persistance en base avec dates de tracking
+    """
+    try:
+        extractor = SourceExtractor(db)
+        results = extractor.run_full_extraction(limit_priority=400)
+
+        return ExtractionResponse(**results)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur lors de la Phase 1 complète: {str(e)}"
+        )
+
+
 @router.post("/incremental", response_model=ExtractionResponse)
 def run_incremental_extraction(db: Session = Depends(get_db)):
     """Lancer une extraction incrémentale (nouveautés des dernières 24h)"""
@@ -54,6 +78,27 @@ def run_incremental_extraction(db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=500,
             detail=f"Erreur lors de l'extraction incrémentale: {str(e)}",
+        )
+
+
+@router.post("/phase2-weekly", response_model=ExtractionResponse)
+def run_phase2_weekly_extraction(db: Session = Depends(get_db)):
+    """
+    🔄 PHASE 2 HEBDOMADAIRE du processus de production:
+    - Extraction incrémentale des nouveaux contenus (7 derniers jours)
+    - Re-scoring intelligent des artistes avec nouveau contenu
+    - Mise à jour des métriques Spotify/YouTube
+    - Optimisé pour minimiser les appels API
+    """
+    try:
+        extractor = SourceExtractor(db)
+        results = extractor.run_weekly_extraction()
+
+        return ExtractionResponse(**results)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Erreur lors de la Phase 2 hebdomadaire: {str(e)}"
         )
 
 
