@@ -23,6 +23,7 @@ class SpotifyService:
     def search_artist(self, artist_name: str) -> Optional[Dict[str, Any]]:
         """Rechercher un artiste par nom sur Spotify"""
         try:
+            print(f"INFO : requête Spotify search pour artiste: {artist_name}")
             results = self.sp.search(q=f'artist:{artist_name}', type='artist', limit=1)
             if results['artists']['items']:
                 return results['artists']['items'][0]
@@ -34,6 +35,7 @@ class SpotifyService:
     def get_artist_info(self, spotify_id: str) -> Optional[Dict[str, Any]]:
         """Récupérer les informations détaillées d'un artiste"""
         try:
+            print(f"INFO : requête Spotify artist info pour ID: {spotify_id}")
             artist = self.sp.artist(spotify_id)
             return {
                 'id': artist['id'],
@@ -50,6 +52,7 @@ class SpotifyService:
     def get_artist_top_tracks(self, spotify_id: str, country: str = 'US') -> Optional[Dict[str, Any]]:
         """Récupérer les top tracks d'un artiste"""
         try:
+            print(f"INFO : requête Spotify top tracks pour ID: {spotify_id}")
             top_tracks = self.sp.artist_top_tracks(spotify_id, country=country)
             tracks_info = []
             
@@ -72,6 +75,7 @@ class SpotifyService:
     def get_artist_albums(self, spotify_id: str, limit: int = 20) -> Optional[Dict[str, Any]]:
         """Récupérer les albums d'un artiste"""
         try:
+            print(f"INFO : requête Spotify albums pour ID: {spotify_id}")
             albums = self.sp.artist_albums(spotify_id, album_type='album,single', limit=limit)
             albums_info = []
             
@@ -94,6 +98,7 @@ class SpotifyService:
     def get_related_artists(self, spotify_id: str) -> Optional[Dict[str, Any]]:
         """Récupérer les artistes similaires"""
         try:
+            print(f"INFO : requête Spotify related artists pour ID: {spotify_id}")
             related = self.sp.artist_related_artists(spotify_id)
             related_info = []
             
@@ -121,7 +126,8 @@ class SpotifyService:
             
             while len(tracks) < limit:
                 batch_limit = min(50, limit - len(tracks))  # Spotify API limite à 50 par requête
-                
+
+                print(f"INFO : requête Spotify playlist tracks pour: {playlist_id} (offset: {offset})")
                 results = self.sp.playlist_tracks(
                     playlist_id,
                     offset=offset,
@@ -167,6 +173,7 @@ class SpotifyService:
             # Limiter à 100 tracks max par requête Spotify
             track_ids = track_ids[:100]
 
+            print(f"INFO : requête Spotify audio features pour {len(track_ids)} tracks")
             audio_features = self.sp.audio_features(track_ids)
 
             # Filtrer les résultats None (tracks non trouvées)
@@ -180,28 +187,18 @@ class SpotifyService:
             return None
 
     def collect_artist_data(self, artist_name: str) -> Optional[Dict[str, Any]]:
-        """Collecter toutes les données d'un artiste"""
+        """Collecter uniquement le nom corrigé de l'artiste"""
         try:
-            # Rechercher l'artiste
+            # Rechercher l'artiste pour obtenir le nom corrigé
             artist_search = self.search_artist(artist_name)
             if not artist_search:
                 return None
-            
-            spotify_id = artist_search['id']
-            
-            # Collecter toutes les informations
-            artist_info = self.get_artist_info(spotify_id)
-            top_tracks = self.get_artist_top_tracks(spotify_id)
-            albums = self.get_artist_albums(spotify_id)
-            # related_artists = self.get_related_artists(spotify_id)  # API deprecated/broken
 
+            # Retourner seulement le nom corrigé et l'ID Spotify
             return {
-                'artist_info': artist_info,
-                'top_tracks': top_tracks,
-                'albums': albums,
-                # 'related_artists': related_artists,  # Removed - API broken
-                'spotify_id': spotify_id
+                'corrected_name': artist_search['name'],
+                'spotify_id': artist_search['id']
             }
         except Exception as e:
-            logger.error(f"Erreur lors de la collecte des données de {artist_name}: {e}")
+            logger.error(f"Erreur lors de la collecte du nom corrigé de {artist_name}: {e}")
             return None

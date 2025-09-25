@@ -52,6 +52,7 @@ class SourceExtractor:
         # Callbacks pour le suivi de progression
         self.progress_callback = None  # Appelé quand une source commence
         self.artist_callback = None    # Appelé quand un artiste est traité
+        self.save_progress_callback = None  # Appelé pendant la sauvegarde
         self.sources_config = self._load_sources_config()
 
     def set_progress_callback(self, callback):
@@ -61,6 +62,10 @@ class SourceExtractor:
     def set_artist_callback(self, callback):
         """Configurer le callback de progression des artistes"""
         self.artist_callback = callback
+
+    def set_save_progress_callback(self, callback):
+        """Configurer le callback de progression de la sauvegarde"""
+        self.save_progress_callback = callback
 
     def _update_extraction_status(self, **updates):
         """Mettre à jour le statut de l'extraction en cours"""
@@ -637,7 +642,6 @@ class SourceExtractor:
         """
         logger.info("🚀 PHASE 1 : Extraction complète depuis toutes les sources")
 
-        all_artists = []
         results = {
             "extraction_type": "full_phase1",
             "timestamp": datetime.now().isoformat(),
@@ -646,173 +650,35 @@ class SourceExtractor:
             "artists_saved": 0,
             "artists_with_enriched_metadata": 0,
             "priority_artists": 0,
+            "new_artists": 0,
+            "updated_artists": 0,
             "errors": [],
         }
 
-        # Extraction depuis Spotify
-        for playlist in self.sources_config.get("spotify_playlists", []):
-            try:
-                # Callback de progression de source
-                if self.progress_callback:
-                    self.progress_callback(playlist["name"], "Playlist Spotify")
+        # Étape 1: Extraction des artistes depuis toutes les sources (0-80%)
+        unique_artists, extraction_results = self.extract_artists_from_sources(since_date=None)
 
-                playlist_artists = self.extract_artists_from_spotify_playlist(
-                    playlist["id"], playlist["name"]
-                )
-                all_artists.extend(playlist_artists)
-                results["sources_processed"] += 1
+        # Fusionner les résultats d'extraction
+        results["sources_processed"] = extraction_results["sources_processed"]
+        results["artists_found"] = extraction_results["artists_found"]
+        results["errors"].extend(extraction_results["errors"])
 
-                # Mettre à jour le statut
-                self._update_extraction_status(
-                    current_step=f"Playlist Spotify: {playlist['name']}",
-                    sources_processed=results["sources_processed"],
-                    artists_processed=len(all_artists)
-                )
+        # Étape 2: Sauvegarde et enrichissement des artistes (80-100%)
+        save_results = self.save_and_enrich_artists(
+            unique_artists,
+            limit_priority=limit_priority,
+            use_enriched_metadata=True
+        )
 
-                # Callback pour chaque artiste trouvé
-                if self.artist_callback:
-                    for artist in playlist_artists:
-                        self.artist_callback(artist.get("name", "Unknown"), False, False)
-
-            except Exception as e:
-                error_msg = f"Erreur playlist Spotify {playlist['name']}: {str(e)}"
-                logger.error(error_msg)
-                results["errors"].append(error_msg)
-
-        # Extraction depuis YouTube
-        for channel in self.sources_config.get("youtube_channels", []):
-            try:
-                # Callback de progression de source
-                if self.progress_callback:
-                    self.progress_callback(channel["name"], "Chaîne YouTube")
-
-                channel_artists = self.extract_artists_from_youtube_channel(
-                    channel["id"], channel["name"]
-                )
-                all_artists.extend(channel_artists)
-                results["sources_processed"] += 1
-
-                # Mettre à jour le statut
-                self._update_extraction_status(
-                    current_step=f"Chaîne YouTube: {channel['name']}",
-                    sources_processed=results["sources_processed"],
-                    artists_processed=len(all_artists)
-                )
-
-                # Callback pour chaque artiste trouvé
-                if self.artist_callback:
-                    for artist in channel_artists:
-                        self.artist_callback(artist.get("name", "Unknown"), False, False)
-
-            except Exception as e:
-                error_msg = f"Erreur chaîne YouTube {channel['name']}: {str(e)}"
-                logger.error(error_msg)
-                results["errors"].append(error_msg)
-
-        # Déduplication et tri par date d'apparition la plus récente
-        artists_dict = {}
-        for artist_data in all_artists:
-            name = artist_data["name"]
-            if (
-                name not in artists_dict
-                or artist_data["appearance_date"]
-                > artists_dict[name]["appearance_date"]
-            ):
-                artists_dict[name] = artist_data
-
-        # Convertir en liste et trier par date (plus récent en premier)
-        unique_artists = list(artists_dict.values())
-        unique_artists.sort(key=lambda x: x["appearance_date"], reverse=True)
-
-        results["artists_found"] = len(unique_artists)
-
-        # Sauvegarder TOUS les artistes en base avec métadonnées enrichies
-        saved_count = 0
-        priority_count = 0
-        enriched_count = 0
-        new_artists = 0
-        updated_artists = 0
-        now = datetime.now()
-
-        for i, artist_data in enumerate(unique_artists):
-            try:
-                artist_name = artist_data["name"]
-                appearance_date = artist_data["appearance_date"]
-
-                # Vérifier si l'artiste existe déjà
-                existing_artist = self.data_collector.artist_service.get_artist_by_name(
-                    artist_name
-                )
-
-                if existing_artist:
-                    # Artiste existant : MAJ last_seen_date et most_recent_appearance
-                    # Normaliser les dates pour éviter les erreurs timezone
-                    if isinstance(appearance_date, str):
-                        from dateutil import parser
-                        appearance_date = parser.parse(appearance_date)
-
-                    # Rendre les dates comparables (même timezone)
-                    if appearance_date.tzinfo is None:
-                        appearance_date = appearance_date.replace(tzinfo=datetime.now().astimezone().tzinfo)
-
-                    existing_recent = existing_artist.most_recent_appearance
-                    if existing_recent and existing_recent.tzinfo is None:
-                        existing_recent = existing_recent.replace(tzinfo=datetime.now().astimezone().tzinfo)
-
-                    if (
-                        not existing_artist.most_recent_appearance
-                        or appearance_date > existing_recent
-                    ):
-                        existing_artist.most_recent_appearance = appearance_date
-                        existing_artist.needs_scoring = True  # Nouveau contenu détecté
-
-                    existing_artist.last_seen_date = now
-                    self.db.commit()
-                    updated_artists += 1
-
-                else:
-                    # Nouvel artiste : collecter les données complètes avec métadonnées enrichies
-                    collection_result = self._collect_artist_with_enriched_metadata(
-                        artist_name
-                    )
-                    if collection_result.get("success"):
-                        # MAJ avec les dates d'extraction
-                        artist_id = collection_result.get("artist_id")
-                        if artist_id:
-                            artist = self.data_collector.artist_service.get_artist(
-                                artist_id
-                            )
-                            if artist:
-                                artist.most_recent_appearance = appearance_date
-                                artist.last_seen_date = now
-                                artist.needs_scoring = True
-
-                                # Marquer comme prioritaire si dans les X premiers
-                                if limit_priority is None or i < limit_priority:
-                                    priority_count += 1
-
-                                # Compter les métadonnées enrichies
-                                if collection_result.get("enriched_metadata"):
-                                    enriched_count += 1
-
-                                new_artists += 1
-                                self.db.commit()
-
-                saved_count += 1
-
-            except Exception as e:
-                logger.warning(
-                    f"Erreur lors du traitement de {artist_data['name']}: {e}"
-                )
-
-        results["artists_saved"] = saved_count
-        results["new_artists"] = new_artists
-        results["updated_artists"] = updated_artists
-        results["priority_artists"] = priority_count
-        results["artists_with_enriched_metadata"] = enriched_count
+        # Fusionner les résultats de sauvegarde
+        results["artists_saved"] = save_results["artists_saved"]
+        results["new_artists"] = save_results["new_artists"]
+        results["updated_artists"] = save_results["updated_artists"]
+        results["priority_artists"] = save_results["priority_artists"]
+        results["artists_with_enriched_metadata"] = save_results["artists_with_enriched_metadata"]
 
         logger.info(
-            f"🎉 PHASE 1 terminée: {saved_count}/{len(unique_artists)} artistes traités, {new_artists} nouveaux, {updated_artists} mis à jour, {priority_count} prioritaires, {enriched_count} avec métadonnées enrichies"
+            f"🎉 PHASE 1 terminée: {results['artists_saved']}/{len(unique_artists)} artistes traités, {results['new_artists']} nouveaux, {results['updated_artists']} mis à jour, {results['priority_artists']} prioritaires, {results['artists_with_enriched_metadata']} avec métadonnées enrichies"
         )
         return results
 
@@ -937,6 +803,267 @@ class SourceExtractor:
                 features[key] = round(sum(values) / len(values), 3)
 
         return features
+
+    def extract_artists_from_sources(self, since_date: Optional[datetime] = None) -> tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        """Extraire les artistes depuis toutes les sources configurées
+
+        Args:
+            since_date: Date limite pour filtrer les résultats (None = extraction complète)
+
+        Returns:
+            tuple: (liste des artistes, résultats de l'extraction)
+        """
+        all_artists = []
+        results = {
+            "sources_processed": 0,
+            "artists_found": 0,
+            "errors": []
+        }
+
+        # Extraction depuis Spotify
+        for playlist in self.sources_config.get("spotify_playlists", []):
+            try:
+                # Callback de progression de source
+                if self.progress_callback:
+                    self.progress_callback(playlist["name"], "Playlist Spotify")
+
+                playlist_artists = self.extract_artists_from_spotify_playlist(
+                    playlist["id"], playlist["name"], since_date=since_date
+                )
+                all_artists.extend(playlist_artists)
+                results["sources_processed"] += 1
+
+                # Mettre à jour le statut
+                self._update_extraction_status(
+                    current_step=f"Playlist Spotify: {playlist['name']}",
+                    sources_processed=results["sources_processed"],
+                    artists_processed=len(all_artists)
+                )
+
+                # Callback pour chaque artiste trouvé
+                if self.artist_callback:
+                    for artist in playlist_artists:
+                        self.artist_callback(artist.get("name", "Unknown"), False, False)
+
+            except Exception as e:
+                error_msg = f"Erreur playlist Spotify {playlist['name']}: {str(e)}"
+                logger.error(error_msg)
+                results["errors"].append(error_msg)
+
+        # Extraction depuis YouTube
+        for channel in self.sources_config.get("youtube_channels", []):
+            try:
+                # Callback de progression de source
+                if self.progress_callback:
+                    self.progress_callback(channel["name"], "Chaîne YouTube")
+
+                channel_artists = self.extract_artists_from_youtube_channel(
+                    channel["id"], channel["name"], since_date=since_date
+                )
+                all_artists.extend(channel_artists)
+                results["sources_processed"] += 1
+
+                # Mettre à jour le statut
+                self._update_extraction_status(
+                    current_step=f"Chaîne YouTube: {channel['name']}",
+                    sources_processed=results["sources_processed"],
+                    artists_processed=len(all_artists)
+                )
+
+                # Callback pour chaque artiste trouvé
+                if self.artist_callback:
+                    for artist in channel_artists:
+                        self.artist_callback(artist.get("name", "Unknown"), False, False)
+
+            except Exception as e:
+                error_msg = f"Erreur chaîne YouTube {channel['name']}: {str(e)}"
+                logger.error(error_msg)
+                results["errors"].append(error_msg)
+
+        # Déduplication et tri par date d'apparition la plus récente
+        artists_dict = {}
+        for artist_data in all_artists:
+            name = artist_data["name"]
+            if (
+                name not in artists_dict
+                or artist_data["appearance_date"]
+                > artists_dict[name]["appearance_date"]
+            ):
+                artists_dict[name] = artist_data
+
+        # Convertir en liste et trier par date (plus récent en premier)
+        unique_artists = list(artists_dict.values())
+        unique_artists.sort(key=lambda x: x["appearance_date"], reverse=True)
+
+        results["artists_found"] = len(unique_artists)
+
+        return unique_artists, results
+
+    def save_and_enrich_artists(self, artists_list: List[Dict[str, Any]], limit_priority: int = None, use_enriched_metadata: bool = True) -> Dict[str, Any]:
+        """Sauvegarder et enrichir les artistes en base de données par batch
+
+        Args:
+            artists_list: Liste des artistes à traiter
+            limit_priority: Limite pour marquer les artistes prioritaires (None = pas de limite)
+            use_enriched_metadata: Utiliser les métadonnées enrichies pour nouveaux artistes
+
+        Returns:
+            Dict avec les statistiques de sauvegarde
+        """
+        results = {
+            "artists_saved": 0,
+            "new_artists": 0,
+            "updated_artists": 0,
+            "priority_artists": 0,
+            "artists_with_enriched_metadata": 0,
+        }
+
+        total_artists = len(artists_list)
+        batch_size = 100
+        now = datetime.now()
+
+        # Traitement par batch de 100 artistes
+        for batch_start in range(0, total_artists, batch_size):
+            batch_end = min(batch_start + batch_size, total_artists)
+            batch = artists_list[batch_start:batch_end]
+
+            batch_results = self._process_artists_batch(batch, now, limit_priority, use_enriched_metadata, batch_start)
+
+            # Fusionner les résultats du batch
+            for key in results:
+                if isinstance(results[key], int):
+                    results[key] += batch_results[key]
+
+            # Callback de progression par batch (80% -> 100%)
+            if self.save_progress_callback:
+                progress_ratio = batch_end / total_artists
+                save_progress = 80 + int(progress_ratio * 20)  # 80% à 100%
+                # Passer les statistiques cumulatives actuelles
+                batch_stats = {
+                    "artists_processed": len(artists_list),  # Total des artistes à traiter
+                    "artists_saved": results["artists_saved"],
+                    "new_artists": results["new_artists"],
+                    "updated_artists": results["updated_artists"]
+                }
+                self.save_progress_callback(batch_end, total_artists, save_progress, batch_stats)
+
+            logger.info(f"Batch {batch_start//batch_size + 1}/{(total_artists-1)//batch_size + 1} traité: {len(batch)} artistes")
+
+        return results
+
+    def _process_artists_batch(self, batch: List[Dict[str, Any]], now: datetime, limit_priority: int = None, use_enriched_metadata: bool = True, batch_start_index: int = 0) -> Dict[str, Any]:
+        """Traiter un batch d'artistes de manière optimisée"""
+        batch_results = {
+            "artists_saved": 0,
+            "new_artists": 0,
+            "updated_artists": 0,
+            "priority_artists": 0,
+            "artists_with_enriched_metadata": 0,
+        }
+
+        try:
+            # 1. Récupérer tous les artistes existants du batch en une seule requête
+            from app.models.artist import Artist
+            artist_names = [artist_data["name"] for artist_data in batch]
+            existing_artists_list = self.db.query(Artist).filter(Artist.name.in_(artist_names)).all()
+            existing_artists = {}
+            for artist in existing_artists_list:
+                existing_artists[artist.name] = artist
+
+            # 2. Séparer nouveaux artistes et mises à jour
+            artists_to_update = []
+            new_artist_names = []
+
+            for i, artist_data in enumerate(batch):
+                artist_name = artist_data["name"]
+                appearance_date = artist_data["appearance_date"]
+                global_index = batch_start_index + i
+
+                if artist_name in existing_artists:
+                    existing_artist = existing_artists[artist_name]
+                    has_changes = False
+
+                    # Normaliser les dates pour éviter les erreurs timezone
+                    if isinstance(appearance_date, str):
+                        from dateutil import parser
+                        appearance_date = parser.parse(appearance_date)
+
+                    # Rendre les dates comparables (même timezone)
+                    if appearance_date.tzinfo is None:
+                        appearance_date = appearance_date.replace(tzinfo=now.astimezone().tzinfo)
+
+                    existing_recent = existing_artist.most_recent_appearance
+                    if existing_recent and existing_recent.tzinfo is None:
+                        existing_recent = existing_recent.replace(tzinfo=now.astimezone().tzinfo)
+
+                    # Vérifier s'il y a du nouveau contenu
+                    if (
+                        not existing_artist.most_recent_appearance
+                        or appearance_date > existing_recent
+                    ):
+                        existing_artist.most_recent_appearance = appearance_date
+                        existing_artist.needs_scoring = True
+                        has_changes = True
+
+                    # Toujours mettre à jour last_seen_date
+                    existing_artist.last_seen_date = now
+                    artists_to_update.append(existing_artist)
+
+                    if has_changes:
+                        batch_results["updated_artists"] += 1
+
+                    batch_results["artists_saved"] += 1
+
+                else:
+                    # Nouvel artiste
+                    new_artist_names.append((artist_name, appearance_date, global_index))
+
+            # 3. Commit batch des artistes existants mis à jour
+            if artists_to_update:
+                self.db.commit()
+                logger.info(f"Mis à jour {len(artists_to_update)} artistes existants")
+
+            # 4. Traiter les nouveaux artistes par batch
+            for artist_name, appearance_date, global_index in new_artist_names:
+                try:
+                    if use_enriched_metadata:
+                        collection_result = self._collect_artist_with_enriched_metadata(artist_name)
+                    else:
+                        collection_result = self.data_collector.collect_and_save_artist(artist_name)
+
+                    if collection_result.get("success"):
+                        artist_id = collection_result.get("artist_id")
+                        if artist_id:
+                            artist = self.data_collector.artist_service.get_artist(artist_id)
+                            if artist:
+                                artist.most_recent_appearance = appearance_date
+                                artist.last_seen_date = now
+                                artist.needs_scoring = True
+
+                                # Marquer comme prioritaire si dans les X premiers
+                                if limit_priority is None or global_index < limit_priority:
+                                    batch_results["priority_artists"] += 1
+
+                                # Compter les métadonnées enrichies
+                                if collection_result.get("enriched_metadata"):
+                                    batch_results["artists_with_enriched_metadata"] += 1
+
+                                batch_results["new_artists"] += 1
+                                batch_results["artists_saved"] += 1
+
+                except Exception as e:
+                    logger.warning(f"Erreur nouveau artiste {artist_name}: {e}")
+
+            # 5. Commit final pour les nouveaux artistes
+            if new_artist_names:
+                self.db.commit()
+                logger.info(f"Ajouté {len(new_artist_names)} nouveaux artistes")
+
+        except Exception as e:
+            logger.error(f"Erreur traitement batch: {e}")
+            self.db.rollback()
+
+        return batch_results
 
     def run_incremental_extraction(self) -> Dict[str, Any]:
         """Lancer une extraction incrémentale (nouveautés des dernières 24h)"""
@@ -1095,7 +1222,6 @@ class SourceExtractor:
 
         logger.info(f"🔄 PHASE 2 : Extraction hebdomadaire (depuis {since_date})")
 
-        all_artists = []
         results = {
             "extraction_type": "weekly_phase2",
             "timestamp": datetime.now().isoformat(),
@@ -1108,70 +1234,38 @@ class SourceExtractor:
             "errors": [],
         }
 
-        # Extraction depuis Spotify (nouveautés des 7 derniers jours)
-        for playlist in self.sources_config.get("spotify_playlists", []):
-            try:
-                playlist_artists = self.extract_artists_from_spotify_playlist(
-                    playlist["id"], playlist["name"], since_date=since_date
-                )
-                all_artists.extend(playlist_artists)
-                results["sources_processed"] += 1
+        # Étape 1: Extraction des artistes depuis les 7 derniers jours (0-80%)
+        unique_artists, extraction_results = self.extract_artists_from_sources(since_date=since_date)
 
-                # Mettre à jour le statut
-                self._update_extraction_status(
-                    current_step=f"Playlist Spotify: {playlist['name']} (hebdomadaire)",
-                    sources_processed=results["sources_processed"],
-                    artists_processed=len(all_artists)
-                )
+        # Fusionner les résultats d'extraction
+        results["sources_processed"] = extraction_results["sources_processed"]
+        results["artists_found"] = extraction_results["artists_found"]
+        results["errors"].extend(extraction_results["errors"])
 
-            except Exception as e:
-                error_msg = f"Erreur playlist Spotify {playlist['name']}: {str(e)}"
-                logger.error(error_msg)
-                results["errors"].append(error_msg)
+        # Étape 2: Traitement intelligent avec mise à jour des métriques (80-100%)
+        save_results = self._process_weekly_artists_with_metrics_update(unique_artists)
 
-        # Extraction depuis YouTube (nouveautés des 7 derniers jours)
-        for channel in self.sources_config.get("youtube_channels", []):
-            try:
-                channel_artists = self.extract_artists_from_youtube_channel(
-                    channel["id"], channel["name"], since_date=since_date
-                )
-                all_artists.extend(channel_artists)
-                results["sources_processed"] += 1
+        # Fusionner les résultats de sauvegarde
+        results["new_artists"] = save_results["new_artists"]
+        results["updated_artists"] = save_results["updated_artists"]
+        results["artists_marked_for_rescoring"] = save_results["artists_marked_for_rescoring"]
 
-                # Mettre à jour le statut
-                self._update_extraction_status(
-                    current_step=f"Chaîne YouTube: {channel['name']} (hebdomadaire)",
-                    sources_processed=results["sources_processed"],
-                    artists_processed=len(all_artists)
-                )
+        logger.info(
+            f"🎉 PHASE 2 terminée: {results['new_artists']} nouveaux, {results['updated_artists']} mis à jour, {results['artists_marked_for_rescoring']} marqués pour re-scoring"
+        )
+        return results
 
-            except Exception as e:
-                error_msg = f"Erreur chaîne YouTube {channel['name']}: {str(e)}"
-                logger.error(error_msg)
-                results["errors"].append(error_msg)
+    def _process_weekly_artists_with_metrics_update(self, artists_list: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Traitement intelligent des artistes pour Phase 2 avec mise à jour des métriques"""
+        results = {
+            "new_artists": 0,
+            "updated_artists": 0,
+            "artists_marked_for_rescoring": 0,
+        }
 
-        # Déduplication et tri par date d'apparition la plus récente
-        artists_dict = {}
-        for artist_data in all_artists:
-            name = artist_data["name"]
-            if (
-                name not in artists_dict
-                or artist_data["appearance_date"]
-                > artists_dict[name]["appearance_date"]
-            ):
-                artists_dict[name] = artist_data
-
-        unique_artists = list(artists_dict.values())
-        unique_artists.sort(key=lambda x: x["appearance_date"], reverse=True)
-        results["artists_found"] = len(unique_artists)
-
-        # Traitement intelligent des artistes avec re-scoring
-        new_artists = 0
-        updated_artists = 0
-        rescoring_count = 0
         now = datetime.now()
 
-        for artist_data in unique_artists:
+        for artist_data in artists_list:
             try:
                 artist_name = artist_data["name"]
                 appearance_date = artist_data["appearance_date"]
@@ -1197,7 +1291,7 @@ class SourceExtractor:
                         existing_artist.most_recent_appearance = appearance_date
                         existing_artist.needs_scoring = True  # Marquer pour re-scoring
                         has_new_content = True
-                        rescoring_count += 1
+                        results["artists_marked_for_rescoring"] += 1
 
                     # Mettre à jour les métriques Spotify/YouTube si nécessaire
                     # (seulement si nouveau contenu pour éviter surcharge API)
@@ -1234,7 +1328,7 @@ class SourceExtractor:
                         except Exception as e:
                             logger.warning(f"Erreur mise à jour métriques pour {artist_name}: {e}")
 
-                        updated_artists += 1
+                        results["updated_artists"] += 1
                         logger.info(f"Artiste mis à jour avec nouveau contenu: {artist_name}")
 
                     existing_artist.last_seen_date = now
@@ -1257,8 +1351,8 @@ class SourceExtractor:
                                 artist.last_seen_date = now
                                 artist.needs_scoring = True
                                 self.db.commit()
-                                new_artists += 1
-                                rescoring_count += 1
+                                results["new_artists"] += 1
+                                results["artists_marked_for_rescoring"] += 1
                                 logger.info(f"Nouvel artiste découvert: {artist_name}")
 
             except Exception as e:
@@ -1266,11 +1360,4 @@ class SourceExtractor:
                     f"Erreur lors du traitement hebdomadaire de {artist_data['name']}: {e}"
                 )
 
-        results["new_artists"] = new_artists
-        results["updated_artists"] = updated_artists
-        results["artists_marked_for_rescoring"] = rescoring_count
-
-        logger.info(
-            f"🎉 PHASE 2 terminée: {new_artists} nouveaux, {updated_artists} mis à jour, {rescoring_count} marqués pour re-scoring"
-        )
         return results

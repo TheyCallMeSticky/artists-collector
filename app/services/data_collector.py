@@ -54,8 +54,8 @@ class DataCollector:
             result['errors'].append(error_msg)
             logger.error(error_msg)
 
-        # Marquer comme succès si au moins une source a des données
-        result['success'] = bool(result['spotify_data'] or result['youtube_data'])
+        # Marquer comme succès seulement si on a des données Spotify
+        result['success'] = bool(result['spotify_data'])
         
         return result
 

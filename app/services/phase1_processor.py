@@ -5,7 +5,6 @@ Processeur asynchrone pour la Phase 1 - Extraction complète
 from app.services.base_async_processor import BaseAsyncProcessor
 from app.services.source_extractor import SourceExtractor
 from typing import Dict, Any
-import asyncio
 
 class Phase1Processor(BaseAsyncProcessor):
     """Processeur pour la Phase 1 - Extraction complète"""
@@ -36,7 +35,8 @@ class Phase1Processor(BaseAsyncProcessor):
         
         # Configurer les callbacks pour le suivi de progression
         extractor.set_progress_callback(self._on_source_progress)
-        extractor.set_artist_callback(self._on_artist_progress)
+        extractor.set_artist_callback(self._on_artist_found)
+        extractor.set_save_progress_callback(self._on_save_progress)
         
         # Étape 1 : Extraction des sources (0-80%)
         self.set_current_step("Extraction des sources...")
@@ -44,29 +44,10 @@ class Phase1Processor(BaseAsyncProcessor):
         # Exécuter l'extraction complète
         results = extractor.run_full_extraction(limit_priority=400)
 
-        # Étape 2 : Sauvegarde en base (80-90%)
-        self.update_progress(
-            progress_percentage=80,
-            current_step="Sauvegarde en base de données..."
-        )
+        # Les stats finales sont déjà mises à jour par les callbacks pendant l'exécution
 
-        # Étape 3 : Enrichissement Spotify (90-100%)
-        self.update_progress(
-            progress_percentage=90,
-            current_step="Enrichissement des métadonnées Spotify..."
-        )
+        self.log_progress(f"Phase 1 terminée: {results.get('artists_found', 0)} artistes trouvés, {results.get('artists_saved', 0)} traités en base")
 
-        # Étape finale : Terminé (100%)
-        self.update_progress(
-            progress_percentage=100,
-            artists_saved=results.get("artists_saved", 0),
-            new_artists=results.get("new_artists", 0),
-            updated_artists=results.get("updated_artists", 0),
-            current_step="Extraction complète terminée"
-        )
-        
-        self.log_progress(f"Phase 1 terminée: {results.get('artists_found', 0)} artistes trouvés")
-        
         return results
 
     def _on_source_progress(self, source_name: str, source_type: str):
@@ -88,13 +69,30 @@ class Phase1Processor(BaseAsyncProcessor):
 
         self.log_progress(f"Traitement de {source_type}: {source_name}")
 
-    def _on_artist_progress(self, artist_name: str, is_new: bool, is_updated: bool):
-        """Callback appelé quand un artiste est traité"""
-        self.increment_artists_processed()
-        
-        if is_new:
-            self.increment_new_artists()
-            self.increment_artists_saved()
-        elif is_updated:
-            self.increment_updated_artists()
-            self.increment_artists_saved()
+    def _on_artist_found(self, artist_name: str, is_new: bool, is_updated: bool):
+        """Callback appelé quand un artiste est découvert (pendant extraction) ou sauvé (pendant sauvegarde)"""
+        # Ne compter que les artistes trouvés pendant l'extraction (is_new=False, is_updated=False)
+        # Les stats de sauvegarde sont gérées par _on_save_progress pour éviter trop de commits DB
+        if not is_new and not is_updated:
+            # Artiste trouvé pendant l'extraction des sources
+            self.increment_artists_processed()
+
+    def _on_save_progress(self, current: int, total: int, progress_percentage: int, batch_stats: dict = None):
+        """Callback appelé pendant la sauvegarde des artistes"""
+        update_data = {
+            "progress_percentage": progress_percentage,
+            "current_step": f"Sauvegarde et enrichissement ({current}/{total} artistes)..."
+        }
+
+        # Mettre à jour les statistiques d'artistes si fournies
+        if batch_stats:
+            if "artists_processed" in batch_stats:
+                update_data["artists_processed"] = batch_stats["artists_processed"]
+            if "artists_saved" in batch_stats:
+                update_data["artists_saved"] = batch_stats["artists_saved"]
+            if "new_artists" in batch_stats:
+                update_data["new_artists"] = batch_stats["new_artists"]
+            if "updated_artists" in batch_stats:
+                update_data["updated_artists"] = batch_stats["updated_artists"]
+
+        self.update_progress(**update_data)

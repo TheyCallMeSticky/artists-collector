@@ -30,6 +30,10 @@ class ArtistService:
     def get_artists(self, skip: int = 0, limit: int = 100) -> List[Artist]:
         return self.db.query(Artist).order_by(Artist.id.desc()).offset(skip).limit(limit).all()
 
+    def count_artists(self) -> int:
+        """Retourner le nombre total d'artistes actifs"""
+        return self.db.query(Artist).filter(Artist.is_active == True).count()
+
     def get_top_artists_by_score(self, limit: int = 50) -> List[Artist]:
         return self.db.query(Artist).filter(Artist.is_active == True).order_by(Artist.score.desc()).limit(limit).all()
 

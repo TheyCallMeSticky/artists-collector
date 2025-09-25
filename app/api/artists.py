@@ -19,6 +19,12 @@ def read_artists(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
     service = ArtistService(db)
     return service.get_artists(skip=skip, limit=limit)
 
+@router.get("/count")
+def count_artists(db: Session = Depends(get_db)):
+    service = ArtistService(db)
+    total = service.count_artists()
+    return {"total": total}
+
 @router.get("/top", response_model=List[Artist])
 def get_top_artists(limit: int = 50, db: Session = Depends(get_db)):
     service = ArtistService(db)

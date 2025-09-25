@@ -407,41 +407,8 @@ class YouTubeService:
         return None
 
     def collect_artist_data(self, artist_name: str) -> Optional[Dict[str, Any]]:
-        """Collecter toutes les données YouTube d'un artiste"""
-        try:
-            # Rechercher la chaîne
-            channel_search = self.search_channel(artist_name)
-            if not channel_search:
-                return None
-
-            channel_id = channel_search["channel_id"]
-
-            # Récupérer les informations de la chaîne
-            channel_info = self.get_channel_info(channel_id)
-            if not channel_info:
-                return None
-
-            # Récupérer les vidéos récentes
-            recent_videos = self.get_channel_videos(channel_id, 20)
-
-            # Récupérer les statistiques des vidéos
-            video_stats = None
-            if recent_videos:
-                video_ids = [video["video_id"] for video in recent_videos]
-                video_stats = self.get_multiple_video_stats(video_ids)
-
-            return {
-                "channel_info": channel_info,
-                "recent_videos": recent_videos,
-                "video_stats": video_stats,
-                "channel_id": channel_id,
-            }
-
-        except Exception as e:
-            logger.error(
-                f"Erreur lors de la collecte des données YouTube de {artist_name}: {e}"
-            )
-            return None
+        """Pas de collecte YouTube - retourne None"""
+        return None
 
     def reset_exhausted_keys(self):
         """Réinitialiser la liste des clés épuisées (à utiliser à minuit)"""
