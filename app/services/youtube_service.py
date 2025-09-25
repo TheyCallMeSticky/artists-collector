@@ -57,18 +57,52 @@ class YouTubeService:
             self.daily_quota_used = 0
             self.requests_per_key = {key: 0 for key in self.api_keys}
 
+            # Système de gestion des clés épuisées
+            self.exhausted_keys = set()  # Clés qui ont épuisé leur quota
+
     def get_current_api_key(self) -> str:
         """Récupérer la clé API actuelle avec rotation"""
         if self.mode == "MOCK":
             return "mock_key"
         return self.api_keys[self.current_key_index]
 
-    def rotate_api_key(self):
+    def get_available_keys(self) -> List[str]:
+        """Récupérer la liste des clés non épuisées"""
+        return [key for key in self.api_keys if key not in self.exhausted_keys]
+
+    def get_next_available_key_index(self) -> Optional[int]:
+        """Trouver l'index de la prochaine clé disponible"""
+        available_keys = self.get_available_keys()
+        if not available_keys:
+            return None
+
+        # Chercher la prochaine clé disponible à partir de l'index actuel
+        for i in range(len(self.api_keys)):
+            next_index = (self.current_key_index + i) % len(self.api_keys)
+            if self.api_keys[next_index] not in self.exhausted_keys:
+                return next_index
+        return None
+
+    def rotate_api_key(self, mark_current_exhausted: bool = False):
         """Passer à la clé API suivante"""
         if self.mode == "MOCK":
             return
-        self.current_key_index = (self.current_key_index + 1) % len(self.api_keys)
-        logger.info(f"Rotation vers la clé API {self.current_key_index + 1}")
+
+        # Marquer la clé actuelle comme épuisée si demandé
+        if mark_current_exhausted:
+            current_key = self.get_current_api_key()
+            self.exhausted_keys.add(current_key)
+            logger.warning(
+                f"Clé API {self.current_key_index + 1} marquée comme épuisée"
+            )
+
+        # Trouver la prochaine clé disponible
+        next_index = self.get_next_available_key_index()
+        if next_index is not None:
+            self.current_key_index = next_index
+            logger.info(f"Rotation vers la clé API {self.current_key_index + 1}")
+        else:
+            logger.error("Aucune clé API disponible pour la rotation")
 
     def _get_cache_key(self, endpoint: str, params: Dict[str, Any]) -> str:
         """Générer une clé de cache unique pour la requête"""
@@ -137,16 +171,44 @@ class YouTubeService:
                 )
                 return None
 
-        max_retries = len(self.api_keys)
+        available_keys = self.get_available_keys()
+        if not available_keys:
+            logger.error("Toutes les clés API ont été épuisées")
+            raise Exception(
+                "YOUTUBE_QUOTA_EXCEEDED: Toutes les clés API YouTube ont épuisé leur quota"
+            )
+
+        # S'assurer qu'on utilise une clé disponible
+        if self.get_current_api_key() in self.exhausted_keys:
+            next_index = self.get_next_available_key_index()
+            if next_index is not None:
+                self.current_key_index = next_index
+                logger.info(
+                    f"Passage à une clé disponible: {self.current_key_index + 1}"
+                )
+
+        max_retries = len(available_keys)
+        logger.info(
+            f"Tentative avec {max_retries} clé(s) disponible(s) sur {len(self.api_keys)} total"
+        )
 
         for attempt in range(max_retries):
             current_key = self.get_current_api_key()
+
+            # Vérifier que la clé n'est pas épuisée (double sécurité)
+            if current_key in self.exhausted_keys:
+                logger.warning(f"Clé épuisée détectée, rotation forcée")
+                self.rotate_api_key()
+                continue
+
             params["key"] = current_key
 
             try:
                 response = requests.get(f"{self.base_url}/{endpoint}", params=params)
-                print(f"INFO : requète externe sur {self.base_url}/{endpoint}")
-                print(params)
+                print(
+                    f"INFO : requète externe sur {self.base_url}/{endpoint} (clé {self.current_key_index + 1})"
+                )
+
                 if response.status_code == 200:
                     self.requests_per_key[current_key] += 1
                     result = response.json()
@@ -155,13 +217,25 @@ class YouTubeService:
                     except Exception as cache_error:
                         logger.error(f"Erreur sauvegarde cache: {cache_error}")
                     return result
+
                 elif response.status_code == 403:
-                    # Quota dépassé, passer à la clé suivante
+                    # Quota dépassé pour cette clé
                     logger.warning(
-                        f"Quota dépassé pour la clé {self.current_key_index + 1}"
+                        f"Quota dépassé pour la clé {self.current_key_index + 1}, mise de côté"
                     )
-                    self.rotate_api_key()
-                    time.sleep(1)  # Attendre un peu avant de réessayer
+
+                    # Vérifier si c'est la dernière clé disponible
+                    remaining_keys = [k for k in available_keys if k != current_key]
+                    if not remaining_keys:
+                        logger.error("Dernière clé API épuisée - arrêt des requêtes")
+                        raise Exception(
+                            "YOUTUBE_QUOTA_EXCEEDED: Toutes les clés API YouTube ont épuisé leur quota"
+                        )
+
+                    # Marquer comme épuisée et passer à la suivante
+                    self.rotate_api_key(mark_current_exhausted=True)
+                    time.sleep(0.5)  # Attendre moins longtemps
+
                 else:
                     logger.error(
                         f"Erreur API YouTube: {response.status_code} - {response.text}"
@@ -171,9 +245,9 @@ class YouTubeService:
             except Exception as e:
                 logger.error(f"Erreur lors de la requête YouTube: {e}")
                 self.rotate_api_key()
-                time.sleep(1)
+                time.sleep(0.5)
 
-        logger.error("Toutes les clés API ont été épuisées")
+        logger.error("Toutes les clés disponibles ont été épuisées")
         raise Exception(
             "YOUTUBE_QUOTA_EXCEEDED: Toutes les clés API YouTube ont épuisé leur quota"
         )
@@ -253,9 +327,7 @@ class YouTubeService:
             # Propager les exceptions de quota
             raise e
 
-    def get_video_stats(
-        self, video_id: str
-    ) -> Optional[Dict[str, Any]]:
+    def get_video_stats(self, video_id: str) -> Optional[Dict[str, Any]]:
         """Récupérer les statistiques d'une vidéo unique"""
         if not video_id:
             return None
@@ -316,19 +388,13 @@ class YouTubeService:
         if result and "items" in result:
             videos = []
             for item in result["items"]:
-                videos.append({
-                    "id": item["id"]["videoId"],
-                    "snippet": item["snippet"]
-                })
+                videos.append({"id": item["id"]["videoId"], "snippet": item["snippet"]})
             return videos
         return None
 
     def get_channel_stats(self, channel_id: str) -> Optional[Dict[str, Any]]:
         """Récupérer les statistiques d'une chaîne"""
-        params = {
-            "part": "statistics",
-            "id": channel_id
-        }
+        params = {"part": "statistics", "id": channel_id}
 
         result = self.make_request("channels", params)
         if result and "items" in result and len(result["items"]) > 0:
@@ -377,11 +443,26 @@ class YouTubeService:
             )
             return None
 
+    def reset_exhausted_keys(self):
+        """Réinitialiser la liste des clés épuisées (à utiliser à minuit)"""
+        logger.info(f"Réinitialisation de {len(self.exhausted_keys)} clé(s) épuisée(s)")
+        self.exhausted_keys.clear()
+        # Repartir sur la première clé
+        self.current_key_index = 0
+
     def get_quota_usage(self) -> Dict[str, Any]:
         """Récupérer les informations d'utilisation des quotas"""
+        available_keys = self.get_available_keys()
         return {
             "total_keys": len(self.api_keys),
+            "available_keys": len(available_keys),
+            "exhausted_keys": len(self.exhausted_keys),
             "current_key_index": self.current_key_index,
+            "exhausted_key_indices": [
+                i + 1
+                for i, key in enumerate(self.api_keys)
+                if key in self.exhausted_keys
+            ],
             "requests_per_key": self.requests_per_key,
             "total_requests": sum(self.requests_per_key.values()),
         }

@@ -193,13 +193,13 @@ class SpotifyService:
             artist_info = self.get_artist_info(spotify_id)
             top_tracks = self.get_artist_top_tracks(spotify_id)
             albums = self.get_artist_albums(spotify_id)
-            related_artists = self.get_related_artists(spotify_id)
-            
+            # related_artists = self.get_related_artists(spotify_id)  # API deprecated/broken
+
             return {
                 'artist_info': artist_info,
                 'top_tracks': top_tracks,
                 'albums': albums,
-                'related_artists': related_artists,
+                # 'related_artists': related_artists,  # Removed - API broken
                 'spotify_id': spotify_id
             }
         except Exception as e:

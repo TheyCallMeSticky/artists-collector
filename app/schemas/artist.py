@@ -25,14 +25,14 @@ class ArtistUpdate(BaseModel):
 
 class Artist(ArtistBase):
     id: int
-    spotify_followers: int
-    spotify_popularity: int
-    monthly_listeners: int
-    youtube_subscribers: int
-    youtube_views: int
-    youtube_videos_count: int
-    score: float
-    is_active: bool
+    spotify_followers: Optional[int] = None
+    spotify_popularity: Optional[int] = None
+    monthly_listeners: Optional[int] = None
+    youtube_subscribers: Optional[int] = None
+    youtube_views: Optional[int] = None
+    youtube_videos_count: Optional[int] = None
+    score: Optional[float] = None
+    is_active: bool = True
     created_at: datetime
     updated_at: Optional[datetime] = None
 

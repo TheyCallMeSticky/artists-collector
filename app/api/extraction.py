@@ -11,6 +11,29 @@ from sqlalchemy.orm import Session
 router = APIRouter(prefix="/extraction", tags=["extraction"])
 
 from typing import Optional
+import json
+import os
+from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class ExtractionStatus(BaseModel):
+    """Statut en temps réel d'une extraction"""
+    is_running: bool
+    extraction_type: Optional[str] = None
+    started_at: Optional[str] = None
+    current_step: Optional[str] = None
+    sources_processed: Optional[int] = None
+    total_sources: Optional[int] = None
+    artists_processed: Optional[int] = None
+    artists_saved: Optional[int] = None
+    new_artists: Optional[int] = None
+    updated_artists: Optional[int] = None
+    current_source: Optional[str] = None
+    errors_count: Optional[int] = None
+    last_update: Optional[str] = None
 
 
 class ExtractionResponse(BaseModel):
@@ -54,12 +77,47 @@ def run_phase1_complete_extraction(db: Session = Depends(get_db)):
     - Persistance en base avec dates de tracking
     """
     try:
+        # Marquer le début de l'extraction
+        save_extraction_status({
+            "is_running": True,
+            "extraction_type": "phase1-complete",
+            "started_at": datetime.now().isoformat(),
+            "current_step": "Initialisation",
+            "sources_processed": 0,
+            "artists_processed": 0,
+            "artists_saved": 0,
+            "new_artists": 0,
+            "updated_artists": 0,
+            "errors_count": 0
+        })
+
         extractor = SourceExtractor(db)
-        results = extractor.run_full_extraction(limit_priority=400)
+        results = extractor.run_full_extraction()
+
+        # Marquer la fin de l'extraction
+        save_extraction_status({
+            "is_running": False,
+            "extraction_type": "phase1-complete",
+            "started_at": results.get("timestamp"),
+            "current_step": "Terminé",
+            "sources_processed": results.get("sources_processed", 0),
+            "artists_processed": results.get("artists_found", 0),
+            "artists_saved": results.get("artists_saved", 0),
+            "new_artists": results.get("new_artists", 0),
+            "updated_artists": results.get("updated_artists", 0),
+            "errors_count": len(results.get("errors", []))
+        })
 
         return ExtractionResponse(**results)
 
     except Exception as e:
+        # Marquer l'erreur
+        save_extraction_status({
+            "is_running": False,
+            "extraction_type": "phase1-complete",
+            "current_step": f"Erreur: {str(e)}",
+            "errors_count": 1
+        })
         raise HTTPException(
             status_code=500, detail=f"Erreur lors de la Phase 1 complète: {str(e)}"
         )
@@ -109,8 +167,48 @@ def run_full_extraction_background(
     """Lancer une extraction complète en arrière-plan"""
 
     def extraction_task():
-        extractor = SourceExtractor(db)
-        extractor.run_full_extraction()
+        try:
+            # Marquer le début de l'extraction
+            save_extraction_status({
+                "is_running": True,
+                "extraction_type": "phase1-complete",
+                "started_at": datetime.now().isoformat(),
+                "current_step": "Initialisation...",
+                "sources_processed": 0,
+                "artists_processed": 0,
+                "artists_saved": 0,
+                "new_artists": 0,
+                "updated_artists": 0,
+                "errors_count": 0
+            })
+
+            extractor = SourceExtractor(db)
+            results = extractor.run_full_extraction()
+
+            # Marquer la fin de l'extraction
+            save_extraction_status({
+                "is_running": False,
+                "extraction_type": "phase1-complete",
+                "started_at": results.get("timestamp"),
+                "current_step": "Terminé",
+                "sources_processed": results.get("sources_processed", 0),
+                "artists_processed": results.get("artists_found", 0),
+                "artists_saved": results.get("artists_saved", 0),
+                "new_artists": results.get("new_artists", 0),
+                "updated_artists": results.get("updated_artists", 0),
+                "errors_count": len(results.get("errors", []))
+            })
+
+        except Exception as e:
+            # Marquer l'erreur
+            save_extraction_status({
+                "is_running": False,
+                "extraction_type": "phase1-complete",
+                "current_step": "Erreur",
+                "error": str(e),
+                "errors_count": 1
+            })
+            logger.error(f"Erreur extraction background: {e}")
 
     background_tasks.add_task(extraction_task)
     return {
@@ -126,8 +224,48 @@ def run_incremental_extraction_background(
     """Lancer une extraction incrémentale en arrière-plan"""
 
     def extraction_task():
-        extractor = SourceExtractor(db)
-        extractor.run_incremental_extraction()
+        try:
+            # Marquer le début de l'extraction
+            save_extraction_status({
+                "is_running": True,
+                "extraction_type": "phase2-weekly",
+                "started_at": datetime.now().isoformat(),
+                "current_step": "Initialisation...",
+                "sources_processed": 0,
+                "artists_processed": 0,
+                "artists_saved": 0,
+                "new_artists": 0,
+                "updated_artists": 0,
+                "errors_count": 0
+            })
+
+            extractor = SourceExtractor(db)
+            results = extractor.run_incremental_extraction()
+
+            # Marquer la fin de l'extraction
+            save_extraction_status({
+                "is_running": False,
+                "extraction_type": "phase2-weekly",
+                "started_at": results.get("timestamp"),
+                "current_step": "Terminé",
+                "sources_processed": results.get("sources_processed", 0),
+                "artists_processed": results.get("artists_found", 0),
+                "artists_saved": results.get("artists_saved", 0),
+                "new_artists": results.get("new_artists", 0),
+                "updated_artists": results.get("updated_artists", 0),
+                "errors_count": len(results.get("errors", []))
+            })
+
+        except Exception as e:
+            # Marquer l'erreur
+            save_extraction_status({
+                "is_running": False,
+                "extraction_type": "phase2-weekly",
+                "current_step": "Erreur",
+                "error": str(e),
+                "errors_count": 1
+            })
+            logger.error(f"Erreur extraction incrémentale background: {e}")
 
     background_tasks.add_task(extraction_task)
     return {
@@ -309,3 +447,73 @@ def get_video_by_video_report(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur rapport vidéo: {str(e)}")
+
+
+# Système de statut global pour le suivi en temps réel
+STATUS_FILE = "/tmp/extraction_status.json"
+
+def save_extraction_status(status: dict):
+    """Sauvegarder le statut de l'extraction"""
+    try:
+        status['last_update'] = datetime.now().isoformat()
+        with open(STATUS_FILE, 'w') as f:
+            json.dump(status, f)
+    except Exception as e:
+        logger.error(f"Erreur sauvegarde statut: {e}")
+
+def load_extraction_status() -> dict:
+    """Charger le statut de l'extraction"""
+    try:
+        if os.path.exists(STATUS_FILE):
+            with open(STATUS_FILE, 'r') as f:
+                return json.load(f)
+    except Exception as e:
+        logger.error(f"Erreur chargement statut: {e}")
+
+    return {"is_running": False}
+
+@router.get("/status", response_model=ExtractionStatus)
+def get_extraction_status():
+    """Récupérer le statut actuel de l'extraction"""
+    status = load_extraction_status()
+    return ExtractionStatus(**status)
+
+@router.get("/youtube-quota-status")
+def get_youtube_quota_status():
+    """Récupérer le statut des quotas YouTube"""
+    try:
+        from app.services.youtube_service import YouTubeService
+        youtube_service = YouTubeService()
+        quota_info = youtube_service.get_quota_usage()
+
+        return {
+            "status": "success",
+            **quota_info,
+            "quota_reset_info": "Les quotas YouTube se remettent à zéro à minuit (heure du Pacifique)"
+        }
+    except Exception as e:
+        logger.error(f"Erreur récupération statut YouTube: {e}")
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
+@router.post("/youtube-reset-keys")
+def reset_youtube_exhausted_keys():
+    """Réinitialiser manuellement les clés YouTube épuisées (pour tests)"""
+    try:
+        from app.services.youtube_service import YouTubeService
+        youtube_service = YouTubeService()
+        old_quota = youtube_service.get_quota_usage()
+        youtube_service.reset_exhausted_keys()
+        new_quota = youtube_service.get_quota_usage()
+
+        return {
+            "status": "success",
+            "message": f"Clés réinitialisées: {old_quota['exhausted_keys']} épuisées → {new_quota['available_keys']} disponibles",
+            "before": old_quota,
+            "after": new_quota
+        }
+    except Exception as e:
+        logger.error(f"Erreur reset clés YouTube: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

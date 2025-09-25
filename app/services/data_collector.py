@@ -122,6 +122,7 @@ class DataCollector:
         if spotify_data and spotify_data.get('artist_info'):
             artist_info = spotify_data['artist_info']
             update_data.update({
+                'name': artist_info.get('name'),  # Utiliser le nom officiel de Spotify
                 'spotify_followers': artist_info.get('followers', 0),
                 'spotify_popularity': artist_info.get('popularity', 0),
                 'spotify_id': artist_info.get('id')

@@ -19,6 +19,28 @@ from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
+# Fichier de statut (même que dans extraction.py)
+STATUS_FILE = "/tmp/extraction_status.json"
+
+def save_extraction_status(status: dict):
+    """Sauvegarder le statut de l'extraction"""
+    try:
+        status['last_update'] = datetime.now().isoformat()
+        with open(STATUS_FILE, 'w') as f:
+            json.dump(status, f)
+    except Exception as e:
+        logger.error(f"Erreur sauvegarde statut: {e}")
+
+def load_extraction_status() -> dict:
+    """Charger le statut de l'extraction"""
+    try:
+        if os.path.exists(STATUS_FILE):
+            with open(STATUS_FILE, 'r') as f:
+                return json.load(f)
+    except Exception as e:
+        logger.error(f"Erreur chargement statut: {e}")
+    return {"is_running": False}
+
 
 class SourceExtractor:
     def __init__(self, db_session: Session):
@@ -27,6 +49,16 @@ class SourceExtractor:
         self.youtube_service = YouTubeService()
         self.data_collector = DataCollector(db_session)
         self.sources_config = self._load_sources_config()
+
+    def _update_extraction_status(self, **updates):
+        """Mettre à jour le statut de l'extraction en cours"""
+        try:
+            current_status = load_extraction_status()
+            if current_status.get("is_running"):
+                current_status.update(updates)
+                save_extraction_status(current_status)
+        except Exception as e:
+            logger.error(f"Erreur mise à jour statut: {e}")
 
     def _load_sources_config(self) -> Dict[str, Any]:
         """Charger la configuration des sources"""
@@ -82,7 +114,11 @@ class SourceExtractor:
                         added_date = datetime.fromisoformat(
                             track["added_at"].replace("Z", "+00:00")
                         )
-                        if added_date < since_date:
+                        # Normaliser les timezones pour comparaison (même fix que Phase 1)
+                        norm_added_date = added_date.replace(tzinfo=None) if added_date.tzinfo else added_date
+                        norm_since_date = since_date.replace(tzinfo=None) if since_date.tzinfo else since_date
+
+                        if norm_added_date < norm_since_date:
                             continue
 
                     # Extraire les artistes de la track avec date
@@ -137,17 +173,22 @@ class SourceExtractor:
                 return artists if not return_raw_titles else (artists, [])
 
             for video in videos:
+                # Initialiser title dès le début pour éviter les erreurs dans except
+                title = video.get("title", "Titre inconnu")
                 try:
                     # Filtrer par date si spécifié
                     if since_date and video.get("published_at"):
                         published_date = datetime.fromisoformat(
                             video["published_at"].replace("Z", "+00:00")
                         )
-                        if published_date < since_date:
+                        # Normaliser les timezones pour comparaison (même fix que Phase 1)
+                        norm_published_date = published_date.replace(tzinfo=None) if published_date.tzinfo else published_date
+                        norm_since_date = since_date.replace(tzinfo=None) if since_date.tzinfo else since_date
+
+                        if norm_published_date < norm_since_date:
                             continue
 
                     # Extraire les artistes du titre et de la description avec date
-                    title = video.get("title", "")
                     description = video.get("description", "")
 
                     # Stocker les titres bruts pour debug
@@ -575,7 +616,7 @@ class SourceExtractor:
             logger.error(f"Erreur dans _clean_artist_name avec '{name}': {e}")
             return None
 
-    def run_full_extraction(self, limit_priority: int = 400) -> Dict[str, Any]:
+    def run_full_extraction(self, limit_priority: int = None) -> Dict[str, Any]:
         """Lancer une extraction complète (premier run avec limite prioritaire)
         Phase 1 du processus de production:
         - 50 dernières vidéos de chaque chaîne YouTube
@@ -605,6 +646,13 @@ class SourceExtractor:
                 all_artists.extend(playlist_artists)
                 results["sources_processed"] += 1
 
+                # Mettre à jour le statut
+                self._update_extraction_status(
+                    current_step=f"Playlist Spotify: {playlist['name']}",
+                    sources_processed=results["sources_processed"],
+                    artists_processed=len(all_artists)
+                )
+
             except Exception as e:
                 error_msg = f"Erreur playlist Spotify {playlist['name']}: {str(e)}"
                 logger.error(error_msg)
@@ -618,6 +666,13 @@ class SourceExtractor:
                 )
                 all_artists.extend(channel_artists)
                 results["sources_processed"] += 1
+
+                # Mettre à jour le statut
+                self._update_extraction_status(
+                    current_step=f"Chaîne YouTube: {channel['name']}",
+                    sources_processed=results["sources_processed"],
+                    artists_processed=len(all_artists)
+                )
 
             except Exception as e:
                 error_msg = f"Erreur chaîne YouTube {channel['name']}: {str(e)}"
@@ -659,9 +714,22 @@ class SourceExtractor:
 
                 if existing_artist:
                     # Artiste existant : MAJ last_seen_date et most_recent_appearance
+                    # Normaliser les dates pour éviter les erreurs timezone
+                    if isinstance(appearance_date, str):
+                        from dateutil import parser
+                        appearance_date = parser.parse(appearance_date)
+
+                    # Rendre les dates comparables (même timezone)
+                    if appearance_date.tzinfo is None:
+                        appearance_date = appearance_date.replace(tzinfo=datetime.now().astimezone().tzinfo)
+
+                    existing_recent = existing_artist.most_recent_appearance
+                    if existing_recent and existing_recent.tzinfo is None:
+                        existing_recent = existing_recent.replace(tzinfo=datetime.now().astimezone().tzinfo)
+
                     if (
                         not existing_artist.most_recent_appearance
-                        or appearance_date > existing_artist.most_recent_appearance
+                        or appearance_date > existing_recent
                     ):
                         existing_artist.most_recent_appearance = appearance_date
                         existing_artist.needs_scoring = True  # Nouveau contenu détecté
@@ -687,7 +755,7 @@ class SourceExtractor:
                                 artist.needs_scoring = True
 
                                 # Marquer comme prioritaire si dans les X premiers
-                                if i < limit_priority:
+                                if limit_priority is None or i < limit_priority:
                                     priority_count += 1
 
                                 # Compter les métadonnées enrichies
@@ -715,8 +783,8 @@ class SourceExtractor:
     def _collect_artist_with_enriched_metadata(self, artist_name: str) -> Dict[str, Any]:
         """Collecter un artiste avec métadonnées Spotify enrichies (genre, style, mood, location)"""
         try:
-            # Collecte normale via DataCollector
-            collection_result = self.data_collector.collect_and_save_artist(artist_name)
+            # Collecte SEULEMENT Spotify (pas YouTube pour économiser le quota)
+            collection_result = self._collect_artist_spotify_only(artist_name)
 
             if collection_result.get("success") and collection_result.get("spotify_data"):
                 spotify_data = collection_result["spotify_data"]
@@ -736,9 +804,9 @@ class SourceExtractor:
                 # Récupérer les top tracks pour analyse plus poussée
                 if "top_tracks" in spotify_data:
                     tracks = spotify_data["top_tracks"]
-                    if tracks:
+                    if tracks and isinstance(tracks, list):
                         # Analyser les features audio des top tracks
-                        track_ids = [track.get("id") for track in tracks[:5] if track.get("id")]
+                        track_ids = [track.get("id") for track in tracks[:5] if track and isinstance(track, dict) and track.get("id")]
                         if track_ids:
                             audio_features = self.spotify_service.get_audio_features(track_ids)
                             if audio_features:
@@ -755,8 +823,68 @@ class SourceExtractor:
 
         except Exception as e:
             logger.error(f"Erreur collecte enrichie pour {artist_name}: {e}")
-            # Fallback vers collecte normale
-            return self.data_collector.collect_and_save_artist(artist_name)
+            # Fallback vers collecte Spotify seulement (pas YouTube)
+            return self._collect_artist_spotify_only(artist_name)
+
+    def _collect_artist_spotify_only(self, artist_name: str) -> Dict[str, Any]:
+        """Collecter un artiste avec SEULEMENT les données Spotify (pas YouTube)"""
+        try:
+            # Vérifier si l'artiste existe déjà par nom
+            existing_artist = self.data_collector.artist_service.get_artist_by_name(artist_name)
+
+            # Collecte des données Spotify
+            spotify_data = self.data_collector.spotify_service.collect_artist_data(artist_name)
+
+            if not spotify_data:
+                return {
+                    "success": False,
+                    "artist_name": artist_name,
+                    "spotify_data": None,
+                    "youtube_data": None,
+                    "errors": ["Aucune donnée Spotify trouvée"]
+                }
+
+            # Vérifier si l'artiste existe déjà par Spotify ID
+            spotify_id = spotify_data.get('spotify_id')
+            if spotify_id and not existing_artist:
+                existing_artist = self.data_collector.artist_service.get_artist_by_spotify_id(spotify_id)
+
+            if existing_artist:
+                # Mettre à jour l'artiste existant avec les données Spotify
+                self.data_collector._update_artist_metrics(existing_artist.id, spotify_data, None)
+                artist_id = existing_artist.id
+            else:
+                # Créer un nouvel artiste avec seulement les données Spotify
+                from app.schemas.artist import ArtistCreate
+                artist_create = ArtistCreate(
+                    name=artist_name,
+                    spotify_id=spotify_data.get('spotify_id'),
+                    youtube_channel_id=None  # Pas de YouTube
+                )
+
+                new_artist = self.data_collector.artist_service.create_artist(artist_create)
+                # Mettre à jour avec les métriques Spotify
+                self.data_collector._update_artist_metrics(new_artist.id, spotify_data, None)
+                artist_id = new_artist.id
+
+            return {
+                "success": True,
+                "artist_name": artist_name,
+                "artist_id": artist_id,
+                "spotify_data": spotify_data,
+                "youtube_data": None,  # Pas de YouTube
+                "errors": []
+            }
+
+        except Exception as e:
+            logger.error(f"Erreur collecte Spotify pour {artist_name}: {e}")
+            return {
+                "success": False,
+                "artist_name": artist_name,
+                "spotify_data": None,
+                "youtube_data": None,
+                "errors": [str(e)]
+            }
 
     def _calculate_audio_features_average(self, audio_features: list) -> Dict[str, float]:
         """Calculer les moyennes des features audio pour caractériser le style"""
@@ -783,7 +911,7 @@ class SourceExtractor:
 
         logger.info(f"Début de l'extraction incrémentale (depuis {since_date})")
 
-        all_artists = set()
+        all_artists = []
         results = {
             "extraction_type": "incremental",
             "timestamp": datetime.now().isoformat(),
@@ -800,8 +928,15 @@ class SourceExtractor:
                 playlist_artists = self.extract_artists_from_spotify_playlist(
                     playlist["id"], playlist["name"], since_date=since_date
                 )
-                all_artists.update(playlist_artists)
+                all_artists.extend(playlist_artists)
                 results["sources_processed"] += 1
+
+                # Mettre à jour le statut
+                self._update_extraction_status(
+                    current_step=f"Playlist Spotify: {playlist['name']} (incrémental)",
+                    sources_processed=results["sources_processed"],
+                    artists_processed=len(all_artists)
+                )
 
             except Exception as e:
                 error_msg = f"Erreur playlist Spotify {playlist['name']}: {str(e)}"
@@ -814,8 +949,15 @@ class SourceExtractor:
                 channel_artists = self.extract_artists_from_youtube_channel(
                     channel["id"], channel["name"], since_date=since_date
                 )
-                all_artists.update(channel_artists)
+                all_artists.extend(channel_artists)
                 results["sources_processed"] += 1
+
+                # Mettre à jour le statut
+                self._update_extraction_status(
+                    current_step=f"Chaîne YouTube: {channel['name']} (incrémental)",
+                    sources_processed=results["sources_processed"],
+                    artists_processed=len(all_artists)
+                )
 
             except Exception as e:
                 error_msg = f"Erreur chaîne YouTube {channel['name']}: {str(e)}"
@@ -853,9 +995,13 @@ class SourceExtractor:
 
                 if existing_artist:
                     # Artiste existant réapparu : MAJ dates et marquer pour recalcul
+                    # Normaliser les timezones pour comparaison
+                    norm_appearance_date = appearance_date.replace(tzinfo=None) if appearance_date.tzinfo else appearance_date
+                    norm_most_recent = existing_artist.most_recent_appearance.replace(tzinfo=None) if existing_artist.most_recent_appearance and existing_artist.most_recent_appearance.tzinfo else existing_artist.most_recent_appearance
+
                     if (
                         not existing_artist.most_recent_appearance
-                        or appearance_date > existing_artist.most_recent_appearance
+                        or norm_appearance_date > norm_most_recent
                     ):
                         existing_artist.most_recent_appearance = appearance_date
                         existing_artist.needs_scoring = (
@@ -935,6 +1081,13 @@ class SourceExtractor:
                 all_artists.extend(playlist_artists)
                 results["sources_processed"] += 1
 
+                # Mettre à jour le statut
+                self._update_extraction_status(
+                    current_step=f"Playlist Spotify: {playlist['name']} (hebdomadaire)",
+                    sources_processed=results["sources_processed"],
+                    artists_processed=len(all_artists)
+                )
+
             except Exception as e:
                 error_msg = f"Erreur playlist Spotify {playlist['name']}: {str(e)}"
                 logger.error(error_msg)
@@ -948,6 +1101,13 @@ class SourceExtractor:
                 )
                 all_artists.extend(channel_artists)
                 results["sources_processed"] += 1
+
+                # Mettre à jour le statut
+                self._update_extraction_status(
+                    current_step=f"Chaîne YouTube: {channel['name']} (hebdomadaire)",
+                    sources_processed=results["sources_processed"],
+                    artists_processed=len(all_artists)
+                )
 
             except Exception as e:
                 error_msg = f"Erreur chaîne YouTube {channel['name']}: {str(e)}"
@@ -989,9 +1149,13 @@ class SourceExtractor:
                     # Artiste existant : vérifier s'il y a du nouveau contenu
                     has_new_content = False
 
+                    # Normaliser les timezones pour comparaison
+                    norm_appearance_date = appearance_date.replace(tzinfo=None) if appearance_date.tzinfo else appearance_date
+                    norm_most_recent = existing_artist.most_recent_appearance.replace(tzinfo=None) if existing_artist.most_recent_appearance and existing_artist.most_recent_appearance.tzinfo else existing_artist.most_recent_appearance
+
                     if (
                         not existing_artist.most_recent_appearance
-                        or appearance_date > existing_artist.most_recent_appearance
+                        or norm_appearance_date > norm_most_recent
                     ):
                         # Nouveau contenu détecté
                         existing_artist.most_recent_appearance = appearance_date

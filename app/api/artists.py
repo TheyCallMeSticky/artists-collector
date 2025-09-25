@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
+from pydantic import BaseModel
 from app.db.database import get_db
 from app.services.artist_service import ArtistService
 from app.services.scoring_service import ScoringService

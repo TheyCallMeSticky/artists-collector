@@ -91,7 +91,7 @@ class CollectionScheduler:
             }
             
             # Calculer le score
-            score_result = self.scoring_service.calculate_score(artist_data)
+            score_result = await self.scoring_service.calculate_artist_score(artist_data['name'])
             final_score = score_result['final_score']
             
             # Mettre à jour le score de l'artiste

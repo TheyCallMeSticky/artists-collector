@@ -28,7 +28,7 @@ class ArtistService:
         return self.db.query(Artist).filter(Artist.name.ilike(f"%{name}%")).first()
 
     def get_artists(self, skip: int = 0, limit: int = 100) -> List[Artist]:
-        return self.db.query(Artist).offset(skip).limit(limit).all()
+        return self.db.query(Artist).order_by(Artist.id.desc()).offset(skip).limit(limit).all()
 
     def get_top_artists_by_score(self, limit: int = 50) -> List[Artist]:
         return self.db.query(Artist).filter(Artist.is_active == True).order_by(Artist.score.desc()).limit(limit).all()
@@ -105,7 +105,7 @@ class ArtistService:
 
     def count_artists_with_scores(self) -> int:
         """Compter le nombre d'artistes qui ont au moins un score TubeBuddy"""
-        return self.db.query(Artist).join(Score).filter(Artist.is_active == True).distinct().count()
+        return self.db.query(Artist).join(Score, Artist.id == Score.artist_id).filter(Artist.is_active == True).distinct().count()
 
     def count_artists_needing_scoring(self) -> int:
         """Compter le nombre d'artistes en attente de calcul TubeBuddy"""
@@ -115,7 +115,7 @@ class ArtistService:
         """Compter le nombre d'artistes avec un score TubeBuddy supérieur à la valeur donnée"""
         return (self.db.query(Artist)
                 .join(Score)
-                .filter(Artist.is_active == True, Score.overall_score >= min_score)
+                .filter(Artist.is_active == True, Score.score_value >= min_score)
                 .distinct()
                 .count())
 

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Text, Boolean
+from sqlalchemy import Column, Integer, String, Float, DateTime, Text, Boolean, ForeignKey
 from sqlalchemy.sql import func
 from app.db.database import Base
 
@@ -50,7 +50,7 @@ class Score(Base):
     __tablename__ = "scores"
 
     id = Column(Integer, primary_key=True, index=True)
-    artist_id = Column(Integer, index=True)
+    artist_id = Column(Integer, ForeignKey('artists.id'), index=True)
     score_value = Column(Float, nullable=False)
     score_breakdown = Column(Text)  # JSON avec le détail du calcul
     
