@@ -48,7 +48,19 @@ class SourceExtractor:
         self.spotify_service = SpotifyService()
         self.youtube_service = YouTubeService()
         self.data_collector = DataCollector(db_session)
+        
+        # Callbacks pour le suivi de progression
+        self.progress_callback = None  # Appelé quand une source commence
+        self.artist_callback = None    # Appelé quand un artiste est traité
         self.sources_config = self._load_sources_config()
+
+    def set_progress_callback(self, callback):
+        """Configurer le callback de progression des sources"""
+        self.progress_callback = callback
+
+    def set_artist_callback(self, callback):
+        """Configurer le callback de progression des artistes"""
+        self.artist_callback = callback
 
     def _update_extraction_status(self, **updates):
         """Mettre à jour le statut de l'extraction en cours"""
@@ -640,6 +652,10 @@ class SourceExtractor:
         # Extraction depuis Spotify
         for playlist in self.sources_config.get("spotify_playlists", []):
             try:
+                # Callback de progression de source
+                if self.progress_callback:
+                    self.progress_callback(playlist["name"], "Playlist Spotify")
+
                 playlist_artists = self.extract_artists_from_spotify_playlist(
                     playlist["id"], playlist["name"]
                 )
@@ -653,6 +669,11 @@ class SourceExtractor:
                     artists_processed=len(all_artists)
                 )
 
+                # Callback pour chaque artiste trouvé
+                if self.artist_callback:
+                    for artist in playlist_artists:
+                        self.artist_callback(artist.get("name", "Unknown"), False, False)
+
             except Exception as e:
                 error_msg = f"Erreur playlist Spotify {playlist['name']}: {str(e)}"
                 logger.error(error_msg)
@@ -661,6 +682,10 @@ class SourceExtractor:
         # Extraction depuis YouTube
         for channel in self.sources_config.get("youtube_channels", []):
             try:
+                # Callback de progression de source
+                if self.progress_callback:
+                    self.progress_callback(channel["name"], "Chaîne YouTube")
+
                 channel_artists = self.extract_artists_from_youtube_channel(
                     channel["id"], channel["name"]
                 )
@@ -673,6 +698,11 @@ class SourceExtractor:
                     sources_processed=results["sources_processed"],
                     artists_processed=len(all_artists)
                 )
+
+                # Callback pour chaque artiste trouvé
+                if self.artist_callback:
+                    for artist in channel_artists:
+                        self.artist_callback(artist.get("name", "Unknown"), False, False)
 
             except Exception as e:
                 error_msg = f"Erreur chaîne YouTube {channel['name']}: {str(e)}"
@@ -700,6 +730,8 @@ class SourceExtractor:
         saved_count = 0
         priority_count = 0
         enriched_count = 0
+        new_artists = 0
+        updated_artists = 0
         now = datetime.now()
 
         for i, artist_data in enumerate(unique_artists):
@@ -736,6 +768,7 @@ class SourceExtractor:
 
                     existing_artist.last_seen_date = now
                     self.db.commit()
+                    updated_artists += 1
 
                 else:
                     # Nouvel artiste : collecter les données complètes avec métadonnées enrichies
@@ -762,6 +795,7 @@ class SourceExtractor:
                                 if collection_result.get("enriched_metadata"):
                                     enriched_count += 1
 
+                                new_artists += 1
                                 self.db.commit()
 
                 saved_count += 1
@@ -772,11 +806,13 @@ class SourceExtractor:
                 )
 
         results["artists_saved"] = saved_count
+        results["new_artists"] = new_artists
+        results["updated_artists"] = updated_artists
         results["priority_artists"] = priority_count
         results["artists_with_enriched_metadata"] = enriched_count
 
         logger.info(
-            f"🎉 PHASE 1 terminée: {saved_count}/{len(unique_artists)} artistes traités, {priority_count} prioritaires, {enriched_count} avec métadonnées enrichies"
+            f"🎉 PHASE 1 terminée: {saved_count}/{len(unique_artists)} artistes traités, {new_artists} nouveaux, {updated_artists} mis à jour, {priority_count} prioritaires, {enriched_count} avec métadonnées enrichies"
         )
         return results
 

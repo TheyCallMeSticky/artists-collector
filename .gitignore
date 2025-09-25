@@ -146,15 +146,17 @@ tmp/
 *.tmp
 
 # Configuration files with secrets
-config.json
 secrets.json
 .secrets
 
 # Data files
 data/
 *.csv
-*.json
 *.xml
+
+# Allow config sources but not sensitive configs
+!config/sources.json
+!config/sources.example.json
 
 # Cache directories
 .cache/

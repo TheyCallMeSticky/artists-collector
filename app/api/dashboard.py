@@ -303,68 +303,34 @@ def get_dashboard():
 def resume_tubebuddy_scoring(background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     """Reprendre les calculs TubeBuddy pour les artistes marqués needs_scoring=True"""
     try:
-        artist_service = ArtistService(db)
+        from app.services.process_manager import ProcessManager
+        from app.services.tubebuddy_processor import TubeBuddyProcessor
+        import asyncio
 
-        # Compter les artistes en attente de scoring
-        pending_artists = artist_service.get_artists_needing_scoring()
+        # Vérifier qu'aucun processus n'est en cours
+        process_manager = ProcessManager(db)
+        if process_manager.has_running_process():
+            running = process_manager.get_running_process()
+            raise HTTPException(
+                status_code=409, 
+                detail=f"Un processus {running.process_type} est déjà en cours depuis {running.started_at}"
+            )
 
-        if not pending_artists:
-            return {
-                "message": "Aucun artiste en attente de calcul TubeBuddy",
-                "total_artists": 0,
-                "completed": 0,
-                "remaining": 0
-            }
+        # Démarrer en arrière-plan
+        async def tubebuddy_task():
+            processor = TubeBuddyProcessor(db)
+            await processor.run_async()
 
-        # Démarrer le processus en arrière-plan
-        def scoring_task():
-            scoring_service = ScoringService()
-            # Traiter par batch pour éviter surcharge mémoire
-            batch_size = 20
-
-            for i in range(0, len(pending_artists), batch_size):
-                batch = pending_artists[i:i + batch_size]
-                artist_names = [artist.name for artist in batch]
-
-                try:
-                    # Calcul batch des scores
-                    import asyncio
-                    scores = asyncio.run(scoring_service.batch_score_artists(artist_names))
-
-                    # Sauvegarder les scores
-                    for artist, score_data in zip(batch, scores):
-                        if "error" not in score_data:
-                            # Créer Score et sauvegarder
-                            from app.schemas.artist import ScoreCreate
-                            score_create = ScoreCreate(
-                                artist_id=artist.id,
-                                algorithm_name="TubeBuddy",
-                                search_volume_score=int(score_data.get("search_volume_score", 0)),
-                                competition_score=int(score_data.get("competition_score", 0)),
-                                optimization_score=int(score_data.get("optimization_score", 0)),
-                                overall_score=int(score_data.get("overall_score", 0)),
-                                score_data=score_data
-                            )
-                            artist_service.create_score(score_create)
-
-                            # Marquer comme traité
-                            artist.needs_scoring = False
-                            db.commit()
-
-                except Exception as e:
-                    # En cas d'erreur (quota épuisé), arrêter et reprendre plus tard
-                    print(f"Erreur scoring batch: {e}")
-                    break
-
-        background_tasks.add_task(scoring_task)
-
+        background_tasks.add_task(lambda: asyncio.run(tubebuddy_task()))
+        
         return {
             "message": "Calculs TubeBuddy démarrés en arrière-plan",
-            "total_artists": len(pending_artists),
-            "completed": 0,
-            "remaining": len(pending_artists)
+            "type": "tubebuddy",
+            "status": "started"
         }
 
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Erreur reprise calculs TubeBuddy: {str(e)}"
@@ -375,7 +341,10 @@ def resume_tubebuddy_scoring(background_tasks: BackgroundTasks, db: Session = De
 def get_process_status(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """Récupérer le statut des processus de scoring"""
     try:
+        from app.services.process_manager import ProcessManager
+        
         artist_service = ArtistService(db)
+        process_manager = ProcessManager(db)
 
         total_artists = artist_service.count_all_artists()
         scored_artists = artist_service.count_artists_with_scores()
@@ -385,17 +354,30 @@ def get_process_status(db: Session = Depends(get_db)) -> Dict[str, Any]:
         last_score = artist_service.get_latest_score()
         last_scoring_date = last_score.created_at.isoformat() if last_score else None
 
-        return {
+        # Processus en cours
+        current_process = process_manager.get_running_process()
+        
+        result = {
             "total_artists": total_artists,
             "scored_artists": scored_artists,
             "pending_scoring": pending_scoring,
-            "last_scoring": last_scoring_date,
-            "scoring_completion_rate": round((scored_artists / total_artists * 100), 1) if total_artists > 0 else 0
+            "last_scoring": last_scoring_date
         }
+        
+        # Ajouter les infos du processus en cours
+        if current_process:
+            result.update({
+                "current_process": current_process.to_dict(),
+                "is_running": True
+            })
+        else:
+            result["is_running"] = False
+
+        return result
 
     except Exception as e:
         raise HTTPException(
-            status_code=500, detail=f"Erreur statut processus: {str(e)}"
+            status_code=500, detail=f"Erreur récupération statut processus: {str(e)}"
         )
 
 

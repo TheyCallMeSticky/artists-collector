@@ -1,0 +1,77 @@
+{
+  "spotify_playlists": [
+    {
+      "id": "4wDydZoqKj7TnkAGXZCW9D",
+      "name": "Most Necessary",
+      "description": "The newest hip-hop hits and emerging artists"
+    },
+    {
+      "id": "1oEjk7K6zwlbtjcRSdHZku",
+      "name": "RapCaviar",
+      "description": "The best in hip-hop. Cover: Drake, Gunna & Travis Scott"
+    },
+    {
+      "id": "3fO7JJJJdJNrWWIHu4smro",
+      "name": "Fresh Finds Hip-Hop",
+      "description": "Discover the next wave of hip-hop artists"
+    },
+    {
+      "id": "71LykWp5EdiMvHNTlHKGBN",
+      "name": "Hip-Hop Central",
+      "description": "The hottest hip-hop tracks right now"
+    },
+    {
+      "id": "3htS9OkFJfyI9FhxwVJi0P",
+      "name": "Underground Hip Hop Mix",
+      "description": "Underground hip-hop gems and hidden tracks"
+    },
+    {
+      "id": "2uMBvOuhsUn1FG9pi4De0S",
+      "name": "Southern Hip Hop Mix",
+      "description": "The best of Southern hip-hop and trap music"
+    },
+    {
+      "id": "35hWab68uXTDjnVXbuxtvx",
+      "name": "Chicago Drill Rap Mix",
+      "description": "Chicago drill rap and street anthems"
+    }
+  ],
+  "youtube_channels": [
+    {
+      "id": "UCa8b7nZo-iPKoJxspOplnWg",
+      "name": "On The Radar Radio",
+      "description": ""
+    },
+    {
+      "id": "UC-yXuc1__OzjwpsJPlxYUCQ",
+      "name": "WORLDSTARHIPHOP",
+      "description": ""
+    },
+    {
+      "id": "UC9wgG6MYWq-5G0pjHGCw5GA",
+      "name": "I Am Hip-Hop",
+      "description": ""
+    },
+    {
+      "id": "UC8QfB1wbfrNwNFHQxfyNJsw",
+      "name": "Rap Nation",
+      "description": ""
+    },
+    {
+      "id": "UCtylTUUVIGY_i5afsQYeBZA",
+      "name": "Lyrical Lemonade",
+      "description": ""
+    },
+    {
+      "id": "UCb5whUu1UmmYlbxoN6CCDXg",
+      "name": "Paka The Plug",
+      "description": ""
+    }
+  ],
+  "extraction_settings": {
+    "spotify_tracks_per_playlist": 50,
+    "youtube_videos_per_channel": 50,
+    "extraction_frequency_hours": 24,
+    "priority_threshold": 80
+  }
+}

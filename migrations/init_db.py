@@ -13,6 +13,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 from sqlalchemy import create_engine, text
 from app.db.database import Base, DATABASE_URL
 from app.models.artist import Artist, CollectionLog, Score
+from app.models.process_status import ProcessStatus
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -117,6 +118,18 @@ def create_indexes():
             conn.execute(text("""
                 CREATE INDEX IF NOT EXISTS idx_scores_artist_id 
                 ON scores (artist_id, created_at DESC)
+            """))
+            
+            # Index sur les processus
+            conn.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_process_status_running 
+                ON process_status (status, is_active) 
+                WHERE status = 'running' AND is_active = true
+            """))
+            
+            conn.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_process_status_history 
+                ON process_status (started_at DESC, process_type)
             """))
             
             conn.commit()
