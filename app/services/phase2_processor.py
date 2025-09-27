@@ -41,24 +41,39 @@ class Phase2Processor(BaseAsyncProcessor):
         self.set_current_step("Extraction des nouveautés en cours...")
         
         # Exécuter l'extraction hebdomadaire
-        results = extractor.run_weekly_extraction()
-        
-        self.set_current_step("Finalisation...")
-        
-        # Mettre à jour les statistiques finales
-        self.update_progress(
-            artists_saved=results.get("artists_saved", 0),
-            new_artists=results.get("new_artists", 0),
-            updated_artists=results.get("updated_artists", 0),
-            current_step="Extraction hebdomadaire terminée"
-        )
-        
-        self.log_progress(f"Phase 2 terminée: {results.get('artists_found', 0)} artistes trouvés")
-        
-        return results
+        try:
+            results = extractor.run_weekly_extraction()
+
+            self.set_current_step("Finalisation...")
+
+            # Mettre à jour les statistiques finales
+            self.update_progress(
+                artists_saved=results.get("artists_saved", 0),
+                new_artists=results.get("new_artists", 0),
+                updated_artists=results.get("updated_artists", 0),
+                current_step="Extraction hebdomadaire terminée"
+            )
+
+            self.log_progress(f"Phase 2 terminée: {results.get('artists_found', 0)} artistes trouvés")
+
+            return results
+        except StopIteration as e:
+            self.log_progress(f"Phase 2 interrompue: {str(e)}")
+            return {
+                "status": "stopped",
+                "message": "Processus arrêté par l'utilisateur",
+                "artists_found": 0,
+                "artists_saved": 0
+            }
 
     def _on_source_progress(self, source_name: str, source_type: str):
         """Callback appelé quand une source commence à être traitée"""
+        # Vérifier si le processus doit s'arrêter
+        self.refresh_process_status()
+        if not self.process_status or self.process_status.status != "running":
+            print(f"[DEBUG] Processus Phase 2 arrêté, interruption du traitement")
+            raise StopIteration("Processus arrêté")
+
         self.set_current_source(f"{source_type}: {source_name}")
         self.increment_sources_processed()
         self.log_progress(f"Traitement de {source_type}: {source_name}")

@@ -141,6 +141,63 @@ def create_indexes():
         logger.error(f"Erreur lors de la création des index: {e}")
         raise
 
+def migrate_score_fields():
+    """Migration pour ajouter les nouveaux champs détaillés au modèle Score"""
+    try:
+        engine = create_engine(DATABASE_URL)
+
+        with engine.connect() as conn:
+            # Vérifier si les colonnes existent déjà
+            result = conn.execute(text("""
+                SELECT column_name
+                FROM information_schema.columns
+                WHERE table_name = 'scores' AND column_name = 'search_volume_score'
+            """))
+
+            if result.fetchone() is None:
+                logger.info("Ajout des nouveaux champs TubeBuddy à la table scores...")
+
+                # Ajouter les nouvelles colonnes
+                conn.execute(text("""
+                    ALTER TABLE scores
+                    ADD COLUMN search_volume_score FLOAT DEFAULT 0,
+                    ADD COLUMN competition_score FLOAT DEFAULT 0,
+                    ADD COLUMN optimization_score FLOAT DEFAULT 0,
+                    ADD COLUMN algorithm_name VARCHAR DEFAULT 'TubeBuddy'
+                """))
+
+                # Vérifier si score_value existe pour la renommer
+                result = conn.execute(text("""
+                    SELECT column_name
+                    FROM information_schema.columns
+                    WHERE table_name = 'scores' AND column_name = 'score_value'
+                """))
+
+                if result.fetchone() is not None:
+                    conn.execute(text("""
+                        ALTER TABLE scores
+                        RENAME COLUMN score_value TO overall_score
+                    """))
+                    logger.info("Colonne score_value renommée en overall_score")
+                else:
+                    # Si score_value n'existe pas, créer overall_score
+                    conn.execute(text("""
+                        ALTER TABLE scores
+                        ADD COLUMN overall_score FLOAT NOT NULL DEFAULT 0
+                    """))
+                    logger.info("Colonne overall_score créée")
+
+                conn.commit()
+                logger.info("Migration des champs Score terminée avec succès")
+            else:
+                logger.info("Les nouveaux champs Score existent déjà, migration ignorée")
+
+        engine.dispose()
+
+    except Exception as e:
+        logger.error(f"Erreur lors de la migration des champs Score: {e}")
+        raise
+
 def insert_sample_data():
     """Pas de données d'exemple - base vide pour de vraies données"""
     logger.info("Pas de données d'exemple insérées - base prête pour de vraies données")
@@ -148,22 +205,25 @@ def insert_sample_data():
 def main():
     """Fonction principale d'initialisation"""
     logger.info("Début de l'initialisation de la base de données")
-    
+
     try:
         # 1. Créer la base de données
         create_database()
-        
+
         # 2. Créer les tables
         create_tables()
-        
-        # 3. Créer les index
+
+        # 3. Migrer les champs Score si nécessaire
+        migrate_score_fields()
+
+        # 4. Créer les index
         create_indexes()
-        
-        # 4. Insérer des données d'exemple
+
+        # 5. Insérer des données d'exemple
         insert_sample_data()
-        
+
         logger.info("Initialisation de la base de données terminée avec succès")
-        
+
     except Exception as e:
         logger.error(f"Échec de l'initialisation: {e}")
         sys.exit(1)

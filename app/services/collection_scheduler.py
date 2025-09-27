@@ -148,19 +148,43 @@ class CollectionScheduler:
         return results
 
     def get_top_opportunities(self, limit: int = 20) -> List[Dict[str, Any]]:
-        """Récupérer les meilleures opportunités d'artistes"""
+        """Récupérer les meilleures opportunités d'artistes basées sur les scores TubeBuddy"""
         try:
-            top_artists = self.artist_service.get_top_artists_by_score(limit=limit)
+            from app.models.artist import Artist, Score
+            from sqlalchemy.orm import joinedload
+
+            # Récupérer les artistes avec leurs meilleurs scores TubeBuddy
+            query = self.db.query(Artist).join(Score).filter(
+                Artist.is_active == True,
+                Score.algorithm_name == "TubeBuddy"
+            ).options(joinedload(Artist.scores)).order_by(
+                Score.overall_score.desc()
+            ).limit(limit)
+
+            top_artists = query.all()
             opportunities = []
-            
+
             for artist in top_artists:
+                # Récupérer le meilleur score TubeBuddy pour cet artiste
+                tubebuddy_scores = [s for s in artist.scores if s.algorithm_name == "TubeBuddy"]
+                if not tubebuddy_scores:
+                    continue
+
+                best_score = max(tubebuddy_scores, key=lambda s: s.overall_score)
+
                 # Interpréter le score
-                interpretation = self.scoring_service.get_score_interpretation(artist.score)
-                
+                interpretation = self.scoring_service.get_score_interpretation(best_score.overall_score)
+
                 opportunities.append({
                     'artist_id': artist.id,
                     'name': artist.name,
-                    'score': artist.score,
+                    'score': best_score.overall_score,
+                    'tubebuddy_details': {
+                        'search_volume_score': best_score.search_volume_score,
+                        'competition_score': best_score.competition_score,
+                        'optimization_score': best_score.optimization_score,
+                        'overall_score': best_score.overall_score
+                    },
                     'category': interpretation['category'],
                     'recommendation': interpretation['recommendation'],
                     'spotify_id': artist.spotify_id,
@@ -168,11 +192,12 @@ class CollectionScheduler:
                     'spotify_followers': artist.spotify_followers,
                     'youtube_subscribers': artist.youtube_subscribers,
                     'spotify_popularity': artist.spotify_popularity,
-                    'updated_at': artist.updated_at.isoformat() if artist.updated_at else None
+                    'updated_at': artist.updated_at.isoformat() if artist.updated_at else None,
+                    'score_date': best_score.created_at.isoformat() if best_score.created_at else None
                 })
-            
+
             return opportunities
-            
+
         except Exception as e:
             logger.error(f"Erreur lors de la récupération des opportunités: {str(e)}")
             return []

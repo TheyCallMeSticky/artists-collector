@@ -77,13 +77,15 @@ class ProcessManager:
 
         process.status = "cancelled"
         process.current_step = "Annulé"
-        process.is_active = False
-        process.completed_at = func.now()
-        
-        self.db.commit()
-        self.db.refresh(process)
-        
-        logger.info(f"Processus {process.process_type} annulé (ID: {process.id})")
+
+    def mark_process_failed(self, error_message: str = None) -> Optional[ProcessStatus]:
+        """Marquer le processus en cours comme échoué"""
+        process = self.get_running_process()
+        if not process:
+            return None
+
+        process.complete(self.db, error_message=error_message or "Processus arrêté manuellement")
+        logger.info(f"Processus {process.process_type} marqué comme échoué (ID: {process.id})")
         return process
 
     def get_process_status(self, process_id: int = None) -> Optional[ProcessStatus]:

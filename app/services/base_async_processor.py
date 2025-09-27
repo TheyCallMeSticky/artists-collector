@@ -107,6 +107,16 @@ class BaseAsyncProcessor(ABC):
         if self.current_process:
             self.update_progress(artists_processed=self.current_process.artists_processed + count)
 
+    def refresh_process_status(self):
+        """Rafraîchir le statut du processus depuis la base de données"""
+        if self.current_process:
+            self.current_process = self.process_manager.get_process_status(self.current_process.id)
+
+    @property
+    def process_status(self) -> Optional[ProcessStatus]:
+        """Getter pour accéder au statut du processus"""
+        return self.current_process
+
     def increment_artists_saved(self, count: int = 1):
         """Incrémenter le nombre d'artistes sauvés"""
         if self.current_process:

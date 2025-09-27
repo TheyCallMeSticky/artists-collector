@@ -55,7 +55,11 @@ class CollectionLog(CollectionLogCreate):
 
 class ScoreCreate(BaseModel):
     artist_id: int
-    score_value: float
+    search_volume_score: float = 0
+    competition_score: float = 0
+    optimization_score: float = 0
+    overall_score: float
+    algorithm_name: str = "TubeBuddy"
     score_breakdown: Optional[str] = None
 
 class Score(ScoreCreate):

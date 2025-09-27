@@ -10,3 +10,4 @@ redis
 celery
 alembic
 python-multipart
+pytrends

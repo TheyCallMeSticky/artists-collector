@@ -99,9 +99,12 @@ class ArtistService:
 
     # Méthodes pour le dashboard
 
-    def get_artists_needing_scoring(self) -> List[Artist]:
+    def get_artists_needing_scoring(self, limit: int = None) -> List[Artist]:
         """Récupérer les artistes qui ont besoin d'un calcul TubeBuddy (needs_scoring=True)"""
-        return self.db.query(Artist).filter(Artist.needs_scoring == True, Artist.is_active == True).all()
+        query = self.db.query(Artist).filter(Artist.needs_scoring == True, Artist.is_active == True)
+        if limit:
+            query = query.limit(limit)
+        return query.all()
 
     def count_all_artists(self) -> int:
         """Compter le nombre total d'artistes actifs"""
@@ -115,11 +118,19 @@ class ArtistService:
         """Compter le nombre d'artistes en attente de calcul TubeBuddy"""
         return self.db.query(Artist).filter(Artist.needs_scoring == True, Artist.is_active == True).count()
 
+    def count_high_opportunities(self) -> int:
+        """Compter le nombre d'artistes avec un score TubeBuddy > 70"""
+        return (self.db.query(Artist)
+                .join(Score)
+                .filter(Artist.is_active == True, Score.overall_score > 70)
+                .distinct()
+                .count())
+
     def count_artists_with_score_above(self, min_score: int) -> int:
         """Compter le nombre d'artistes avec un score TubeBuddy supérieur à la valeur donnée"""
         return (self.db.query(Artist)
                 .join(Score)
-                .filter(Artist.is_active == True, Score.score_value >= min_score)
+                .filter(Artist.is_active == True, Score.overall_score >= min_score)
                 .distinct()
                 .count())
 

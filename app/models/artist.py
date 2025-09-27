@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, Text, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.db.database import Base
 
@@ -34,6 +35,9 @@ class Artist(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
+    # Relationships
+    scores = relationship("Score", back_populates="artist")
+
 class CollectionLog(Base):
     __tablename__ = "collection_logs"
 
@@ -51,7 +55,18 @@ class Score(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     artist_id = Column(Integer, ForeignKey('artists.id'), index=True)
-    score_value = Column(Float, nullable=False)
-    score_breakdown = Column(Text)  # JSON avec le détail du calcul
-    
+
+    # Scores TubeBuddy détaillés
+    search_volume_score = Column(Float, default=0)
+    competition_score = Column(Float, default=0)
+    optimization_score = Column(Float, default=0)
+    overall_score = Column(Float, nullable=False)
+
+    # Métadonnées
+    algorithm_name = Column(String, default="TubeBuddy")
+    score_breakdown = Column(Text)  # JSON avec le détail complet du calcul
+
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    # Relationships
+    artist = relationship("Artist", back_populates="scores")

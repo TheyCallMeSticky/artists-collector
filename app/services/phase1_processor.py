@@ -42,16 +42,31 @@ class Phase1Processor(BaseAsyncProcessor):
         self.set_current_step("Extraction des sources...")
 
         # Exécuter l'extraction complète
-        results = extractor.run_full_extraction(limit_priority=400)
+        try:
+            results = extractor.run_full_extraction(limit_priority=400)
 
-        # Les stats finales sont déjà mises à jour par les callbacks pendant l'exécution
+            # Les stats finales sont déjà mises à jour par les callbacks pendant l'exécution
 
-        self.log_progress(f"Phase 1 terminée: {results.get('artists_found', 0)} artistes trouvés, {results.get('artists_saved', 0)} traités en base")
+            self.log_progress(f"Phase 1 terminée: {results.get('artists_found', 0)} artistes trouvés, {results.get('artists_saved', 0)} traités en base")
 
-        return results
+            return results
+        except StopIteration as e:
+            self.log_progress(f"Phase 1 interrompue: {str(e)}")
+            return {
+                "status": "stopped",
+                "message": "Processus arrêté par l'utilisateur",
+                "artists_found": 0,
+                "artists_saved": 0
+            }
 
     def _on_source_progress(self, source_name: str, source_type: str):
         """Callback appelé quand une source commence à être traitée"""
+        # Vérifier si le processus doit s'arrêter
+        self.refresh_process_status()
+        if not self.process_status or self.process_status.status != "running":
+            print(f"[DEBUG] Processus Phase 1 arrêté, interruption du traitement")
+            raise StopIteration("Processus arrêté")
+
         self.set_current_source(f"{source_type}: {source_name}")
 
         # Incrémenter et calculer le pourcentage jusqu'à 80% max pour l'extraction
