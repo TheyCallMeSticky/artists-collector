@@ -126,14 +126,4 @@ class ArtistService:
                 .distinct()
                 .count())
 
-    def count_artists_with_score_above(self, min_score: int) -> int:
-        """Compter le nombre d'artistes avec un score TubeBuddy supérieur à la valeur donnée"""
-        return (self.db.query(Artist)
-                .join(Score)
-                .filter(Artist.is_active == True, Score.overall_score >= min_score)
-                .distinct()
-                .count())
 
-    def get_latest_score(self) -> Optional[Score]:
-        """Récupérer le score le plus récent calculé"""
-        return self.db.query(Score).order_by(Score.created_at.desc()).first()

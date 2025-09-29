@@ -59,40 +59,7 @@ class DataCollector:
         
         return result
 
-    def save_artist_data(self, collection_result: Dict[str, Any]) -> Optional[int]:
-        """Sauvegarder les données collectées dans la base de données"""
-        if not collection_result['success']:
-            logger.warning(f"Aucune donnée à sauvegarder pour {collection_result['artist_name']}")
-            return None
 
-        try:
-            artist_name = collection_result['artist_name']
-            spotify_data = collection_result.get('spotify_data')
-            youtube_data = collection_result.get('youtube_data')
-
-            # Vérifier si l'artiste existe déjà
-            existing_artist = None
-            if spotify_data and spotify_data.get('spotify_id'):
-                existing_artist = self.artist_service.get_artist_by_spotify_id(spotify_data['spotify_id'])
-            
-            if not existing_artist and youtube_data and youtube_data.get('channel_id'):
-                existing_artist = self.artist_service.get_artist_by_youtube_id(youtube_data['channel_id'])
-
-            if existing_artist:
-                # Mettre à jour l'artiste existant
-                artist_id = self._update_existing_artist(existing_artist.id, spotify_data, youtube_data)
-            else:
-                # Créer un nouvel artiste
-                artist_id = self._create_new_artist(artist_name, spotify_data, youtube_data)
-
-            # Enregistrer les logs de collecte
-            self._log_collection_results(artist_id, collection_result)
-
-            return artist_id
-
-        except Exception as e:
-            logger.error(f"Erreur lors de la sauvegarde des données: {str(e)}")
-            return None
 
     def _create_new_artist(self, artist_name: str, spotify_data: Dict, youtube_data: Dict) -> int:
         """Créer un nouvel artiste dans la base de données"""
@@ -185,7 +152,32 @@ class DataCollector:
         collection_result = self.collect_artist_data(artist_name)
         
         if collection_result['success']:
-            artist_id = self.save_artist_data(collection_result)
-            collection_result['artist_id'] = artist_id
+            # Sauvegarder directement ici au lieu d'appeler save_artist_data
+            try:
+                spotify_data = collection_result.get('spotify_data')
+                youtube_data = collection_result.get('youtube_data')
+
+                # Vérifier si l'artiste existe déjà
+                existing_artist = None
+                if spotify_data and spotify_data.get('spotify_id'):
+                    existing_artist = self.artist_service.get_artist_by_spotify_id(spotify_data['spotify_id'])
+                
+                if not existing_artist and youtube_data and youtube_data.get('channel_id'):
+                    existing_artist = self.artist_service.get_artist_by_youtube_id(youtube_data['channel_id'])
+
+                if existing_artist:
+                    # Mettre à jour l'artiste existant
+                    artist_id = self._update_existing_artist(existing_artist.id, spotify_data, youtube_data)
+                else:
+                    # Créer un nouvel artiste
+                    artist_id = self._create_new_artist(artist_name, spotify_data, youtube_data)
+
+                # Enregistrer les logs de collecte
+                self._log_collection_results(artist_id, collection_result)
+                collection_result['artist_id'] = artist_id
+
+            except Exception as e:
+                logger.error(f"Erreur lors de la sauvegarde des données: {str(e)}")
+                collection_result['errors'].append(f"Erreur sauvegarde: {str(e)}")
         
         return collection_result

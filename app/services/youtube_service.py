@@ -66,22 +66,7 @@ class YouTubeService:
             return "mock_key"
         return self.api_keys[self.current_key_index]
 
-    def get_available_keys(self) -> List[str]:
-        """Récupérer la liste des clés non épuisées"""
-        return [key for key in self.api_keys if key not in self.exhausted_keys]
 
-    def get_next_available_key_index(self) -> Optional[int]:
-        """Trouver l'index de la prochaine clé disponible"""
-        available_keys = self.get_available_keys()
-        if not available_keys:
-            return None
-
-        # Chercher la prochaine clé disponible à partir de l'index actuel
-        for i in range(len(self.api_keys)):
-            next_index = (self.current_key_index + i) % len(self.api_keys)
-            if self.api_keys[next_index] not in self.exhausted_keys:
-                return next_index
-        return None
 
     def rotate_api_key(self, mark_current_exhausted: bool = False):
         """Passer à la clé API suivante"""
@@ -97,7 +82,17 @@ class YouTubeService:
             )
 
         # Trouver la prochaine clé disponible
-        next_index = self.get_next_available_key_index()
+        available_keys = [key for key in self.api_keys if key not in self.exhausted_keys]
+        if not available_keys:
+            next_index = None
+        else:
+            # Chercher la prochaine clé disponible à partir de l'index actuel
+            next_index = None
+            for i in range(len(self.api_keys)):
+                candidate_index = (self.current_key_index + i) % len(self.api_keys)
+                if self.api_keys[candidate_index] not in self.exhausted_keys:
+                    next_index = candidate_index
+                    break
         if next_index is not None:
             self.current_key_index = next_index
             logger.info(f"Rotation vers la clé API {self.current_key_index + 1}")
@@ -347,30 +342,7 @@ class YouTubeService:
             }
         return None
 
-    def get_multiple_video_stats(
-        self, video_ids: List[str]
-    ) -> Optional[Dict[str, Dict[str, Any]]]:
-        """Récupérer les statistiques de plusieurs vidéos"""
-        if not video_ids:
-            return None
 
-        params = {
-            "part": "statistics",
-            "id": ",".join(video_ids[:50]),  # Limiter à 50 vidéos par requête
-        }
-
-        result = self.make_request("videos", params)
-        if result and "items" in result:
-            video_stats = {}
-            for item in result["items"]:
-                stats = item.get("statistics", {})
-                video_stats[item["id"]] = {
-                    "view_count": int(stats.get("viewCount", 0)),
-                    "like_count": int(stats.get("likeCount", 0)),
-                    "comment_count": int(stats.get("commentCount", 0)),
-                }
-            return video_stats
-        return None
 
     def search_videos(
         self, query: str, max_results: int = 50
@@ -410,12 +382,7 @@ class YouTubeService:
         """Pas de collecte YouTube - retourne None"""
         return None
 
-    def reset_exhausted_keys(self):
-        """Réinitialiser la liste des clés épuisées (à utiliser à minuit)"""
-        logger.info(f"Réinitialisation de {len(self.exhausted_keys)} clé(s) épuisée(s)")
-        self.exhausted_keys.clear()
-        # Repartir sur la première clé
-        self.current_key_index = 0
+
 
     def get_quota_usage(self) -> Dict[str, Any]:
         """Récupérer les informations d'utilisation des quotas"""

@@ -49,74 +49,7 @@ class SpotifyService:
             logger.error(f"Erreur lors de la récupération des infos de l'artiste {spotify_id}: {e}")
             return None
 
-    def get_artist_top_tracks(self, spotify_id: str, country: str = 'US') -> Optional[Dict[str, Any]]:
-        """Récupérer les top tracks d'un artiste"""
-        try:
-            print(f"INFO : requête Spotify top tracks pour ID: {spotify_id}")
-            top_tracks = self.sp.artist_top_tracks(spotify_id, country=country)
-            tracks_info = []
-            
-            for track in top_tracks['tracks']:
-                tracks_info.append({
-                    'name': track['name'],
-                    'popularity': track['popularity'],
-                    'duration_ms': track['duration_ms'],
-                    'explicit': track['explicit']
-                })
-            
-            return {
-                'tracks': tracks_info,
-                'total_tracks': len(tracks_info)
-            }
-        except Exception as e:
-            logger.error(f"Erreur lors de la récupération des top tracks de {spotify_id}: {e}")
-            return None
 
-    def get_artist_albums(self, spotify_id: str, limit: int = 20) -> Optional[Dict[str, Any]]:
-        """Récupérer les albums d'un artiste"""
-        try:
-            print(f"INFO : requête Spotify albums pour ID: {spotify_id}")
-            albums = self.sp.artist_albums(spotify_id, album_type='album,single', limit=limit)
-            albums_info = []
-            
-            for album in albums['items']:
-                albums_info.append({
-                    'name': album['name'],
-                    'release_date': album['release_date'],
-                    'total_tracks': album['total_tracks'],
-                    'album_type': album['album_type']
-                })
-            
-            return {
-                'albums': albums_info,
-                'total_albums': len(albums_info)
-            }
-        except Exception as e:
-            logger.error(f"Erreur lors de la récupération des albums de {spotify_id}: {e}")
-            return None
-
-    def get_related_artists(self, spotify_id: str) -> Optional[Dict[str, Any]]:
-        """Récupérer les artistes similaires"""
-        try:
-            print(f"INFO : requête Spotify related artists pour ID: {spotify_id}")
-            related = self.sp.artist_related_artists(spotify_id)
-            related_info = []
-            
-            for artist in related['artists'][:10]:  # Limiter à 10 artistes
-                related_info.append({
-                    'id': artist['id'],
-                    'name': artist['name'],
-                    'popularity': artist['popularity'],
-                    'followers': artist['followers']['total']
-                })
-            
-            return {
-                'related_artists': related_info,
-                'total_related': len(related_info)
-            }
-        except Exception as e:
-            logger.error(f"Erreur lors de la récupération des artistes similaires de {spotify_id}: {e}")
-            return None
     
     def get_playlist_tracks(self, playlist_id: str, limit: int = 100) -> Optional[List[Dict[str, Any]]]:
         """Récupérer les tracks d'une playlist"""
