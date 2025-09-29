@@ -37,8 +37,8 @@ class TrendsService:
                 logger.warning(f"Erreur lecture cache trends: {e}")
 
         try:
-            # Requête Google Trends
-            self.pytrends.build_payload([keyword], cat=0, timeframe='today 12-m', geo='', gprop='youtube')
+            # Requête Google Trends (sans restriction YouTube pour plus de données)
+            self.pytrends.build_payload([keyword], cat=0, timeframe='today 3-m', geo='US', gprop='')
 
             # Récupérer les données d'intérêt au fil du temps
             interest_over_time_df = self.pytrends.interest_over_time()
@@ -102,7 +102,7 @@ class TrendsService:
 
                 # Traiter les mots-clés non cachés
                 if uncached_keywords:
-                    self.pytrends.build_payload(uncached_keywords, cat=0, timeframe='today 12-m', geo='', gprop='youtube')
+                    self.pytrends.build_payload(uncached_keywords, cat=0, timeframe='today 3-m', geo='US', gprop='')
                     interest_over_time_df = self.pytrends.interest_over_time()
 
                     for keyword in uncached_keywords:
@@ -153,7 +153,7 @@ class TrendsService:
                 logger.warning(f"Erreur lecture cache related: {e}")
 
         try:
-            self.pytrends.build_payload([keyword], cat=0, timeframe='today 12-m', geo='', gprop='youtube')
+            self.pytrends.build_payload([keyword], cat=0, timeframe='today 3-m', geo='US', gprop='')
 
             # Récupérer les requêtes associées
             related_queries = self.pytrends.related_queries()

@@ -36,7 +36,7 @@ class TubeBuddyProcessor(BaseAsyncProcessor):
         scoring_service = ScoringService()
 
         # Récupérer les artistes en attente de scoring (LIMITE TEST: 5 artistes)
-        pending_artists = artist_service.get_artists_needing_scoring(limit=10)
+        pending_artists = artist_service.get_artists_needing_scoring(limit=None)
         print(f"[DEBUG] Artistes à traiter: {len(pending_artists)}")
 
         if not pending_artists:

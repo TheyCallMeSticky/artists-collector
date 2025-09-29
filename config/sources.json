@@ -1,39 +1,39 @@
 {
   "spotify_playlists": [
     {
-      "id": "4wDydZoqKj7TnkAGXZCW9D",
-      "name": "Most Necessary",
-      "description": "The newest hip-hop hits and emerging artists"
-    },
-    {
-      "id": "1oEjk7K6zwlbtjcRSdHZku",
-      "name": "RapCaviar",
-      "description": "The best in hip-hop. Cover: Drake, Gunna & Travis Scott"
-    },
-    {
-      "id": "3fO7JJJJdJNrWWIHu4smro",
+      "id": "0inrAXeZ4uLCFnaWPd99Ul",
       "name": "Fresh Finds Hip-Hop",
-      "description": "Discover the next wave of hip-hop artists"
+      "description": ""
     },
     {
-      "id": "71LykWp5EdiMvHNTlHKGBN",
+      "id": "0qzIA0P4o0Q0ImwEagXC9h",
+      "name": "RapCaviar",
+      "description": ""
+    },
+    {
+      "id": "2iFm5A4HFGieItsMjeJcOH",
       "name": "Hip-Hop Central",
-      "description": "The hottest hip-hop tracks right now"
+      "description": ""
     },
     {
-      "id": "3htS9OkFJfyI9FhxwVJi0P",
+      "id": "0XE6QP1THxw9Ismey46BGG",
+      "name": "Most Necessary",
+      "description": ""
+    },
+    {
+      "id": "3DRD4RPX5qsiOrVh02ai7s",
       "name": "Underground Hip Hop Mix",
-      "description": "Underground hip-hop gems and hidden tracks"
+      "description": ""
     },
     {
-      "id": "2uMBvOuhsUn1FG9pi4De0S",
-      "name": "Southern Hip Hop Mix",
-      "description": "The best of Southern hip-hop and trap music"
-    },
-    {
-      "id": "35hWab68uXTDjnVXbuxtvx",
+      "id": "0FTyN3v7CRT7RgbUKTyH1y",
       "name": "Chicago Drill Rap Mix",
-      "description": "Chicago drill rap and street anthems"
+      "description": ""
+    },
+    {
+      "id": "3ffhqclQonOskxpTDoPPR4",
+      "name": "Southern Hip Hop Mix",
+      "description": ""
     }
   ],
   "youtube_channels": [

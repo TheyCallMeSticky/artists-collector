@@ -9,7 +9,6 @@ from typing import Any, Dict
 from app.db.database import get_db
 from app.services.artist_service import ArtistService
 from app.services.scoring_service import ScoringService
-from app.services.source_extractor import SourceExtractor
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
 
