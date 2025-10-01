@@ -66,7 +66,22 @@ class YouTubeService:
             return "mock_key"
         return self.api_keys[self.current_key_index]
 
+    def get_available_keys(self) -> List[str]:
+        """Récupérer la liste des clés non épuisées"""
+        return [key for key in self.api_keys if key not in self.exhausted_keys]
 
+    def get_next_available_key_index(self) -> Optional[int]:
+        """Trouver l'index de la prochaine clé disponible"""
+        available_keys = self.get_available_keys()
+        if not available_keys:
+            return None
+
+        # Chercher la prochaine clé disponible à partir de l'index actuel
+        for i in range(len(self.api_keys)):
+            next_index = (self.current_key_index + i) % len(self.api_keys)
+            if self.api_keys[next_index] not in self.exhausted_keys:
+                return next_index
+        return None
 
     def rotate_api_key(self, mark_current_exhausted: bool = False):
         """Passer à la clé API suivante"""
@@ -322,32 +337,14 @@ class YouTubeService:
             # Propager les exceptions de quota
             raise e
 
-    def get_video_stats(self, video_id: str) -> Optional[Dict[str, Any]]:
-        """Récupérer les statistiques d'une vidéo unique"""
-        if not video_id:
-            return None
-
-        params = {
-            "part": "statistics",
-            "id": video_id,
-        }
-
-        result = self.make_request("videos", params)
-        if result and "items" in result and len(result["items"]) > 0:
-            stats = result["items"][0].get("statistics", {})
-            return {
-                "viewCount": int(stats.get("viewCount", 0)),
-                "likeCount": int(stats.get("likeCount", 0)),
-                "commentCount": int(stats.get("commentCount", 0)),
-            }
-        return None
-
-
-
-    def search_videos(
+    def search_videos_with_stats(
         self, query: str, max_results: int = 50
     ) -> Optional[List[Dict[str, Any]]]:
-        """Rechercher des vidéos par requête de recherche"""
+        """
+        Rechercher des vidéos avec leurs stats ET les stats des chaînes en une requête optimisée
+        Réduit de 3 appels API par vidéo à 2 appels API pour toutes les vidéos
+        """
+        # 1. Recherche des vidéos (sans guillemets pour simuler le comportement réel des utilisateurs)
         params = {
             "part": "snippet",
             "q": query,
@@ -356,27 +353,78 @@ class YouTubeService:
             "order": "relevance",
         }
 
-        result = self.make_request("search", params)
-        if result and "items" in result:
-            videos = []
-            for item in result["items"]:
-                videos.append({"id": item["id"]["videoId"], "snippet": item["snippet"]})
-            return videos
-        return None
+        search_result = self.make_request("search", params)
+        if not search_result or "items" not in search_result:
+            return None
 
-    def get_channel_stats(self, channel_id: str) -> Optional[Dict[str, Any]]:
-        """Récupérer les statistiques d'une chaîne"""
-        params = {"part": "statistics", "id": channel_id}
+        # Extraire les IDs des vidéos et des chaînes
+        video_ids = []
+        channel_ids = []
+        videos_map = {}
 
-        result = self.make_request("channels", params)
-        if result and "items" in result and len(result["items"]) > 0:
-            stats = result["items"][0].get("statistics", {})
-            return {
-                "subscriberCount": int(stats.get("subscriberCount", 0)),
-                "videoCount": int(stats.get("videoCount", 0)),
-                "viewCount": int(stats.get("viewCount", 0)),
+        for item in search_result["items"]:
+            video_id = item["id"]["videoId"]
+            channel_id = item["snippet"]["channelId"]
+
+            video_ids.append(video_id)
+            if channel_id not in channel_ids:
+                channel_ids.append(channel_id)
+
+            videos_map[video_id] = {
+                "id": video_id,
+                "snippet": item["snippet"],
+                "channelId": channel_id
             }
-        return None
+
+        # 2. Récupérer les stats de TOUTES les vidéos en un seul appel
+        video_stats_params = {
+            "part": "statistics",
+            "id": ",".join(video_ids),  # Jusqu'à 50 IDs par requête
+        }
+
+        videos_stats_result = self.make_request("videos", video_stats_params)
+        if videos_stats_result and "items" in videos_stats_result:
+            for item in videos_stats_result["items"]:
+                video_id = item["id"]
+                stats = item.get("statistics", {})
+                if video_id in videos_map:
+                    videos_map[video_id]["statistics"] = {
+                        "viewCount": int(stats.get("viewCount", 0)),
+                        "likeCount": int(stats.get("likeCount", 0)),
+                        "commentCount": int(stats.get("commentCount", 0)),
+                    }
+
+        # 3. Récupérer les stats de TOUTES les chaînes en un seul appel
+        channels_stats_params = {
+            "part": "statistics",
+            "id": ",".join(channel_ids),  # Jusqu'à 50 IDs par requête
+        }
+
+        channels_stats_result = self.make_request("channels", channels_stats_params)
+        channels_map = {}
+        if channels_stats_result and "items" in channels_stats_result:
+            for item in channels_stats_result["items"]:
+                channel_id = item["id"]
+                stats = item.get("statistics", {})
+                channels_map[channel_id] = {
+                    "subscriberCount": int(stats.get("subscriberCount", 0)),
+                    "videoCount": int(stats.get("videoCount", 0)),
+                    "viewCount": int(stats.get("viewCount", 0)),
+                }
+
+        # 4. Combiner tout
+        result_videos = []
+        for video_id, video_data in videos_map.items():
+            channel_id = video_data["channelId"]
+            video_data["channelStats"] = channels_map.get(channel_id, {
+                "subscriberCount": 0,
+                "videoCount": 0,
+                "viewCount": 0,
+            })
+            result_videos.append(video_data)
+
+        logger.info(f"Récupéré {len(result_videos)} vidéos avec stats complètes en 3 appels API")
+        return result_videos
 
     def collect_artist_data(self, artist_name: str) -> Optional[Dict[str, Any]]:
         """Pas de collecte YouTube - retourne None"""

@@ -35,7 +35,7 @@ class TubeBuddyProcessor(BaseAsyncProcessor):
         artist_service = ArtistService(self.db)
         scoring_service = ScoringService()
 
-        # Récupérer les artistes en attente de scoring (LIMITE TEST: 5 artistes)
+        # Récupérer les artistes en attente de scoring
         pending_artists = artist_service.get_artists_needing_scoring(limit=None)
         print(f"[DEBUG] Artistes à traiter: {len(pending_artists)}")
 
@@ -134,7 +134,9 @@ class TubeBuddyProcessor(BaseAsyncProcessor):
                 print(f"[DEBUG] Début calcul score pour: {artist.name}")
 
                 # Calculer le score TubeBuddy
-                score_data = await scoring_service.calculate_artist_score(artist.name)
+                score_data = await scoring_service.calculate_tubebuddy_score(
+                    artist.name
+                )
                 print(
                     f"[DEBUG] Score reçu pour {artist.name}: {score_data.get('overall_score', 'N/A')}, error: {'error' in score_data}"
                 )
